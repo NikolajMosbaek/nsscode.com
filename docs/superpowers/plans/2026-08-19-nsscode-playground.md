@@ -825,20 +825,26 @@ import Island from './Tool.svelte'
 
 Create `src/pages/tools/[slug].astro`:
 
+The `meta.ts` glob must live *inside* `getStaticPaths()`, not at frontmatter top
+level: Astro runs `getStaticPaths()` in an isolated scope, so a top-level
+`metas` binding is not visible inside it and the build fails with
+`metas is not defined`. The `Tool.astro` glob stays at top level since it is
+only needed later, in the per-page render below.
+
 ```astro
 ---
 import type { AstroInstance } from 'astro'
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import { buildRegistry, wrapperFor, type ToolMeta } from '../../lib/registry'
 
-const metas = import.meta.glob<{ default: ToolMeta }>('../../tools/*/meta.ts', {
-  eager: true,
-})
 const wrappers = import.meta.glob<AstroInstance>('../../tools/*/Tool.astro', {
   eager: true,
 })
 
 export function getStaticPaths() {
+  const metas = import.meta.glob<{ default: ToolMeta }>('../../tools/*/meta.ts', {
+    eager: true,
+  })
   return buildRegistry(metas).map((tool) => ({
     params: { slug: tool.slug },
     props: { tool },
