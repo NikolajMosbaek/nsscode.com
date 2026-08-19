@@ -21,3 +21,14 @@ export function buildRegistry(
 		.map(([path, mod]) => ({ ...mod.default, slug: slugFromPath(path) }))
 		.sort((a, b) => a.title.localeCompare(b.title));
 }
+
+export function wrapperFor<T>(
+	modules: Record<string, { default: T }>,
+	slug: string,
+): T {
+	const hit = Object.entries(modules).find(
+		([path]) => slugFromPath(path) === slug,
+	);
+	if (!hit) throw new Error(`No Tool.astro found for tool "${slug}"`);
+	return hit[1].default;
+}

@@ -1,0 +1,29 @@
+---
+import type { AstroInstance } from "astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { buildRegistry, type ToolMeta, wrapperFor } from "../../lib/registry";
+
+const wrappers = import.meta.glob<AstroInstance>("../../tools/*/Tool.astro", {
+	eager: true,
+});
+
+export function getStaticPaths() {
+	const metas = import.meta.glob<{ default: ToolMeta }>(
+		"../../tools/*/meta.ts",
+		{ eager: true },
+	);
+	return buildRegistry(metas).map((tool) => ({
+		params: { slug: tool.slug },
+		props: { tool },
+	}));
+}
+
+const { tool } = Astro.props;
+const Tool = wrapperFor(wrappers, tool.slug);
+---
+
+<BaseLayout title={`${tool.title} — nsscode.com`} description={tool.description}>
+  <h1 class="mb-1 text-2xl font-semibold">{tool.title}</h1>
+  <p class="mb-8 text-zinc-400">{tool.description}</p>
+  <Tool />
+</BaseLayout>
