@@ -1,7 +1,7 @@
 # nsscode.com — personal tools playground
 
 **Date:** 2026-08-19
-**Status:** Approved design, not yet implemented
+**Status:** Implemented and deployed. Live at https://nsscode.com
 
 ## Context
 
@@ -218,13 +218,18 @@ dig +short mail.nsscode.com    # expect: 185.20.205.18
 
 Followed by a round-trip test message from an external account.
 
-The only irreversible action in this project is cancelling the Simply subscription. It
-is gated on the verification above plus written confirmation from Simply that mailboxes
-survive on a domain-and-mail-only plan.
+Post-cutover verification was completed: DNS confirmed at Simply's authoritative
+nameserver, and a round-trip test message sent and received successfully. Mail is
+unaffected by the migration.
+
+There is no irreversible action left in this project — the Simply subscription is being
+kept indefinitely by decision, not cancelled.
 
 
-Simply's web hosting is cancelled only after mail is confirmed working post-cutover,
-and only once Simply confirms the mailboxes survive on a domain-and-mail-only plan.
+**Simply's web hosting is retained permanently.** The owner decided not to cancel it at
+any point, which removes the only irreversible action from this project. Simply stays the
+registrar, DNS host and mail provider; the wildcard `A` record and the old web hosting
+continue to serve every name that is not `@` or `www`.
 
 ## Dependency versions
 
