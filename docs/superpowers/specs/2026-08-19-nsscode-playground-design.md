@@ -163,6 +163,46 @@ is the only genuinely destructive risk in the migration.
 
 `Enforce HTTPS` is enabled in Pages once the certificate is issued.
 
+### Mail safety
+
+DNS routes mail; it does not store it. Messages already delivered live in mailboxes on
+Simply's servers and cannot be affected by any record change. Every DNS failure mode
+here is a routing outage, reversible by restoring the record.
+
+`mx.simply.com` resolves to `94.231.106.20` — a different machine from the web server
+at `185.20.205.18`. Inbound delivery therefore runs on infrastructure this migration
+never touches.
+
+Consequences if a mail record were broken anyway:
+
+| Record | Effect | Stored mail |
+|--------|--------------------------------------------------------|-------------|
+| `MX` | Inbound deferred ~24–72h by senders, then bounced | Untouched |
+| SPF `TXT` | Outbound **rejected** — DMARC policy is `p=reject` | Untouched |
+| `_dmarc` | Weakened anti-spoofing | Untouched |
+| `mail` A | Mail client cannot connect; mail queues server-side | Untouched |
+| `webmail` A | Browser webmail 404s | Untouched |
+| `autodiscover` | Only new client setup affected | Untouched |
+
+Verified before cutover: the mail client's configured incoming/outgoing hostnames are
+the `mail.` subdomain, not the bare apex. Had they been the apex, repointing `@` would
+have broken the client, and the client would have needed reconfiguring first.
+
+Post-cutover verification:
+
+```
+dig +short nsscode.com MX      # expect: 10 mx.simply.com.
+dig +short nsscode.com TXT     # expect: v=spf1 include:spf.simply.com -all
+dig +short mail.nsscode.com    # expect: 185.20.205.18
+```
+
+Followed by a round-trip test message from an external account.
+
+The only irreversible action in this project is cancelling the Simply subscription. It
+is gated on the verification above plus written confirmation from Simply that mailboxes
+survive on a domain-and-mail-only plan.
+
+
 Simply's web hosting is cancelled only after mail is confirmed working post-cutover,
 and only once Simply confirms the mailboxes survive on a domain-and-mail-only plan.
 
