@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    body { margin: 0; }
+    a { color: oklch(0.58 0.13 50); text-decoration: none; }
+    a:hover { color: oklch(0.48 0.13 50); }
+  </style>
+</helmet>
+<div style="width: 1000px; background: oklch(0.97 0.012 85); font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif; color: oklch(0.28 0.02 50); padding: 0 0 56px 0;">
+
+  <div style="display: flex; align-items: center; justify-content: space-between; padding: 28px 56px; border-bottom: 1px solid oklch(0.92 0.012 82);">
+    <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; letter-spacing: 0.01em;">nsscode</span>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: oklch(0.56 0.02 60);">tools</span>
+  </div>
+
+  <div style="padding: 48px 56px 0 56px;">
+    <h1 style="margin: 0 0 10px 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 46px; line-height: 1.05; font-weight: 400;">Tools</h1>
+    <p style="margin: 0 0 32px 0; font-size: 16px; line-height: 1.6; color: oklch(0.52 0.02 60); max-width: 46ch;">Small things I got tired of looking up.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;">
+      <div style="background: oklch(0.995 0.005 85); border: 1px solid oklch(0.92 0.012 82); border-radius: 16px; padding: 22px; box-shadow: 0 1px 2px oklch(0.28 0.02 50 / 0.04), 0 8px 24px oklch(0.28 0.02 50 / 0.04);">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="oklch(0.58 0.13 50)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5a2 2 0 0 0 2 2h1"></path><path d="M16 3h1a2 2 0 0 1 2 2v5a2 2 0 0 0 2 2 2 2 0 0 0-2 2v5a2 2 0 0 1-2 2h-1"></path></svg>
+          <span style="font-size: 16px; font-weight: 600;">JSON Formatter</span>
+        </div>
+        <div style="font-size: 14px; line-height: 1.55; color: oklch(0.52 0.02 60);">Pretty-print and validate a blob of JSON.</div>
+      </div>
+      <div style="background: oklch(0.995 0.005 85); border: 1px solid oklch(0.92 0.012 82); border-radius: 16px; padding: 22px; box-shadow: 0 1px 2px oklch(0.28 0.02 50 / 0.04), 0 8px 24px oklch(0.28 0.02 50 / 0.04);">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="oklch(0.58 0.13 50)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2"></path><path d="M9 20h6"></path><path d="M12 4v16"></path></svg>
+          <span style="font-size: 16px; font-weight: 600;">UUID Generator</span>
+        </div>
+        <div style="font-size: 14px; line-height: 1.55; color: oklch(0.52 0.02 60);">Generate a batch of version 4 UUIDs.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin: 44px 56px 0 56px; padding-top: 28px; border-top: 1px dashed oklch(0.89 0.012 82);">
+    <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: oklch(0.62 0.02 60); margin-bottom: 20px;">tool page</div>
+
+    <h2 style="margin: 0 0 6px 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 32px; line-height: 1.1; font-weight: 400;">JSON Formatter</h2>
+    <p style="margin: 0 0 24px 0; font-size: 15px; color: oklch(0.52 0.02 60);">Pretty-print and validate a blob of JSON.</p>
+
+    <div style="display: flex; flex-direction: column; gap: 18px;">
+      <div>
+        <div style="font-size: 13px; font-weight: 500; margin-bottom: 7px; color: oklch(0.44 0.02 55);">Input</div>
+        <div style="background: oklch(0.995 0.005 85); border: 1px solid oklch(0.90 0.012 82); border-radius: 12px; padding: 14px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 13.5px; line-height: 1.6; height: 92px; box-shadow: inset 0 1px 2px oklch(0.28 0.02 50 / 0.03);">{"a":{"b":[1,2]}}</div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 13px; font-weight: 500; color: oklch(0.44 0.02 55);">Indent</span>
+        <div style="display: flex; background: oklch(0.94 0.012 84); border-radius: 999px; padding: 3px;">
+          <span style="background: oklch(0.58 0.13 50); color: oklch(0.98 0.01 85); border-radius: 999px; padding: 5px 16px; font-size: 13px; font-weight: 600;">2</span>
+          <span style="color: oklch(0.50 0.02 60); padding: 5px 16px; font-size: 13px; font-weight: 500;">4</span>
+        </div>
+      </div>
+
+      <div style="background: oklch(0.995 0.005 85); border: 1px solid oklch(0.90 0.012 82); border-radius: 12px; padding: 14px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 13.5px; line-height: 1.6; white-space: pre; box-shadow: 0 1px 2px oklch(0.28 0.02 50 / 0.03);">{
+  "a": {
+    "b": [ 1, 2 ]
+  }
+}</div>
+
+      <div style="display: flex; gap: 11px; align-items: flex-start; background: oklch(0.96 0.035 40); border: 1px solid oklch(0.86 0.06 38); border-radius: 12px; padding: 13px 16px;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="oklch(0.52 0.16 33)" stroke-width="1.8" stroke-linecap="round" style="flex-shrink: 0; margin-top: 1px;"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5"></path><path d="M12 16.5v.01"></path></svg>
+        <span style="font-size: 13.5px; line-height: 1.5; color: oklch(0.44 0.14 33);">Expected property name or '}' in JSON at position 1</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{"$preview":{"width":1000,"height":1180}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

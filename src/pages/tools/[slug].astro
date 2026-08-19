@@ -10,7 +10,9 @@ const wrappers = import.meta.glob<AstroInstance>("../../tools/*/Tool.astro", {
 export function getStaticPaths() {
 	const metas = import.meta.glob<{ default: ToolMeta }>(
 		"../../tools/*/meta.ts",
-		{ eager: true },
+		{
+			eager: true,
+		},
 	);
 	return buildRegistry(metas).map((tool) => ({
 		params: { slug: tool.slug },
@@ -23,7 +25,8 @@ const Tool = wrapperFor(wrappers, tool.slug);
 ---
 
 <BaseLayout title={`${tool.title} — nsscode.com`} description={tool.description}>
-  <h1 class="mb-1 text-2xl font-semibold">{tool.title}</h1>
-  <p class="mb-8 text-zinc-400">{tool.description}</p>
+  <a href="/" class="eyebrow hover:text-accent mb-7 inline-block transition-colors">&#8592; all tools</a>
+  <h1 class="font-display mb-1.5 text-[34px] leading-[1.1] font-normal">{tool.title}</h1>
+  <p class="text-ink-muted mb-8 text-[15px] leading-relaxed">{tool.description}</p>
   <Tool />
 </BaseLayout>

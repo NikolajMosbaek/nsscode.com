@@ -1,1 +1,46 @@
 @import "tailwindcss";
+
+@theme {
+	/* Surfaces — warm neutrals, kept under 0.02 chroma */
+	--color-ground: oklch(0.97 0.012 85);
+	--color-surface: oklch(0.995 0.005 85);
+	--color-chip: oklch(0.94 0.012 84);
+
+	/* Lines */
+	--color-line: oklch(0.92 0.012 82);
+	--color-line-soft: oklch(0.89 0.012 82);
+
+	/* Ink */
+	--color-ink: oklch(0.28 0.02 50);
+	--color-ink-soft: oklch(0.44 0.02 55);
+	--color-ink-muted: oklch(0.52 0.02 60);
+	--color-ink-faint: oklch(0.62 0.02 60);
+
+	/* Accent — single hue, terracotta */
+	--color-accent: oklch(0.58 0.13 50);
+	--color-accent-deep: oklch(0.48 0.13 50);
+
+	/* Danger — shares the accent's lightness discipline */
+	--color-danger-ground: oklch(0.96 0.035 40);
+	--color-danger-line: oklch(0.86 0.06 38);
+	--color-danger-ink: oklch(0.44 0.14 33);
+	--color-danger-icon: oklch(0.52 0.16 33);
+
+	--font-display: "Instrument Serif", Georgia, "Times New Roman", serif;
+	--font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+	--font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+	--shadow-card:
+		0 1px 2px oklch(0.28 0.02 50 / 0.04), 0 8px 24px oklch(0.28 0.02 50 / 0.04);
+	--shadow-inset-field: inset 0 1px 2px oklch(0.28 0.02 50 / 0.03);
+}
+
+/* Eyebrow labels — mono, uppercase, tracked out */
+@utility eyebrow {
+	font-family: var(--font-mono);
+	font-size: 0.6875rem;
+	line-height: 1rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--color-ink-faint);
+}

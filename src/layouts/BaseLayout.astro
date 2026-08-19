@@ -18,22 +18,35 @@ const { title, description = "Small tools I actually use." } = Astro.props;
     <meta name="description" content={description} />
     <link rel="canonical" href={Astro.url.href} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#f7f2ea" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Plus+Jakarta+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    />
   </head>
-  <body class="min-h-full bg-zinc-950 text-zinc-100 antialiased">
-    <div class="mx-auto flex min-h-screen max-w-3xl flex-col px-6">
-      <header class="py-8">
-        <a href="/" class="font-mono text-sm text-zinc-400 hover:text-zinc-100">
-          nsscode.com
+  <body class="bg-ground text-ink flex min-h-full flex-col font-sans antialiased">
+    <header class="border-line border-b">
+      <div class="mx-auto flex w-full max-w-4xl items-center justify-between px-8 py-7">
+        <a href="/" class="font-display hover:text-accent text-[22px] leading-none tracking-[0.01em] transition-colors">
+          nsscode
         </a>
-      </header>
-      <main class="flex-1 pb-16">
-        <slot />
-      </main>
-      <footer class="py-8 font-mono text-xs text-zinc-600">
-        <a href="https://github.com/NikolajMosbaek/nsscode.com" class="hover:text-zinc-400">
-          source
-        </a>
-      </footer>
-    </div>
+        <span class="eyebrow">tools</span>
+      </div>
+    </header>
+
+    <main class="mx-auto w-full max-w-4xl flex-1 px-8 pt-12 pb-16">
+      <slot />
+    </main>
+
+    <footer class="border-line-soft mx-auto w-full max-w-4xl border-t border-dashed px-8 py-7">
+      <a
+        href="https://github.com/NikolajMosbaek/nsscode.com"
+        class="eyebrow hover:text-accent transition-colors"
+      >
+        source
+      </a>
+    </footer>
   </body>
 </html>

@@ -10,3 +10,7 @@ dist/
 
 # jetbrains setting folder
 .idea/
+
+# Design canvas: keep the .dc.html sources, not the seeded payload
+design/*.html
+!design/*.dc.html

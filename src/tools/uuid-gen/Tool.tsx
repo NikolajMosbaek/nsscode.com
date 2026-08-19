@@ -18,33 +18,53 @@ export default function Tool() {
 	}
 
 	return (
-		<div className="space-y-4">
-			<div className="flex items-center gap-3">
-				<input
-					type="number"
-					value={count}
-					min={1}
-					max={100}
-					onChange={(e) => setCount(Number(e.target.value))}
-					className="w-24 rounded border border-zinc-800 bg-zinc-900 px-2 py-1"
-				/>
+		<div className="flex flex-col gap-[18px]">
+			<div className="flex flex-wrap items-end gap-3">
+				<label className="block">
+					<span className="text-ink-soft mb-[7px] block text-[13px] font-medium">
+						How many
+					</span>
+					<input
+						type="number"
+						value={count}
+						min={1}
+						max={100}
+						onChange={(e) => setCount(Number(e.target.value))}
+						className="bg-surface border-line shadow-inset-field focus:border-accent w-28 rounded-xl border px-4 py-2.5 font-mono text-[13.5px] outline-none transition-colors"
+					/>
+				</label>
 				<button
 					type="button"
 					onClick={run}
-					className="rounded-lg bg-zinc-100 px-3 py-1 font-medium text-zinc-900 hover:bg-white"
+					className="bg-accent hover:bg-accent-deep rounded-xl px-5 py-2.5 text-[13.5px] font-semibold text-white transition-colors"
 				>
 					Generate UUIDs
 				</button>
 			</div>
 
 			{error && (
-				<p className="rounded-lg border border-red-900 bg-red-950 p-3 text-sm text-red-300">
+				<p className="bg-danger-ground border-danger-line text-danger-ink flex items-start gap-[11px] rounded-xl border px-4 py-3.5 text-[13.5px] leading-snug">
+					<svg
+						width="17"
+						height="17"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						strokeWidth="1.8"
+						strokeLinecap="round"
+						className="text-danger-icon mt-0.5 shrink-0"
+						aria-hidden="true"
+					>
+						<circle cx="12" cy="12" r="9" />
+						<path d="M12 8v5" />
+						<path d="M12 16.5v.01" />
+					</svg>
 					{error}
 				</p>
 			)}
 
 			{ids.length > 0 && (
-				<pre className="overflow-x-auto rounded-lg border border-zinc-800 bg-zinc-900 p-3 font-mono text-sm">
+				<pre className="bg-surface border-line shadow-card overflow-x-auto rounded-xl border px-4 py-3.5 font-mono text-[13.5px] leading-relaxed">
 					{ids.join("\n")}
 				</pre>
 			)}

@@ -6,7 +6,7 @@
 		"useIgnoreFile": true
 	},
 	"files": {
-		"includes": ["**", "!!**/dist", "!!**/public"]
+		"includes": ["**", "!!**/dist", "!!**/public", "!!design"]
 	},
 	"formatter": {
 		"enabled": true,
@@ -33,7 +33,7 @@
 	},
 	"overrides": [
 		{
-			"includes": ["**/*.astro"],
+			"includes": ["**/*.astro", "**/*.svelte"],
 			"linter": {
 				"rules": {
 					"correctness": {
@@ -43,5 +43,10 @@
 				}
 			}
 		}
-	]
+	],
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		}
+	}
 }
