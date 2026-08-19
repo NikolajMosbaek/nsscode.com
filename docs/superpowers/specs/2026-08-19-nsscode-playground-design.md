@@ -69,6 +69,7 @@ nsscode.com/
 │   │   └── <slug>/
 │   │       ├── meta.ts              # { title, description, tags }
 │   │       ├── logic.ts             # pure functions — no DOM access
+│   │       ├── Tool.astro           # wrapper: imports the island, hydrates it
 │   │       └── Tool.svelte          # the island (framework is per-tool)
 │   ├── components/
 │   └── styles/global.css
@@ -90,7 +91,7 @@ three-field object that gains nothing from schema validation.
 
 ### The tool contract
 
-Every tool folder exposes the same three files. Nothing outside the folder knows which
+Every tool folder exposes the same four files. Nothing outside the folder knows which
 framework the tool uses.
 
 The island file is always named `Tool.<ext>`, where the extension picks the framework
@@ -99,11 +100,31 @@ The island file is always named `Tool.<ext>`, where the extension picks the fram
 `logic.ts` holds all real work as pure functions and must not touch the DOM.
 `Tool.<ext>` only binds those functions to inputs and buttons.
 
-`[slug].astro` resolves the island through a second, non-eager glob
-(`import.meta.glob('./tools/*/Tool.*')`) keyed by folder name, awaited in the page
-frontmatter and rendered with a `client:load` directive. This keeps the island's code
-out of the index page's bundle. The exact directive syntax is to be confirmed against
-Astro 7 documentation at implementation time.
+`Tool.astro` exists because Astro's client directives are **only supported on UI
+framework components directly imported into an `.astro` component**. A glob-resolved
+component cannot be hydrated. The wrapper is three lines — it imports the island by a
+static path and applies `client:load`:
+
+```astro
+---
+import Island from './Tool.svelte'
+---
+<Island client:load />
+```
+
+`[slug].astro` then globs the wrappers (`import.meta.glob('../../tools/*/Tool.astro',
+{ eager: true })`) and renders the matching one via `component.default`, which Astro
+documents as supported. This preserves the one-folder rule: a tool is added by creating
+its folder and nothing else.
+
+**Open risk, resolved by measurement:** globbing every wrapper into one route may pull
+all tools' island JavaScript into every tool page, defeating the zero-JS-by-default
+property. The implementing task must build the site and inspect `dist/` to confirm one
+tool's page does not ship another tool's chunk.
+
+**Fallback if it does:** replace the dynamic route with one thin page per tool in
+`src/pages/tools/<slug>.astro`, each importing its own island directly. This is
+certain to isolate bundles, at the cost of a second file to create per tool.
 
 This split is the one structural rule the project enforces. It makes each tool's
 substance testable without a browser, and lets a tool's UI be rewritten in another
