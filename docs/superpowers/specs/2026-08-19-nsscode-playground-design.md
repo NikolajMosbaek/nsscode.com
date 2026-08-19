@@ -61,7 +61,7 @@ next in React, a third in plain TypeScript, in one repo with no rewrites.
 ```
 nsscode.com/
 ├── src/
-│   ├── layouts/BaseLayout.astro     # shell: header, nav, footer, theme toggle
+│   ├── layouts/BaseLayout.astro     # shell: header, footer, page chrome
 │   ├── pages/
 │   │   ├── index.astro              # tool index — generated, never hand-edited
 │   │   └── tools/[slug].astro       # one route per tool, via getStaticPaths
@@ -71,7 +71,6 @@ nsscode.com/
 │   │       ├── logic.ts             # pure functions — no DOM access
 │   │       ├── Tool.astro           # wrapper: imports the island, hydrates it
 │   │       └── Tool.svelte          # the island (framework is per-tool)
-│   ├── components/
 │   └── styles/global.css
 ├── public/CNAME                     # contains: nsscode.com
 ├── .github/workflows/
