@@ -1,5 +1,6 @@
 // @ts-check
 
+import react from "@astrojs/react";
 import svelte from "@astrojs/svelte";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
@@ -8,7 +9,7 @@ import { defineConfig } from "astro/config";
 export default defineConfig({
 	site: "https://nsscode.com",
 
-	integrations: [svelte()],
+	integrations: [svelte(), react()],
 
 	vite: {
 		plugins: [tailwindcss()],
