@@ -1,17 +1,32 @@
 ---
-import "../styles/global.css";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { buildRegistry, type ToolMeta } from "../lib/registry";
+
+const modules = import.meta.glob<{ default: ToolMeta }>("../tools/*/meta.ts", {
+	eager: true,
+});
+const tools = buildRegistry(modules);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="nsscode.com">
+  <h1 class="mb-2 text-2xl font-semibold">Tools</h1>
+  <p class="mb-8 text-zinc-400">Small things I got tired of looking up.</p>
+
+  <ul class="space-y-3">
+    {
+      tools.map((tool) => (
+        <li>
+          <a
+            href={`/tools/${tool.slug}/`}
+            class="block rounded-lg border border-zinc-800 p-4 hover:border-zinc-600"
+          >
+            <span class="font-medium">{tool.title}</span>
+            <span class="mt-1 block text-sm text-zinc-400">{tool.description}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  {tools.length === 0 && <p class="text-zinc-500">No tools yet.</p>}
+</BaseLayout>
