@@ -3,3 +3,10 @@ dist/
 .astro/
 .DS_Store
 *.log
+
+# environment variables
+.env
+.env.production
+
+# jetbrains setting folder
+.idea/
