@@ -1,0 +1,63 @@
+{
+	"title": "Lemon Orzo with Chicken Thighs",
+	"description": "One skillet, crisp skin, and orzo that cooks in the pan juices.",
+	"servings": 4,
+	"rating": 4.5,
+	"tags": ["weeknight", "one-pan", "chicken"],
+	"prepMinutes": 15,
+	"cookMinutes": 30,
+	"source": null,
+	"ingredients": [
+		{
+			"quantity": 800,
+			"unit": "g",
+			"item": "bone-in chicken thighs",
+			"note": "skin on"
+		},
+		{ "quantity": 300, "unit": "g", "item": "orzo" },
+		{ "quantity": 700, "unit": "ml", "item": "chicken stock", "note": "hot" },
+		{ "quantity": 1, "unit": null, "item": "lemon", "note": "zest and juice" },
+		{
+			"quantity": 3,
+			"unit": null,
+			"item": "garlic cloves",
+			"note": "thinly sliced"
+		},
+		{ "quantity": 1, "unit": "tbsp", "item": "olive oil" },
+		{ "quantity": 30, "unit": "g", "item": "parmesan", "note": "grated" },
+		{
+			"quantity": 15,
+			"unit": "g",
+			"item": "flat-leaf parsley",
+			"note": "chopped"
+		},
+		{ "item": "sea salt and black pepper", "note": "to taste" }
+	],
+	"steps": [
+		{
+			"text": "Salt the thighs on both sides and leave them skin-up on a plate while the oven heats to 200 °C.",
+			"minutes": 15
+		},
+		{
+			"text": "Lay the thighs skin-down in a cold, dry ovenproof skillet and set it over medium heat. Leave them alone until the skin releases and is deeply golden, then lift them out.",
+			"minutes": 12
+		},
+		{
+			"text": "Pour off all but a tablespoon of the fat. Add the olive oil and garlic, and cook until it smells sweet rather than sharp.",
+			"minutes": 1
+		},
+		"Stir in the orzo and toast it until the grains turn matte, then add the hot stock and the lemon zest.",
+		{
+			"text": "Settle the thighs back on top, skin above the liquid, and bake uncovered until the orzo has drunk the stock.",
+			"minutes": 18
+		},
+		"Rest for five minutes off the heat, then finish with the lemon juice, parmesan and parsley."
+	],
+	"macros": {
+		"calories": 640,
+		"protein": 42,
+		"carbs": 58,
+		"fat": 24,
+		"fiber": 3
+	}
+}

@@ -1,0 +1,31 @@
+{
+	"title": "Overnight Oats with Berries",
+	"description": "Assembled in two minutes the night before, eaten cold out of the jar.",
+	"servings": 1,
+	"rating": 3.5,
+	"tags": ["breakfast", "no-cook", "meal-prep"],
+	"prepMinutes": 5,
+	"cookMinutes": null,
+	"source": null,
+	"ingredients": [
+		{ "quantity": 60, "unit": "g", "item": "rolled oats" },
+		{ "quantity": 150, "unit": "ml", "item": "milk" },
+		{ "quantity": 100, "unit": "g", "item": "skyr" },
+		{ "quantity": 1, "unit": "tbsp", "item": "chia seeds" },
+		{ "quantity": 100, "unit": "g", "item": "frozen mixed berries" },
+		{ "quantity": 1, "unit": "tsp", "item": "honey" },
+		{ "quantity": 1, "unit": "pinch", "item": "salt", "scales": false }
+	],
+	"steps": [
+		"Stir the oats, milk, skyr, chia seeds, honey and salt together in a jar until there are no dry pockets left.",
+		"Tip the frozen berries on top — they thaw overnight and bleed into the oats.",
+		{ "text": "Lid on, fridge, at least six hours.", "minutes": 360 }
+	],
+	"macros": {
+		"calories": 470,
+		"protein": 28,
+		"carbs": 62,
+		"fat": 11,
+		"fiber": 12
+	}
+}

@@ -1,0 +1,30 @@
+---
+import RecipeView from "../../components/recipe/RecipeView.svelte";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { buildRecipeRegistry } from "../../lib/recipe/registry";
+
+export function getStaticPaths() {
+	const modules = import.meta.glob<{ default: unknown }>(
+		"../../recipes/*.json",
+		{
+			eager: true,
+		},
+	);
+	return buildRecipeRegistry(modules).map((entry) => ({
+		params: { slug: entry.slug },
+		props: { entry },
+	}));
+}
+
+const { entry } = Astro.props;
+---
+
+<BaseLayout
+  title={`${entry.recipe.title} — nsscode.com`}
+  description={entry.recipe.description}
+>
+  <a href="/recipes/" class="eyebrow hover:text-accent mb-7 inline-block transition-colors"
+    >&#8592; all recipes</a
+  >
+  <RecipeView recipe={entry.recipe} client:load />
+</BaseLayout>

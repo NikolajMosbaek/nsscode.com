@@ -32,7 +32,10 @@ const { title, description = "Small tools I actually use." } = Astro.props;
         <a href="/" class="font-display hover:text-accent text-[22px] leading-none tracking-[0.01em] transition-colors">
           nsscode
         </a>
-        <span class="eyebrow">tools</span>
+        <nav class="flex items-center gap-5">
+          <a href="/" class="eyebrow hover:text-accent transition-colors">tools</a>
+          <a href="/recipes/" class="eyebrow hover:text-accent transition-colors">recipes</a>
+        </nav>
       </div>
     </header>
 

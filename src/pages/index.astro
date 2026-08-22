@@ -38,4 +38,17 @@ const tools = buildRegistry(modules);
   </ul>
 
   {tools.length === 0 && <p class="text-ink-faint">No tools yet.</p>}
+
+  <a
+    href="/recipes/"
+    class="bg-surface border-line shadow-card hover:border-accent group mt-9 flex items-center justify-between gap-4 rounded-2xl border p-6 transition-colors"
+  >
+    <span class="flex flex-col gap-1.5">
+      <span class="text-base font-semibold">Recipes</span>
+      <span class="text-ink-muted text-sm leading-relaxed">
+        Things worth cooking twice — scaled to the table, with macros and a rating.
+      </span>
+    </span>
+    <span class="text-ink-faint group-hover:text-accent shrink-0 text-lg transition-colors" aria-hidden="true">&#8594;</span>
+  </a>
 </BaseLayout>

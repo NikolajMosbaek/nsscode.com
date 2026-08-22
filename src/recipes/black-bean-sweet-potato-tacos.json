@@ -1,0 +1,57 @@
+{
+	"title": "Black Bean and Sweet Potato Tacos",
+	"description": "Roasted sweet potato, smoky beans, and a lime crema that does the heavy lifting.",
+	"servings": 3,
+	"rating": 4,
+	"tags": ["vegetarian", "weeknight", "oven"],
+	"prepMinutes": 15,
+	"cookMinutes": 25,
+	"source": null,
+	"ingredients": [
+		{
+			"quantity": 600,
+			"unit": "g",
+			"item": "sweet potato",
+			"note": "in 2 cm cubes"
+		},
+		{
+			"quantity": 400,
+			"unit": "g",
+			"item": "black beans",
+			"note": "drained and rinsed"
+		},
+		{ "quantity": 2, "unit": "tsp", "item": "smoked paprika" },
+		{ "quantity": 1, "unit": "tsp", "item": "ground cumin" },
+		{ "quantity": 2, "unit": "tbsp", "item": "olive oil" },
+		{ "quantity": 9, "unit": null, "item": "small corn tortillas" },
+		{ "quantity": 150, "unit": "g", "item": "sour cream" },
+		{ "quantity": 1, "unit": null, "item": "lime", "note": "zest and juice" },
+		{ "quantity": 100, "unit": "g", "item": "red cabbage", "note": "shredded" },
+		{ "quantity": 1, "unit": null, "item": "avocado", "note": "sliced" },
+		{ "item": "salt", "note": "to taste" }
+	],
+	"steps": [
+		{
+			"text": "Heat the oven to 220 °C. Toss the sweet potato with the olive oil, paprika, cumin and a good pinch of salt.",
+			"minutes": 10
+		},
+		{
+			"text": "Roast on the top shelf, turning once, until the edges have caught and the middles are soft.",
+			"minutes": 22
+		},
+		"Add the beans to the tray for the last five minutes, just long enough to dry out and split their skins.",
+		"Stir the lime zest and half the juice into the sour cream, and season it.",
+		{
+			"text": "Warm the tortillas in a dry pan until they puff and blister in patches.",
+			"minutes": 3
+		},
+		"Build each taco with crema first so it sticks, then the sweet potato and beans, cabbage, avocado, and the rest of the lime juice."
+	],
+	"macros": {
+		"calories": 610,
+		"protein": 18,
+		"carbs": 86,
+		"fat": 22,
+		"fiber": 17
+	}
+}

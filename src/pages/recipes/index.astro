@@ -1,0 +1,37 @@
+---
+import DraftList from "../../components/recipe/DraftList.svelte";
+import RecipeCard from "../../components/recipe/RecipeCard.svelte";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { buildRecipeRegistry } from "../../lib/recipe/registry";
+
+const modules = import.meta.glob<{ default: unknown }>("../../recipes/*.json", {
+	eager: true,
+});
+const entries = buildRecipeRegistry(modules);
+---
+
+<BaseLayout
+  title="Recipes — nsscode.com"
+  description="Recipes with scalable ingredients, macros and an honest rating."
+>
+  <h1 class="font-display mb-2.5 text-[46px] leading-[1.05] font-normal">Recipes</h1>
+  <p class="text-ink-muted mb-9 max-w-[52ch] text-base leading-relaxed">
+    Things worth cooking twice. Every one of them scales to the number of people at the
+    table, and carries its macros and a rating I actually stand behind. New ones arrive
+    through the <a href="/tools/recipe-upload/" class="text-accent hover:text-accent-deep underline decoration-dotted underline-offset-3 transition-colors">upload tool</a>.
+  </p>
+
+  <ul class="grid gap-4 sm:grid-cols-2">
+    {
+      entries.map((entry) => (
+        <li>
+          <RecipeCard recipe={entry.recipe} href={`/recipes/${entry.slug}/`} />
+        </li>
+      ))
+    }
+  </ul>
+
+  {entries.length === 0 && <p class="text-ink-faint">No recipes yet.</p>}
+
+  <DraftList client:only="svelte" />
+</BaseLayout>

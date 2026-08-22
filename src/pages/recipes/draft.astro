@@ -1,0 +1,14 @@
+---
+import DraftView from "../../components/recipe/DraftView.svelte";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Local draft — nsscode.com"
+  description="A recipe saved in this browser only."
+>
+  <a href="/recipes/" class="eyebrow hover:text-accent mb-7 inline-block transition-colors"
+    >&#8592; all recipes</a
+  >
+  <DraftView client:only="svelte" />
+</BaseLayout>
