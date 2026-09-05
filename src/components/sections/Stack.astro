@@ -1,0 +1,24 @@
+---
+import { stack } from "../../data/stack";
+import Section from "../Section.astro";
+---
+
+<Section id="stack" label="Stack" number="04">
+  <div class="grid gap-x-10 gap-y-10 md:grid-cols-2">
+    {
+      stack.map((group) => (
+        <div>
+          <h3 class="eyebrow mb-4">{group.group}</h3>
+          <dl class="divide-line-soft divide-y">
+            {group.items.map((item) => (
+              <div class="grid gap-x-4 py-3 sm:grid-cols-[minmax(0,13rem)_1fr]">
+                <dt class="text-small font-mono font-medium">{item.name}</dt>
+                <dd class="text-small text-ink-muted">{item.note}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      ))
+    }
+  </div>
+</Section>

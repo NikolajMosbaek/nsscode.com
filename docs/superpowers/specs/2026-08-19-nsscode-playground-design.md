@@ -1,7 +1,7 @@
 # nsscode.com — personal tools playground
 
 **Date:** 2026-08-19
-**Status:** Implemented and deployed. Live at https://nsscode.com
+**Status:** Implemented and deployed. Superseded on 2026-09-05 for purpose and content by `docs/superpowers/plans/2026-09-05-personal-site-redesign.md`; the build, deploy and DNS sections remain current.
 
 ## Context
 

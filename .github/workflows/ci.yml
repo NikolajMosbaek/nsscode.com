@@ -19,3 +19,7 @@ jobs:
       - run: npm run typecheck
       - run: npm run test
       - run: npm run build
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+      - name: Accessibility checks against the built site
+        run: npm run test:e2e

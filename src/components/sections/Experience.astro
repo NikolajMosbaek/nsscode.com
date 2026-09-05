@@ -1,0 +1,35 @@
+---
+import { timeline } from "../../data/timeline";
+import Section from "../Section.astro";
+---
+
+<Section id="experience" label="Experience" number="03">
+  <ol class="divide-line-soft -mt-2 divide-y">
+    {
+      timeline.map((entry) => (
+        <li class="grid gap-x-8 gap-y-1.5 py-6 first:pt-0 last:pb-0 sm:grid-cols-[9rem_1fr]">
+          <p class="eyebrow flex items-center gap-2 pt-1">
+            {entry.current && <span class="bg-accent inline-block size-1.5 rounded-full" aria-hidden="true" />}
+            {entry.period}
+          </p>
+          <div>
+            <h3 class="text-body font-medium">
+              {entry.role}
+              <span class="text-ink-muted font-normal">
+                {" "}at{" "}
+                {entry.href ? (
+                  <a href={entry.href} rel="noopener" class="link hover:link-hover">
+                    {entry.org}
+                  </a>
+                ) : (
+                  entry.org
+                )}
+              </span>
+            </h3>
+            <p class="text-small text-ink-soft mt-1.5 max-w-[60ch] text-pretty">{entry.summary}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</Section>

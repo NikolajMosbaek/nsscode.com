@@ -14,3 +14,7 @@ dist/
 # Design canvas: keep the .dc.html sources, not the seeded payload
 design/*.html
 !design/*.dc.html
+
+# Playwright
+test-results/
+playwright-report/

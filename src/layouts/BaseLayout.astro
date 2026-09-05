@@ -1,15 +1,21 @@
 ---
+import "@fontsource-variable/schibsted-grotesk";
+import "@fontsource/commit-mono/400.css";
+import "@fontsource/commit-mono/500.css";
 import "../styles/global.css";
+import commitMonoLatin from "@fontsource/commit-mono/files/commit-mono-latin-400-normal.woff2?url";
+import schibstedLatin from "@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-wght-normal.woff2?url";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import Seo from "../components/Seo.astro";
 
 interface Props {
 	title: string;
 	description?: string;
+	noindex?: boolean;
 }
 
-const {
-	title,
-	description = "Nikolaj Søgaard Simonsen, iOS engineer in Copenhagen.",
-} = Astro.props;
+const { title, description, noindex } = Astro.props;
 ---
 
 <!doctype html>
@@ -17,39 +23,35 @@ const {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <link rel="canonical" href={Astro.url.href} />
+    <script is:inline>
+      (() => {
+        try {
+          const theme = localStorage.getItem("theme");
+          if (theme === "light" || theme === "dark") {
+            document.documentElement.dataset.theme = theme;
+          }
+        } catch {}
+      })();
+    </script>
+    <Seo title={title} description={description} noindex={noindex} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <meta name="theme-color" content="#f7f2ea" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Plus+Jakarta+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
-    />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfaf8" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#141518" />
+    <link rel="preload" href={schibstedLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={commitMonoLatin} as="font" type="font/woff2" crossorigin />
   </head>
   <body class="bg-ground text-ink flex min-h-full flex-col font-sans antialiased">
-    <header class="border-line border-b">
-      <div class="mx-auto flex w-full max-w-4xl items-center justify-between px-8 py-7">
-        <a href="/" class="font-display hover:text-accent text-[22px] leading-none tracking-[0.01em] transition-colors">
-          nsscode
-        </a>
-        <span class="eyebrow">ios engineer</span>
-      </div>
-    </header>
-
-    <main class="mx-auto w-full max-w-4xl flex-1 px-8 pt-12 pb-16">
+    <a
+      href="#main"
+      class="bg-ink text-ground focus-visible:outline-accent sr-only rounded-md px-4 py-2 text-sm font-medium focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50"
+    >
+      Skip to content
+    </a>
+    <Header />
+    <main id="main" class="mx-auto w-full max-w-[76rem] flex-1 px-6 sm:px-10">
       <slot />
     </main>
-
-    <footer class="border-line-soft mx-auto w-full max-w-4xl border-t border-dashed px-8 py-7">
-      <a
-        href="https://github.com/NikolajMosbaek/nsscode.com"
-        class="eyebrow hover:text-accent transition-colors"
-      >
-        source
-      </a>
-    </footer>
+    <Footer />
   </body>
 </html>

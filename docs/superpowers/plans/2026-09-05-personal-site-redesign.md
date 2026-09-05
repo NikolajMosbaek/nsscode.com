@@ -3,11 +3,11 @@
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. Phase 0 and Phase 1 need the owner in the loop; do not start Phase 2 before a design direction has been chosen.
 
 **Date:** 2026-09-05
-**Status:** Draft, awaiting answers to the questions in Phase 0
+**Status:** Built on branch `claude/website-redesign-plan-1p7n32` overnight on 2026-09-05 using the defaults below; content awaits the Phase 0 answers. See "Where things stand" before Phase 1.
 **Owner:** Nikolaj Søgaard Simonsen
 **Supersedes:** the purpose section of `docs/superpowers/specs/2026-08-19-nsscode-playground-design.md`. The build, deploy and DNS sections of that spec still apply unchanged.
 
-**Goal:** Turn nsscode.com from an empty tools playground into a personal site that presents who Nikolaj is, what he does, and how he likes to work, at a level of craft that holds up against the best personal engineering sites of 2026.
+**Goal:** Turn nsscode.com from an empty tools playground into a personal site that presents who Nikolaj is, what he does, and how he likes to work, at a level of craft that holds up against the best personal engineering sites of 2026. Plus a lab: a place to put experiments, listed or hidden, without ceremony.
 
 **Architecture:** Static Astro site, one long page plus a handful of thin routes. No framework islands by default; interactivity is a few hundred bytes of vanilla script. All content is typed TypeScript data or prose written directly into components. Design tokens live in Tailwind 4's `@theme`. Deployed to GitHub Pages on push to `main`, exactly as today.
 
@@ -47,7 +47,7 @@ What is deliberately excluded because it is trend noise, not quality: command pa
 | 2026-08-19 | Now |
 |---|---|
 | Purpose: a playground for small browser tools | Purpose: present the person. Tools are gone (removed in commit `dd9b768`). |
-| Per-tool framework choice, Svelte and React installed | No framework islands. Both integrations are removed in Phase 2. Reintroduce one only when a real island exists. |
+| Per-tool framework choice, Svelte and React installed | Kept, for the lab. An experiment can be static Astro, Svelte or React; pages that use none ship none. The registry pattern from the tools era is back, generalised, with a `listed` flag. |
 | Non-goal: no blog, feed or writing pipeline | Still a non-goal. See the open question on writing below; the default is no. |
 | Non-goal: no analytics, comments, newsletter, CMS, server, persistence | All still non-goals. |
 | Non-goal: no component or end-to-end tests | Changed. One Playwright run that loads every page, runs axe, and checks both themes. Accessibility regressions on a personal site are embarrassing and cheap to catch. |
@@ -119,6 +119,27 @@ Content is the bottleneck in this project, not code. Every task after Phase 1 is
 - [ ] **Q20. Where to review designs.** The repo already has a design canvas under `design/`. Figma is also available via MCP. *Default: the design canvas, since it is versioned with the code.*
 
 ---
+
+## Where things stand (2026-09-05, overnight build)
+
+The owner asked for as much as possible to be built overnight, with two goals: something worth showing people, and a place to put experiments, hidden or not. Direction A was built directly, skipping the three-direction canvas round, because a working site is easier to react to than three mockups and the tokens are one file to change.
+
+Done:
+
+- Phase 2 in full: self-hosted Schibsted Grotesk and Commit Mono, `oklch` tokens for both themes, no-flash theme toggle, fluid type scale, reduced-motion kill switch, page shell, skip link, JSON-LD, canonical, sitemap and robots endpoints, generated `og.png`.
+- Phase 3: Intro, What I do, How I work, Experience, Stack, Lab, Contact. Content uses the Phase 0 defaults and the unverified profile facts, each data file carrying a `TODO(owner)`.
+- Lab: `src/experiments/<slug>/` registry with `listed`, index at `/lab/`, a route per experiment, unlisted ones noindex and off the sitemap. Two seeded: an OKLCH ramp tool (listed, Svelte) and the site's own token sheet (unlisted, Astro).
+- Phase 4.1 and 4.2: CSS scroll-driven section reveals with a length-based range, link and focus states.
+- Phase 5.1: Playwright + axe over every built page in both themes, plus skip-link, theme-persistence and unlisted-experiment checks. Wired into CI and the deploy job.
+
+Found and fixed on the way: the scroll reveal hid everything below the fold from axe, so the first green run was false. Reduced motion now disables the reveal outright and the tests run under it. Faint ink and the light accent were below 4.5:1 and were darkened.
+
+Not done, and why:
+
+- Phase 1 canvas: skipped by the decision above. If the direction is wrong, say so and the canvas round happens.
+- Phase 4.3 view transitions: the site has several routes now, so this is worth doing. Not started.
+- Phase 5.2 Lighthouse and 5.3 manual pass: need a real device and a real network. The home page ships one inline script for the theme toggle and no framework code; the palette page ships Svelte's runtime for its island.
+- Phase 6 launch: nothing merged. The branch is ready for review, not for `main`, until the Phase 0 facts are confirmed.
 
 ## Phase 1: Design direction
 

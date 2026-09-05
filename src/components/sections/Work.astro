@@ -1,0 +1,31 @@
+---
+import Section from "../Section.astro";
+
+const blocks = [
+	{
+		title: "Native apps for iPhone and iPad.",
+		body: "Swift 6 and SwiftUI, with UIKit where SwiftUI cannot do the job yet. Internal iPadOS tools included, the kind most iOS CVs skip and most users depend on every day.",
+	},
+	{
+		title: "Architecture that survives a team.",
+		body: "Module boundaries, explicit dependencies, testable seams. The Composable Architecture is the default because it turns the state of the whole app into a value you can print, diff and replay.",
+	},
+	{
+		title: "Concurrency settled at design time.",
+		body: "Sendable and actor isolation are decided before the code exists. Strict concurrency mode then confirms the design instead of fighting it, and the data races never get a chance to ship.",
+	},
+];
+---
+
+<Section id="work" label="What I do" number="01">
+  <div class="grid gap-x-10 gap-y-10 md:grid-cols-3">
+    {
+      blocks.map((block) => (
+        <article class="border-line-soft md:border-t md:pt-5">
+          <h3 class="text-h3 mb-3 font-medium text-balance">{block.title}</h3>
+          <p class="text-small text-ink-soft text-pretty">{block.body}</p>
+        </article>
+      ))
+    }
+  </div>
+</Section>

@@ -1,0 +1,26 @@
+---
+import { site } from "../../data/site";
+import Section from "../Section.astro";
+---
+
+<Section id="contact" label="Contact" number="06">
+  <h3 class="text-h2 max-w-[24ch] font-medium text-balance">
+    No form, no newsletter. Pick a channel.
+  </h3>
+  <ul class="mt-8 grid gap-4 sm:grid-cols-3">
+    {
+      site.links.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            rel="me noopener"
+            class="border-line hover:border-accent group flex flex-col gap-1 border-t pt-4 transition-colors"
+          >
+            <span class="eyebrow group-hover:text-ink transition-colors">{link.label}</span>
+            <span class="text-body font-mono">{link.handle}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Section>
