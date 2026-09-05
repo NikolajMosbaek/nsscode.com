@@ -11,7 +11,7 @@ const nav = [
 ];
 ---
 
-<header class="border-line-soft border-b">
+<header class="border-line-soft site-header border-b">
   <div class="mx-auto flex w-full max-w-[76rem] items-center justify-between px-6 py-5 sm:px-10">
     <a href="/" class="hover:text-ink flex items-baseline gap-px text-[17px] leading-none tracking-tight transition-colors" aria-label={`${site.name}, home`}>
       <span class="font-semibold">nss</span><span class="text-ink-muted">code</span>
@@ -32,3 +32,9 @@ const nav = [
     </nav>
   </div>
 </header>
+
+<style>
+  .site-header {
+    view-transition-name: site-header;
+  }
+</style>

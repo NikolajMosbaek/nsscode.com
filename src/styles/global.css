@@ -119,6 +119,21 @@
 
 /* Base */
 
+/*
+ * Cross-document view transitions: a short crossfade between pages with no
+ * JavaScript. Browsers without support navigate as usual. The header keeps
+ * its own name so it stays put while the content fades.
+ */
+@view-transition {
+	navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation-duration: var(--duration-base);
+	animation-timing-function: var(--ease-out);
+}
+
 html {
 	scroll-behavior: smooth;
 	-webkit-text-size-adjust: 100%;

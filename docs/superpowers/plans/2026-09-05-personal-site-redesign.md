@@ -132,13 +132,27 @@ Done:
 - Phase 4.1 and 4.2: CSS scroll-driven section reveals with a length-based range, link and focus states.
 - Phase 5.1: Playwright + axe over every built page in both themes, plus skip-link, theme-persistence and unlisted-experiment checks. Wired into CI and the deploy job.
 
+- Phase 4.3 as cross-document view transitions in CSS only (`@view-transition { navigation: auto }`), with the header named so it stays put. No JavaScript router.
+- A third experiment, "Easing", a cubic-bezier editor as a React island, so both island frameworks are exercised end to end. A 404 page. A favicon that matches the site (ink square, accent dot) with PNG and Apple touch variants rasterised by `scripts/favicons.mjs`.
+- The café mockups under `design/` were removed; they were directions for a tools index.
+
 Found and fixed on the way: the scroll reveal hid everything below the fold from axe, so the first green run was false. Reduced motion now disables the reveal outright and the tests run under it. Faint ink and the light accent were below 4.5:1 and were darkened.
+
+Results, Lighthouse 12 against `astro preview`, mobile profile with throttling, home page:
+
+| Category | Score |
+|---|---|
+| Performance | 99 |
+| Accessibility | 100 |
+| Best practices | 100 |
+| SEO | 100 |
+
+LCP 1.6 s throttled, CLS 0.027, total blocking time 50 ms, 153 KiB transferred including both fonts. The remaining CLS is the font swap; `font-display: optional` or a `size-adjust` fallback would close it and is the one open performance item.
 
 Not done, and why:
 
 - Phase 1 canvas: skipped by the decision above. If the direction is wrong, say so and the canvas round happens.
-- Phase 4.3 view transitions: the site has several routes now, so this is worth doing. Not started.
-- Phase 5.2 Lighthouse and 5.3 manual pass: need a real device and a real network. The home page ships one inline script for the theme toggle and no framework code; the palette page ships Svelte's runtime for its island.
+- Phase 5.3 manual pass: needs a real iPhone, VoiceOver and a real network. The home page ships one inline script for the theme toggle and no framework code; the palette and easing pages ship their island's runtime.
 - Phase 6 launch: nothing merged. The branch is ready for review, not for `main`, until the Phase 0 facts are confirmed.
 
 ## Phase 1: Design direction
