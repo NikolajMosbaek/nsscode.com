@@ -1,6 +1,6 @@
 # nsscode.com
 
-Personal site of Nikolaj Mosbæk, deployed as a static site at
+Personal site of Nikolaj Søgaard Simonsen, deployed as a static site at
 [nsscode.com](https://nsscode.com). Built with Astro, hosted on GitHub Pages.
 
 The site is being rebuilt from a tools playground into a personal site. The plan lives

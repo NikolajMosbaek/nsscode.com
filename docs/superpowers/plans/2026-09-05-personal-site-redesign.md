@@ -4,7 +4,7 @@
 
 **Date:** 2026-09-05
 **Status:** Draft, awaiting answers to the questions in Phase 0
-**Owner:** Nikolaj Mosbæk
+**Owner:** Nikolaj Søgaard Simonsen
 **Supersedes:** the purpose section of `docs/superpowers/specs/2026-08-19-nsscode-playground-design.md`. The build, deploy and DNS sections of that spec still apply unchanged.
 
 **Goal:** Turn nsscode.com from an empty tools playground into a personal site that presents who Nikolaj is, what he does, and how he likes to work, at a level of craft that holds up against the best personal engineering sites of 2026.
@@ -56,24 +56,47 @@ What is deliberately excluded because it is trend noise, not quality: command pa
 
 ---
 
+## What the public profiles say
+
+Source: search-engine snippets of the LinkedIn profile at `linkedin.com/in/nikolaj-mos` and the X account `@NikolajMosb`, retrieved 2026-09-05. The profile pages themselves could not be opened from the build environment, so every line below is unverified and must be confirmed in Phase 0. Nothing here is copied into the site until it is.
+
+| Fact | As found | Confidence |
+|---|---|---|
+| Name | Nikolaj Søgaard Simonsen | High: LinkedIn page title and X display name agree. The GitHub handle `NikolajMosbaek` and X handle `NikolajMosb` are unexplained, see Q1. |
+| Location | Copenhagen, Denmark | Medium |
+| Current role | Senior Software Engineer at FOSS, iOS | Medium: from a snippet announcing the hire |
+| Before that | External consultant from Capgemini, Lead Solution Designer and Developer for an internal iPadOS application, apparently at FOSS before joining | Medium |
+| Earlier | Co-founder, owner and director of ZyborgApps IVS, June 2018 to December 2020 | Medium: company-registry snippet |
+| Experience | "A decade of experience", "building apps for various purposes" | High, and stale: preferences say 11 years |
+| Public voice | Active on X since 2015, around 2,400 followers, posts about iOS development | Medium |
+| Self-description | "Seasoned iOS developer", "very patient and helpful", "works both in teams and independently" | High that it is on the profile, low that it should be on the site |
+
+**Use the profile for facts, not for voice.** The self-description above is standard LinkedIn register: adjectives about the person. The site's how-I-work section should be written in the opposite register, claims that could be disagreed with. A visitor who reads "patient and helpful" learns nothing. A visitor who reads "strict concurrency is a design constraint, not a compiler setting" learns how you think.
+
+Three things the profile suggests for the site that were not in the first draft of this plan:
+
+1. **A founder chapter.** Two and a half years running your own app company is the most distinctive line in the timeline. It says more than any job title.
+2. **The consultant-to-employee arc.** Designing and building an internal iPadOS app as an external consultant, then being hired to own it, is a concrete story about trust and delivery. Worth one paragraph, if the employer agrees to be named.
+3. **iPadOS, not just iOS.** If internal iPad apps for instrumentation or lab work are part of the job, that is a niche worth claiming explicitly. Most iOS CVs never mention iPad.
+
 ## Phase 0: Questions only you can answer
 
 Content is the bottleneck in this project, not code. Every task after Phase 1 is blocked on the answers here. Each question has a default; if you do not answer, the default is used and the copy is written as a clearly marked placeholder for you to replace.
 
 ### Identity
 
-- [ ] **Q1. Name and spelling.** The GitHub handle is `NikolajMosbaek`. The site currently says "Nikolaj Mosbæk". Confirm the spelling with `æ`. *Default: Nikolaj Mosbæk.*
-- [ ] **Q2. Title.** "Senior iOS engineer"? "iOS engineer"? Something else? *Default: Senior iOS Engineer.*
-- [ ] **Q3. Location line.** City, or just "Denmark"? *Default: Denmark.*
+- [ ] **Q1. Name.** LinkedIn and X say Nikolaj Søgaard Simonsen. The GitHub handle is `NikolajMosbaek` and the X handle `NikolajMosb`. Which name goes on the site, and should the middle name be shown? Is "Mosbæk" a former name that should be mentioned anywhere? *Default: Nikolaj Søgaard Simonsen, no mention of Mosbæk.*
+- [ ] **Q2. Title.** LinkedIn says Senior Software Engineer. Preferences say senior iOS engineer. The site can be more specific than the employer's title. *Default: Senior iOS Engineer.*
+- [ ] **Q3. Location line.** Search results say Copenhagen. City, or just "Denmark"? *Default: Copenhagen, Denmark.*
 - [ ] **Q4. Photo.** Do you want a portrait on the site? If yes, supply one at 1600 px or wider, and say whether you want it treated (monochrome, duotone) or left natural. *Default: no photo, a typographic monogram instead.*
-- [ ] **Q5. Employer.** Do you want your current employer named and linked, or only described ("a Danish instrumentation company")? *Default: not named.*
+- [ ] **Q5. Employer.** LinkedIn names FOSS. Do you want it named and linked on the site, or only described ("a Danish analytical-instruments company")? Naming it also unlocks the consultant-to-employee story above. *Default: not named.*
 - [ ] **Q6. Language.** English only, or English with a Danish version? A second language doubles content work and adds i18n routing. *Default: English only.*
 
 ### Content
 
-- [ ] **Q7. The one-paragraph version.** Write, badly if necessary, who you are and what you do in four sentences. Everything else is derived from this. No default; a placeholder will be written from what is known (11 years iOS, Denmark, Swift 6 strict concurrency, TCA).
-- [ ] **Q8. Timeline.** Roles with years, one line each on what you did or shipped. Include education if you want it shown. *Default: an "11 years of iOS" statement with no timeline.*
-- [ ] **Q9. Shipped work.** Any apps on the App Store you can link to? Open source? Talks? *Default: none shown.*
+- [ ] **Q7. The one-paragraph version.** Write, badly if necessary, who you are and what you do in four sentences. Everything else is derived from this. No default; a placeholder will be written from what is known (11 years iOS, Copenhagen, Swift 6 strict concurrency, TCA, iPadOS at work, a founder chapter).
+- [ ] **Q8. Timeline.** The profile gives three entries: FOSS (Senior Software Engineer, iOS, start year?), Capgemini (external consultant, lead on an internal iPadOS app, years?), ZyborgApps IVS (co-founder, 2018 to 2020). What came before 2018 to make eleven years? Add one line per role on what you shipped. Include education if you want it shown. *Default: the three entries above, years marked as unconfirmed.*
+- [ ] **Q9. Shipped work.** What did ZyborgApps ship, and is any of it still on the App Store? Anything from the consulting years you can name publicly? Open source? Talks? *Default: none shown.*
 - [ ] **Q10. How you like working.** Below is a first draft of principles inferred from how you already work. Strike what is wrong, add what is missing. This section is the one that makes the site yours.
   - Strict concurrency is not a setting, it is a design constraint. Sendable and actor isolation decided at design time, not fixed at compile time.
   - One architecture per app. TCA, unless there is a reason not to, and the reason is written down.
@@ -83,7 +106,7 @@ Content is the bottleneck in this project, not code. Every task after Phase 1 is
   - Answer the question that was asked.
 - [ ] **Q11. Stack and tools.** A "what I use" list: languages, frameworks, editor, hardware, apps. *Default: Swift 6, SwiftUI, TCA, Swift Testing, Xcode. Nothing else.*
 - [ ] **Q12. Outside work.** Strength training? Coffee? Anything else you want on the page, or nothing personal at all? *Default: omitted.*
-- [ ] **Q13. Contact.** A visible email invites spam on a public site. Options: LinkedIn and GitHub links only; a mailto with the address assembled in script; a plain address. *Default: GitHub and LinkedIn only. Supply the LinkedIn URL.*
+- [ ] **Q13. Contact.** A visible email invites spam on a public site. Options: LinkedIn, X and GitHub links only; a mailto with the address assembled in script; a plain address. *Default: GitHub, LinkedIn (`linkedin.com/in/nikolaj-mos`) and X (`@NikolajMosb`).*
 - [ ] **Q14. CV.** A downloadable PDF, a `/cv` page with a print stylesheet, or neither? *Default: neither.*
 - [ ] **Q15. Writing.** Do you intend to publish posts? If there is any chance, the layout should reserve a place for it now. *Default: no, and the non-goal stands.*
 - [ ] **Q16. Availability.** Should the site say whether you are open to new roles, contract work, or neither? *Default: say nothing.*
@@ -205,7 +228,7 @@ rm svelte.config.js
 
 ### Task 2.4: Page shell and metadata
 
-- [ ] **Step 1: `src/data/site.ts`.** One typed object: name, title, location, description, URL, social links. Every component reads from here; nothing is hard-coded twice.
+- [ ] **Step 1: `src/data/site.ts`.** One typed object: name, title, location, description, URL, social links (GitHub, LinkedIn, X). Every component reads from here; nothing is hard-coded twice.
 - [ ] **Step 2: `Seo.astro`.** Title, description, canonical, `og:*` and `twitter:*` tags, and a JSON-LD `Person` block built from `site.ts`.
 - [ ] **Step 3: `Header.astro` and `Footer.astro`** as designed. Skip link as the first focusable element in `BaseLayout.astro`. `<main id="main">`.
 - [ ] **Step 4: Sitemap and robots.** `npx astro add sitemap --yes`. `robots.txt.ts` returns `User-agent: *`, `Allow: /`, and the sitemap URL.
@@ -320,6 +343,7 @@ Each section is one component in `src/components/sections/`, composed in `src/pa
 
 ## Risks
 
+- **Unverified profile facts.** The LinkedIn and X pages could not be opened from the build environment; everything in "What the public profiles say" comes from search snippets. A wrong year or title on a personal site is worse than none. Every fact is confirmed by the owner before it appears in `src/data/`.
 - **Content stalls the project.** Every section needs your words. The placeholders are written to be obviously placeholders so nothing half-finished ships by accident. If content is slow, ship the intro and how-I-work sections alone; a short page with a point of view beats a long one with gaps.
 - **"State-of-the-art" drifts into gimmicks.** The exclusion list above is the guard. If a proposed effect is not on the bar table, it needs a reason before it goes in.
 - **Scroll-driven animations in Safari.** Support has been uneven. The design must look finished in the static fallback, and the fallback is what is reviewed first.
