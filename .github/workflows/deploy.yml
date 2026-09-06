@@ -34,7 +34,15 @@ jobs:
       - name: Test
         run: npm run test
       - name: Build
-        uses: withastro/action@v6
+        run: npm run build
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+      - name: Accessibility checks against the built site
+        run: npm run test:e2e
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
 
   deploy:
     needs: build

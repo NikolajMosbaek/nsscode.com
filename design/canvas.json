@@ -1,74 +1,52 @@
 {
 	"artboards": [
-		{
-			"file": "Main.dc.html",
-			"title": "Today — Index",
-			"x": 0,
-			"y": 0,
-			"w": 1200,
-			"h": 760
-		},
-		{
-			"file": "TodayTool.dc.html",
-			"title": "Today — JSON Formatter",
-			"x": 1280,
-			"y": 0,
-			"w": 1200,
-			"h": 900
-		},
-		{
-			"file": "CafeLight.dc.html",
-			"title": "A · Café light",
-			"x": 0,
-			"y": 1020,
-			"w": 1000,
-			"h": 1180
-		},
-		{
-			"file": "Espresso.dc.html",
-			"title": "B · Espresso",
-			"x": 1080,
-			"y": 1020,
-			"w": 1000,
-			"h": 1180
-		},
-		{
-			"file": "CounterService.dc.html",
-			"title": "C · Counter service",
-			"x": 2160,
-			"y": 1020,
-			"w": 1000,
-			"h": 620
-		}
+		{ "file": "Main.dc.html", "title": "A · Toybox", "x": 0, "y": 0, "w": 1440, "h": 1000 },
+		{ "file": "DirectionB.dc.html", "title": "B · Bench", "x": 1560, "y": 0, "w": 1440, "h": 1000 },
+		{ "file": "DirectionC.dc.html", "title": "C · Poster wall", "x": 0, "y": 1240, "w": 1440, "h": 1000 },
+		{ "file": "DirectionD.dc.html", "title": "D · Constellation", "x": 1560, "y": 1240, "w": 1440, "h": 1000 }
 	],
 	"annotations": [
 		{
 			"id": "brief",
 			"x": 0,
-			"y": -150,
-			"w": 420,
-			"text": "Restyling nsscode.com.\nTop row = what's live today (bare Tailwind zinc).\nBottom row = three directions.\n\nPick one and I'll build it in the real Tailwind."
+			"y": -260,
+			"w": 720,
+			"text": "nsscode.com, round two.\nBrief: not about a person. Something worth showing off, and a shelf for whatever tools and toys come next. Eventful and fun, not another quiet grotesk page.\n\nFour directions, each a home page at 1440. Every one of them makes the lab THE site: the experiments are the content, no about page. Pick one, or point at pieces of two and I merge them."
 		},
 		{
-			"id": "axis-a",
+			"id": "note-a",
 			"x": 0,
-			"y": 2240,
-			"w": 300,
-			"text": "A — Warm, light, editorial. Serif headings, soft cards, the most literal read of a café palette."
+			"y": 1040,
+			"w": 700,
+			"text": "A · Toybox. Chunky tiles, hard offset shadows, four accents at equal chroma, every tile shows a live miniature of its experiment. The site feels like a shelf of gadgets.\nFor: the most fun per pixel while staying usable as an index; tiles are just experiment folders with a small preview component.\nAgainst: playful reads as less serious; needs each experiment to ship a mini-preview or the grid goes flat."
 		},
 		{
-			"id": "axis-b",
-			"x": 1080,
-			"y": 2240,
-			"w": 300,
-			"text": "B — Same warmth, kept dark. Roasted browns instead of cold zinc; amber accent. Closest to what you have now."
+			"id": "note-b",
+			"x": 1560,
+			"y": 1040,
+			"w": 700,
+			"text": "B · Bench. A lab instrument panel: mono type, amber phosphor, blinking status LEDs, a live trace, gauges for real numbers (page weight, last deploy, commit log). Every experiment is a module you power up.\nFor: strongest identity, ties to the instruments world, and the readouts can be real (build time, bundle size from the CI run).\nAgainst: one-note; dark-terminal aesthetic is common; amber-on-black body text tires over long pages."
 		},
 		{
-			"id": "axis-c",
-			"x": 2160,
-			"y": 1700,
-			"w": 300,
-			"text": "C — Borrows the dashboard skeleton: sidebar nav, side-by-side panels. Denser, more utilitarian."
+			"id": "note-c",
+			"x": 0,
+			"y": 2280,
+			"w": 700,
+			"text": "C · Poster wall. Acid yellow, Anton at 300px, a running ticker, experiments as numbered posters pinned at angles, a red stamp for new. The site is an issue that gets reprinted on every push.\nFor: the loudest; genuinely memorable; the issue-number framing gives you a reason to ship often.\nAgainst: shouting gets old; hard to read for more than ten items; accessibility needs care with yellow."
+		},
+		{
+			"id": "note-d",
+			"x": 1560,
+			"y": 2280,
+			"w": 700,
+			"text": "D · Constellation. Deep blue, a field of pulsing dots, experiments placed as stars with a drawn line between them; the home page is itself the first interactive piece. Serif for warmth.\nFor: atmospheric, calm but alive; scales to many experiments (a map view and a list view).\nAgainst: the least legible as an index; a map is a gimmick if the positions mean nothing, so they must (age, category, or size)."
+		},
+		{
+			"id": "content",
+			"x": 3120,
+			"y": 0,
+			"w": 560,
+			"text": "What goes on it, since it is not about you.\n\nThe lab is the whole site. Home = the shelf. Two kinds of things: TOOLS (do one job) and TOYS (exist to be looked at). One small COLOPHON page: how it is built, what it costs, the rules (no tracking, no server, runs in the browser). That replaces the about page.\n\nCandidate experiments, ranked by how much fun they are to build and show:\n1. Actors: Swift actor isolation animated as rooms and doors. Nobody else has this.\n2. Plates: kg on the bar to plates per side, and a warm-up ramp.\n3. Topskat 2026: where Danish brackets bite, DKK in, DKK out.\n4. Life / a synth / a particle toy: pure toys, pure motion.\n5. Timestamp: unix, ISO, Copenhagen local.\n6. Type scale and shadow generators, next to the ramp and easing you already have.\n7. Bring back JSON format and UUID as tools, they were fine, they were just alone.\n\nThe front page also shows its own vitals: build time, page weight, commit log. Real numbers, no analytics."
 		}
 	],
 	"launch": { "view": "canvas" }

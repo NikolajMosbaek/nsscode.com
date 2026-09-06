@@ -1,0 +1,19 @@
+---
+import { site } from "../data/site";
+
+const built = new Date().toISOString().slice(0, 10);
+const year = built.slice(0, 4);
+---
+
+<footer class="border-line-soft border-t">
+  <div class="mx-auto flex w-full max-w-[76rem] flex-col gap-3 px-6 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-10">
+    <p class="eyebrow">
+      &copy; {year} {site.name}
+    </p>
+    <p class="eyebrow flex flex-wrap gap-x-5 gap-y-2">
+      <span>No tracking</span>
+      <a href={site.source} class="hover:text-ink transition-colors">Source</a>
+      <span>Built {built}</span>
+    </p>
+  </div>
+</footer>

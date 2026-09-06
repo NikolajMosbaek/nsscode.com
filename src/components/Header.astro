@@ -1,0 +1,38 @@
+---
+import { site } from "../data/site";
+import ThemeToggle from "./ThemeToggle.astro";
+
+const path = Astro.url.pathname;
+const nav = [
+	{ label: "Demos", href: "/demo/", current: path.startsWith("/demo") },
+	{ label: "Lab", href: "/lab/", current: path.startsWith("/lab") },
+];
+---
+
+<header class="border-line-soft site-header border-b">
+  <div class="mx-auto flex w-full max-w-[76rem] items-center justify-between px-6 py-5 sm:px-10">
+    <a href="/" class="hover:text-ink flex items-baseline gap-px text-[17px] leading-none tracking-tight transition-colors" aria-label={`${site.name}, home`}>
+      <span class="font-semibold">nss</span><span class="text-ink-muted">code</span>
+    </a>
+    <nav aria-label="Primary" class="flex items-center gap-6 sm:gap-8">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            aria-current={item.current ? "page" : undefined}
+            class="eyebrow hover:text-ink aria-[current=page]:text-ink transition-colors"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <ThemeToggle />
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    view-transition-name: site-header;
+  }
+</style>

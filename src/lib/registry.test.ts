@@ -1,66 +1,71 @@
 import { describe, expect, it } from "vitest";
-import { buildRegistry, slugFromPath, wrapperFor } from "./registry";
+import {
+	buildRegistry,
+	type ExperimentMeta,
+	listed,
+	slugFromPath,
+	wrapperFor,
+} from "./registry";
+
+const meta = (
+	over: Partial<ExperimentMeta> = {},
+): { default: ExperimentMeta } => ({
+	default: {
+		title: "T",
+		summary: "S",
+		date: "2026-01-01",
+		listed: true,
+		...over,
+	},
+});
 
 describe("slugFromPath", () => {
-	it("takes the folder name under tools/", () => {
-		expect(slugFromPath("../tools/json-format/meta.ts")).toBe("json-format");
+	it("takes the folder name under experiments", () => {
+		expect(slugFromPath("../experiments/palette/meta.ts")).toBe("palette");
 	});
 
-	it("works for the deeper path used by dynamic routes", () => {
-		expect(slugFromPath("../../tools/uuid-gen/Tool.astro")).toBe("uuid-gen");
-	});
-
-	it("throws when the path is not inside tools/", () => {
-		expect(() => slugFromPath("../lib/result.ts")).toThrow();
+	it("throws for a path outside experiments", () => {
+		expect(() => slugFromPath("../pages/index.astro")).toThrow();
 	});
 });
 
 describe("buildRegistry", () => {
-	const modules = {
-		"../tools/zebra/meta.ts": {
-			default: { title: "Zebra", description: "z", tags: ["x"] },
-		},
-		"../tools/apple/meta.ts": {
-			default: { title: "Apple", description: "a", tags: ["y"] },
-		},
-	};
-
-	it("derives a slug for every tool", () => {
-		expect(buildRegistry(modules).map((t) => t.slug)).toEqual([
-			"apple",
-			"zebra",
-		]);
+	it("orders newest first, then by title", () => {
+		const entries = buildRegistry({
+			"../experiments/b/meta.ts": meta({ title: "B", date: "2026-02-01" }),
+			"../experiments/a/meta.ts": meta({ title: "A", date: "2026-02-01" }),
+			"../experiments/old/meta.ts": meta({ title: "Old", date: "2025-01-01" }),
+		});
+		expect(entries.map((e) => e.slug)).toEqual(["a", "b", "old"]);
 	});
 
-	it("sorts entries by title", () => {
-		expect(buildRegistry(modules).map((t) => t.title)).toEqual([
-			"Apple",
-			"Zebra",
-		]);
+	it("derives the href from the slug", () => {
+		const [entry] = buildRegistry({
+			"../experiments/palette/meta.ts": meta(),
+		});
+		expect(entry.href).toBe("/lab/palette/");
 	});
+});
 
-	it("carries the metadata through", () => {
-		const apple = buildRegistry(modules)[0];
-		expect(apple.description).toBe("a");
-		expect(apple.tags).toEqual(["y"]);
-	});
-
-	it("returns an empty list when there are no tools", () => {
-		expect(buildRegistry({})).toEqual([]);
+describe("listed", () => {
+	it("drops unlisted experiments", () => {
+		const entries = buildRegistry({
+			"../experiments/shown/meta.ts": meta(),
+			"../experiments/hidden/meta.ts": meta({ listed: false }),
+		});
+		expect(listed(entries).map((e) => e.slug)).toEqual(["shown"]);
 	});
 });
 
 describe("wrapperFor", () => {
-	const wrappers = {
-		"../../tools/json-format/Tool.astro": { default: "JSON_WRAPPER" },
-		"../../tools/uuid-gen/Tool.astro": { default: "UUID_WRAPPER" },
-	};
-
-	it("finds the wrapper whose folder matches the slug", () => {
-		expect(wrapperFor(wrappers, "uuid-gen")).toBe("UUID_WRAPPER");
+	it("finds the module for a slug", () => {
+		const modules = {
+			"../experiments/palette/Experiment.astro": { default: "P" },
+		};
+		expect(wrapperFor(modules, "palette")).toBe("P");
 	});
 
-	it("throws when no wrapper exists for the slug", () => {
-		expect(() => wrapperFor(wrappers, "missing")).toThrow(/missing/);
+	it("throws for an unknown slug", () => {
+		expect(() => wrapperFor({}, "nope")).toThrow();
 	});
 });

@@ -1,0 +1,99 @@
+---
+const colours = [
+	"ground",
+	"surface",
+	"surface-strong",
+	"line",
+	"line-soft",
+	"ink",
+	"ink-soft",
+	"ink-muted",
+	"ink-faint",
+	"accent",
+	"accent-ink",
+];
+
+const type = [
+	{
+		token: "display",
+		class: "text-display font-medium",
+		sample: "Eleven years of iOS.",
+	},
+	{
+		token: "h2",
+		class: "text-h2 font-medium",
+		sample: "One architecture per app.",
+	},
+	{
+		token: "h3",
+		class: "text-h3 font-medium",
+		sample: "Native apps for iPhone and iPad.",
+	},
+	{
+		token: "lede",
+		class: "text-lede text-ink-soft",
+		sample: "I care more about year three than week one.",
+	},
+	{
+		token: "body",
+		class: "text-body",
+		sample:
+			"Strict concurrency is a design constraint, not a compiler setting.",
+	},
+	{
+		token: "small",
+		class: "text-small text-ink-soft",
+		sample:
+			"TestStore and injected dependencies. Never a mock of the framework.",
+	},
+	{
+		token: "eyebrow",
+		class: "eyebrow",
+		sample: "Senior iOS engineer / Copenhagen",
+	},
+];
+---
+
+<div class="grid gap-16">
+  <section>
+    <h2 class="eyebrow mb-6">Colour</h2>
+    <ul class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+      {
+        colours.map((name) => (
+          <li class="grid gap-2">
+            <span class="border-line block aspect-[3/2] rounded-md border" style={`background: var(--${name})`}></span>
+            <span class="eyebrow text-ink">{name}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section>
+    <h2 class="eyebrow mb-6">Type</h2>
+    <ol class="divide-line-soft divide-y">
+      {
+        type.map((row) => (
+          <li class="grid gap-x-8 gap-y-2 py-6 sm:grid-cols-[9rem_1fr]">
+            <span class="eyebrow pt-2">{row.token}</span>
+            <span class={row.class}>{row.sample}</span>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section>
+    <h2 class="eyebrow mb-6">Fonts</h2>
+    <dl class="divide-line-soft divide-y">
+      <div class="grid gap-x-8 py-4 sm:grid-cols-[9rem_1fr]">
+        <dt class="eyebrow pt-1">Sans</dt>
+        <dd class="text-body">Schibsted Grotesk Variable, 400 to 900. Æ Ø Å æ ø å.</dd>
+      </div>
+      <div class="grid gap-x-8 py-4 sm:grid-cols-[9rem_1fr]">
+        <dt class="eyebrow pt-1">Mono</dt>
+        <dd class="text-body font-mono">Commit Mono, 400 and 500. Æ Ø Å æ ø å 0123456789.</dd>
+      </div>
+    </dl>
+  </section>
+</div>

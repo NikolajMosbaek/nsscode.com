@@ -1,0 +1,60 @@
+---
+import type { AstroInstance } from "astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import {
+	buildRegistry,
+	type ExperimentEntry,
+	type ExperimentMeta,
+	wrapperFor,
+} from "../../lib/registry";
+
+const wrappers = import.meta.glob<AstroInstance>(
+	"../../experiments/*/Experiment.astro",
+	{ eager: true },
+);
+
+export function getStaticPaths() {
+	const metas = import.meta.glob<{ default: ExperimentMeta }>(
+		"../../experiments/*/meta.ts",
+		{ eager: true },
+	);
+	return buildRegistry(metas).map((experiment) => ({
+		params: { slug: experiment.slug },
+		props: { experiment },
+	}));
+}
+
+interface Props {
+	experiment: ExperimentEntry;
+}
+
+const { experiment } = Astro.props;
+const Experiment = wrapperFor(wrappers, experiment.slug);
+---
+
+<BaseLayout
+  title={`${experiment.title}, Lab`}
+  description={experiment.summary}
+  noindex={!experiment.listed}
+>
+  <article class="pt-12 pb-20 sm:pt-20 sm:pb-28">
+    <p class="eyebrow mb-8 flex flex-wrap items-center gap-x-3 gap-y-1">
+      <a href="/lab/" class="hover:text-ink transition-colors">&larr; Lab</a>
+      <span aria-hidden="true">/</span>
+      <span>{experiment.date}</span>
+      {
+        !experiment.listed && (
+          <>
+            <span aria-hidden="true">/</span>
+            <span class="text-accent">Unlisted</span>
+          </>
+        )
+      }
+    </p>
+    <h1 class="text-h2 max-w-[20ch] font-medium text-balance">{experiment.title}</h1>
+    <p class="text-lede text-ink-soft mt-4 max-w-[40ch] text-pretty">{experiment.summary}</p>
+    <div class="border-line-soft mt-12 border-t pt-12">
+      <Experiment />
+    </div>
+  </article>
+</BaseLayout>

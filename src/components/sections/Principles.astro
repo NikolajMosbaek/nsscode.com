@@ -1,0 +1,22 @@
+---
+import { principles } from "../../data/principles";
+import Section from "../Section.astro";
+---
+
+<Section id="how" label="How I work" number="02">
+  <ol class="divide-line-soft -mt-2 divide-y">
+    {
+      principles.map((principle, index) => (
+        <li class="grid gap-x-8 gap-y-2 py-7 first:pt-0 last:pb-0 sm:grid-cols-[3.5rem_1fr]">
+          <span class="eyebrow text-ink-faint pt-1.5" aria-hidden="true">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+          <div>
+            <h3 class="text-h2 font-medium text-balance">{principle.title}</h3>
+            <p class="prose-site mt-3">{principle.body}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</Section>
