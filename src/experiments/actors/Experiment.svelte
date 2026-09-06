@@ -26,20 +26,38 @@ const colours = [
 const finished = $derived(isFinished(world));
 const recent = $derived(world.log.slice(-6).reverse());
 
-/* Geometry. Rooms sit in a row; the door is the gap on the left wall. */
-const W = 720;
-const H = 330;
-const roomW = 200;
-const roomH = 170;
-const roomY = 46;
-const queueGap = 30;
+/*
+ * Geometry. Wide: rooms sit in a row, trays for waiting and finished tasks
+ * along the bottom. Narrow: rooms stack in a column so labels stay legible
+ * on a phone, with the trays above and below. The door is the gap on the
+ * left wall; the queue forms to its left.
+ */
+let narrow = $state(false);
+$effect(() => {
+	const media = window.matchMedia("(max-width: 640px)");
+	const apply = () => {
+		narrow = media.matches;
+	};
+	apply();
+	media.addEventListener("change", apply);
+	return () => media.removeEventListener("change", apply);
+});
+
+const roomW = $derived(narrow ? 190 : 200);
+const roomH = $derived(narrow ? 130 : 170);
+const queueGap = $derived(narrow ? 26 : 30);
+const W = $derived(narrow ? 360 : 720);
+const H = $derived(narrow ? 60 + world.actors.length * (roomH + 60) + 50 : 330);
 
 const rooms = $derived(
 	world.actors.map((actor, i) => {
+		if (narrow) {
+			return { ...actor, x: W - roomW - 12, y: 70 + i * (roomH + 60) };
+		}
 		const count = world.actors.length;
 		const span = W / count;
 		const x = span * i + (span - roomW) / 2 + 40;
-		return { ...actor, x, y: roomY };
+		return { ...actor, x, y: 46 };
 	}),
 );
 
@@ -55,7 +73,9 @@ const dots = $derived<Dot[]>(
 	world.tasks.map((task) => {
 		const base = { id: task.id, label: String(task.id + 1), phase: task.phase };
 		if (task.phase === "pending") {
-			return { ...base, x: 30 + task.id * 26, y: H - 24 };
+			return narrow
+				? { ...base, x: 30 + task.id * 26, y: 28 }
+				: { ...base, x: 30 + task.id * 26, y: H - 24 };
 		}
 		if (task.phase === "done") {
 			return { ...base, x: W - 30 - task.id * 26, y: H - 24 };
@@ -111,7 +131,7 @@ $effect(() => {
 onDestroy(() => clearInterval(timer));
 </script>
 
-<div class="grid gap-8">
+<div class="grid grid-cols-[minmax(0,1fr)] gap-8">
   <div class="flex flex-wrap gap-2.5" role="group" aria-label="Scenario">
     {#each scenarios as s (s.slug)}
       <button
@@ -127,10 +147,10 @@ onDestroy(() => clearInterval(timer));
 
   <p class="text-body text-ink-soft max-w-[62ch] font-medium text-pretty">{scenario.summary}</p>
 
-  <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-    <div class="grid gap-4">
-      <svg viewBox="0 0 {W} {H}" class="stage border-line bg-surface w-full rounded-2xl border-3" role="img" aria-label="Rooms for each actor with tasks inside or queued at the door">
-        <text x="30" y={H - 50} class="caption">waiting to start</text>
+  <div class="grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
+    <div class="grid min-w-0 gap-4">
+      <svg viewBox="0 0 {W} {H}" style="aspect-ratio: {W} / {H}" class="stage border-line bg-surface w-full rounded-2xl border-3" role="img" aria-label="Rooms for each actor with tasks inside or queued at the door">
+        <text x="30" y={narrow ? 54 : H - 50} class="caption">waiting to start</text>
         <text x={W - 30} y={H - 50} class="caption" text-anchor="end">returned</text>
         {#each rooms as room (room.id)}
           <g>
@@ -189,7 +209,6 @@ onDestroy(() => clearInterval(timer));
 
 <style>
   .stage {
-    aspect-ratio: 720 / 330;
     height: auto;
   }
   .room {
