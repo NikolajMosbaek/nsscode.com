@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,500&display=swap">
+  <style>
+    body { margin: 0; }
+    a { color: #0b0b0b; text-decoration: none; }
+    a:hover { color: #0b0b0b; }
+    @keyframes ticker { to { transform: translateX(-50%); } }
+    @keyframes stamp { 0% { transform: rotate(-12deg) scale(1.6); opacity: 0; } 60% { transform: rotate(-12deg) scale(0.96); opacity: 1; } 100% { transform: rotate(-12deg) scale(1); opacity: 1; } }
+    @keyframes drop { from { transform: translateY(-60px) rotate(var(--r)); opacity: 0; } to { transform: translateY(0) rotate(var(--r)); opacity: 1; } }
+    @keyframes slide { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+    .poster { animation: drop 0.6s cubic-bezier(0.2, 0.9, 0.2, 1.2) both; transition: transform 0.2s ease; }
+    .poster:hover { transform: rotate(0deg) scale(1.03) !important; z-index: 5; }
+  </style>
+</helmet>
+<div style="width: 1440px; min-height: 1000px; background: oklch(0.9 0.19 100); color: #0b0b0b; font-family: 'Anton', Impact, 'Arial Narrow', sans-serif; position: relative; overflow: hidden; display: flex; flex-direction: column;">
+
+  <div style="background: #0b0b0b; color: oklch(0.9 0.19 100); overflow: hidden; white-space: nowrap; font-size: 22px; letter-spacing: 0.04em; text-transform: uppercase; padding: 10px 0; border-bottom: 4px solid #0b0b0b;">
+    <div style="display: inline-flex; gap: 40px; animation: ticker 22s linear infinite;">
+      <span>nsscode</span><span>—</span><span>tools</span><span>—</span><span>toys</span><span>—</span><span>experiments</span><span>—</span><span>no tracking</span><span>—</span><span>new: easing editor</span><span>—</span><span>issue no. 12</span><span>—</span>
+      <span>nsscode</span><span>—</span><span>tools</span><span>—</span><span>toys</span><span>—</span><span>experiments</span><span>—</span><span>no tracking</span><span>—</span><span>new: easing editor</span><span>—</span><span>issue no. 12</span><span>—</span>
+    </div>
+  </div>
+
+  <div style="display: flex; justify-content: space-between; align-items: flex-start; padding: 28px 48px 0 48px;">
+    <div style="display: flex; flex-direction: column;">
+      <span style="font-size: 300px; line-height: 0.82; letter-spacing: -0.02em; text-transform: uppercase; margin-left: -10px;">LAB</span>
+      <span style="font-family: 'Newsreader', Georgia, serif; font-style: italic; font-size: 34px; line-height: 1.2; max-width: 560px; margin-top: 18px; font-weight: 400; text-wrap: balance;">Twelve things that do one thing each, printed fresh every push.</span>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 14px; padding-top: 10px;">
+      <div style="display: flex; gap: 10px; font-size: 18px; text-transform: uppercase; letter-spacing: 0.04em;">
+        <a href="#" style="border: 4px solid #0b0b0b; padding: 8px 16px; background: #0b0b0b; color: oklch(0.9 0.19 100);">All</a>
+        <a href="#" style="border: 4px solid #0b0b0b; padding: 8px 16px;">Tools</a>
+        <a href="#" style="border: 4px solid #0b0b0b; padding: 8px 16px;">Toys</a>
+        <a href="#" style="border: 4px solid #0b0b0b; padding: 8px 16px;">Colophon</a>
+      </div>
+      <div style="border: 4px solid #0b0b0b; padding: 18px 22px; display: flex; flex-direction: column; gap: 4px; align-items: flex-end; background: #fff; margin-top: 30px;">
+        <span style="font-size: 14px; text-transform: uppercase; letter-spacing: 0.14em; font-family: 'Newsreader', Georgia, serif; font-style: italic;">this issue</span>
+        <span style="font-size: 64px; line-height: 1;">No. 12</span>
+        <span style="font-size: 14px; text-transform: uppercase; letter-spacing: 0.14em; font-family: 'Newsreader', Georgia, serif; font-style: italic;">6 sept 2026 · copenhagen</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="position: relative; height: 470px; margin-top: 10px;">
+    <a href="#" class="poster" style="--r: -4deg; animation-delay: 0.05s; position: absolute; left: 48px; top: 30px; width: 300px; height: 380px; background: #fff; border: 4px solid #0b0b0b; box-shadow: 10px 10px 0 #0b0b0b; transform: rotate(-4deg); display: flex; flex-direction: column; justify-content: space-between; padding: 20px; box-sizing: border-box;">
+      <span style="font-size: 16px; letter-spacing: 0.14em; text-transform: uppercase; font-family: 'Newsreader', Georgia, serif; font-style: italic;">No. 11 · tool</span>
+      <span style="font-size: 78px; line-height: 0.9; text-transform: uppercase;">Easing</span>
+      <div style="height: 120px; border: 4px solid #0b0b0b; position: relative; overflow: hidden; background: oklch(0.9 0.19 100);">
+        <svg width="100%" height="100%" viewBox="0 0 100 50" preserveAspectRatio="none"><path d="M0 48 C 20 48, 20 2, 100 2" fill="none" stroke="#0b0b0b" stroke-width="2" vector-effect="non-scaling-stroke" /></svg>
+      </div>
+      <span style="position: absolute; right: -18px; top: -18px; background: oklch(0.6 0.22 28); color: #fff; border: 4px solid #0b0b0b; padding: 8px 14px; font-size: 22px; text-transform: uppercase; animation: stamp 0.5s cubic-bezier(0.2, 0.9, 0.2, 1.4) 0.6s both;">New</span>
+    </a>
+
+    <a href="#" class="poster" style="--r: 3deg; animation-delay: 0.15s; position: absolute; left: 400px; top: 0px; width: 300px; height: 380px; background: #0b0b0b; color: oklch(0.9 0.19 100); border: 4px solid #0b0b0b; box-shadow: 10px 10px 0 oklch(0.6 0.22 28); transform: rotate(3deg); display: flex; flex-direction: column; justify-content: space-between; padding: 20px; box-sizing: border-box;">
+      <span style="font-size: 16px; letter-spacing: 0.14em; text-transform: uppercase; font-family: 'Newsreader', Georgia, serif; font-style: italic;">No. 10 · tool</span>
+      <span style="font-size: 78px; line-height: 0.9; text-transform: uppercase;">Oklch<br>Ramp</span>
+      <div style="display: flex; height: 70px; border: 4px solid oklch(0.9 0.19 100);">
+        <div style="flex: 1; background: oklch(0.95 0.05 100);"></div><div style="flex: 1; background: oklch(0.85 0.15 100);"></div><div style="flex: 1; background: oklch(0.75 0.17 100);"></div><div style="flex: 1; background: oklch(0.62 0.15 100);"></div><div style="flex: 1; background: oklch(0.48 0.11 100);"></div><div style="flex: 1; background: oklch(0.34 0.07 100);"></div>
+      </div>
+    </a>
+
+    <a href="#" class="poster" style="--r: -2deg; animation-delay: 0.25s; position: absolute; left: 750px; top: 40px; width: 300px; height: 380px; background: oklch(0.6 0.22 28); color: #fff; border: 4px solid #0b0b0b; box-shadow: 10px 10px 0 #0b0b0b; transform: rotate(-2deg); display: flex; flex-direction: column; justify-content: space-between; padding: 20px; box-sizing: border-box;">
+      <span style="font-size: 16px; letter-spacing: 0.14em; text-transform: uppercase; font-family: 'Newsreader', Georgia, serif; font-style: italic;">No. 09 · toy</span>
+      <span style="font-size: 78px; line-height: 0.9; text-transform: uppercase;">Actors</span>
+      <span style="font-family: 'Newsreader', Georgia, serif; font-style: italic; font-size: 20px; line-height: 1.3;">Swift isolation, drawn as rooms with doors. Messages queue at the door.</span>
+    </a>
+
+    <a href="#" class="poster" style="--r: 5deg; animation-delay: 0.35s; position: absolute; left: 1100px; top: 10px; width: 300px; height: 380px; background: #fff; border: 4px solid #0b0b0b; box-shadow: 10px 10px 0 #0b0b0b; transform: rotate(5deg); display: flex; flex-direction: column; justify-content: space-between; padding: 20px; box-sizing: border-box;">
+      <span style="font-size: 16px; letter-spacing: 0.14em; text-transform: uppercase; font-family: 'Newsreader', Georgia, serif; font-style: italic;">No. 08 · tool</span>
+      <span style="font-size: 78px; line-height: 0.9; text-transform: uppercase;">Plates</span>
+      <svg width="100%" height="90" viewBox="0 0 240 90" fill="none" stroke="#0b0b0b" stroke-width="4" stroke-linecap="round"><line x1="8" y1="45" x2="232" y2="45" /><rect x="40" y="10" width="14" height="70" fill="#0b0b0b" /><rect x="58" y="20" width="10" height="50" fill="oklch(0.6 0.22 28)" /><rect x="186" y="10" width="14" height="70" fill="#0b0b0b" /><rect x="172" y="20" width="10" height="50" fill="oklch(0.6 0.22 28)" /></svg>
+    </a>
+  </div>
+
+  <div style="margin-top: auto; display: flex; justify-content: space-between; align-items: center; padding: 0 48px 24px 48px; font-family: 'Newsreader', Georgia, serif; font-style: italic; font-size: 18px;">
+    <span>Eight more below the fold. Scroll, or don't.</span>
+    <div style="display: flex; gap: 24px; text-transform: uppercase; font-style: normal; font-family: 'Anton', Impact, sans-serif; font-size: 16px; letter-spacing: 0.06em;"><span>Source</span><span>No tracking</span><span>Built today</span></div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

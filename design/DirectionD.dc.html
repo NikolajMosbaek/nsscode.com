@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500&display=swap">
+  <style>
+    body { margin: 0; }
+    a { color: oklch(0.95 0.01 90); text-decoration: none; }
+    a:hover { color: oklch(0.95 0.01 90); }
+    @keyframes pulse { 0%, 100% { transform: scale(0.6); opacity: 0.25; } 50% { transform: scale(1.4); opacity: 0.9; } }
+    @keyframes glow { 0%, 100% { box-shadow: 0 0 0 0 oklch(0.85 0.12 200 / 0.6); } 50% { box-shadow: 0 0 0 10px oklch(0.85 0.12 200 / 0); } }
+    @keyframes drift { from { transform: translateY(0); } to { transform: translateY(-10px); } }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+    @keyframes fadeup { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+    .star { transition: transform 0.25s ease; }
+    .star:hover { transform: translateY(-4px); }
+    .star:hover .label { opacity: 1; }
+  </style>
+</helmet>
+<div style="width: 1440px; min-height: 1000px; background: oklch(0.17 0.03 262); color: oklch(0.95 0.01 90); font-family: 'Geist', 'Helvetica Neue', Arial, sans-serif; position: relative; overflow: hidden;">
+
+  <div style="position: absolute; inset: 0; display: grid; grid-template-columns: repeat(30, minmax(0, 1fr)); grid-template-rows: repeat(21, minmax(0, 1fr)); padding: 24px; box-sizing: border-box; pointer-events: none;">
+    <sc-for list="{{dots}}" as="d" hint-placeholder-count="630">
+      <div style="display: flex; align-items: center; justify-content: center;"><span style="display: block; width: 3px; height: 3px; border-radius: 999px; background: oklch(0.85 0.12 200); animation: pulse {{d.dur}} ease-in-out infinite; animation-delay: {{d.delay}};"></span></div>
+    </sc-for>
+  </div>
+
+  <div style="position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 30% 40%, transparent 30%, oklch(0.17 0.03 262 / 0.9) 75%);"></div>
+
+  <div style="position: relative; display: flex; align-items: center; justify-content: space-between; padding: 32px 56px;">
+    <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; letter-spacing: 0.01em;">nsscode</span>
+    <div style="display: flex; gap: 32px; font-size: 14px; color: oklch(0.75 0.02 90);"><a href="#">Map</a><a href="#">List</a><a href="#">Colophon</a></div>
+  </div>
+
+  <div style="position: relative; padding: 70px 56px 0 56px; animation: fadeup 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;">
+    <h1 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 118px; line-height: 0.95; letter-spacing: -0.02em; max-width: 760px; text-wrap: balance;">Things to <em style="font-style: italic; color: oklch(0.85 0.12 200);">try.</em></h1>
+    <p style="margin: 28px 0 0 0; font-size: 19px; line-height: 1.5; max-width: 460px; color: oklch(0.75 0.02 90);">A slow-growing constellation of small experiments. Each point is one thing that works. Pick a bright one.</p>
+  </div>
+
+  <svg style="position: absolute; inset: 0; pointer-events: none;" width="1440" height="1000" viewBox="0 0 1440 1000" fill="none">
+    <path d="M760 300 L900 420 L1090 380 L1240 520 L1120 700 L930 640 L820 780 L640 700" stroke="oklch(0.85 0.12 200 / 0.35)" stroke-width="1" stroke-dasharray="1400" stroke-dashoffset="1400" style="animation: draw 4s ease-out 0.4s both;" />
+  </svg>
+
+  <sc-for list="{{stars}}" as="s" hint-placeholder-count="8">
+    <a href="#" class="star" style="position: absolute; left: {{s.x}}; top: {{s.y}}; display: flex; align-items: center; gap: 14px; animation: drift {{s.dur}} ease-in-out infinite alternate;">
+      <span style="width: {{s.size}}; height: {{s.size}}; border-radius: 999px; background: oklch(0.85 0.12 200); animation: glow 2.6s ease-out infinite; animation-delay: {{s.delay}};"></span>
+      <span class="label" style="display: flex; flex-direction: column; gap: 2px; opacity: {{s.opacity}}; transition: opacity 0.2s ease;">
+        <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 24px; line-height: 1;">{{s.name}}</span>
+        <span style="font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: oklch(0.7 0.03 90);">{{s.kind}}</span>
+      </span>
+    </a>
+  </sc-for>
+
+  <div style="position: absolute; left: 56px; bottom: 40px; display: flex; gap: 40px; font-size: 13px; color: oklch(0.65 0.03 90);">
+    <span>12 points</span><span>Last added 6 Sept</span><span>No tracking</span><span>Source</span>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const dots = [];
+    for (let i = 0; i < 630; i++) {
+      const col = i % 30, row = Math.floor(i / 30);
+      const wave = Math.sin(col * 0.5) + Math.cos(row * 0.45);
+      dots.push({ dur: (3 + ((i * 7) % 5) * 0.6).toFixed(2) + 's', delay: (wave * 0.8).toFixed(2) + 's' });
+    }
+    const stars = [
+      { name: 'Easing', kind: 'tool · new', x: '748px', y: '286px', size: '14px', delay: '0s', dur: '5s', opacity: 1 },
+      { name: 'OKLCH ramp', kind: 'tool', x: '888px', y: '406px', size: '12px', delay: '0.4s', dur: '6s', opacity: 1 },
+      { name: 'Actors', kind: 'toy', x: '1078px', y: '366px', size: '10px', delay: '0.8s', dur: '5.5s', opacity: 1 },
+      { name: 'Plates', kind: 'tool', x: '1228px', y: '506px', size: '12px', delay: '1.2s', dur: '6.5s', opacity: 1 },
+      { name: 'Life', kind: 'toy', x: '1108px', y: '686px', size: '10px', delay: '1.6s', dur: '5s', opacity: 0.55 },
+      { name: 'Timestamp', kind: 'tool', x: '918px', y: '626px', size: '8px', delay: '2s', dur: '7s', opacity: 0.55 },
+      { name: 'Topskat', kind: 'tool', x: '808px', y: '766px', size: '8px', delay: '2.4s', dur: '6s', opacity: 0.55 },
+      { name: 'Tokens', kind: 'unlisted', x: '628px', y: '686px', size: '6px', delay: '2.8s', dur: '5s', opacity: 0.35 },
+    ];
+    return { dots, stars };
+  }
+}
+</script>
+</body>
+</html>
