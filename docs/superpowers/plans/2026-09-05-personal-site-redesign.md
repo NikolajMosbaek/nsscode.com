@@ -120,7 +120,13 @@ Content is the bottleneck in this project, not code. Every task after Phase 1 is
 
 ---
 
-## Where things stand (2026-09-05, overnight build)
+## Where things stand (2026-09-06, published)
+
+The owner's feedback on the overnight build: better, but modern and boring, and the site should not be about a person at all. It should be something to show off and a place for experiments. Four directions were mocked on a design canvas, then built as live demo home pages under `/demo/` (`toybox`, `bench`, `posters`, `constellation`), each with an "about" button that states the case for and against. The home page is now the chooser for those four. The personal sections remain in `src/components/sections/` unused; the name stays only in the footer and the schema author field. Published to `main` on the owner's instruction.
+
+Next decision: pick a direction, or name parts of two. Then that direction becomes `/`, its fonts get self-hosted, and the other three demos are removed or kept unlisted.
+
+## Where things stood (2026-09-05, overnight build)
 
 The owner asked for as much as possible to be built overnight, with two goals: something worth showing people, and a place to put experiments, hidden or not. Direction A was built directly, skipping the three-direction canvas round, because a working site is easier to react to than three mockups and the tokens are one file to change.
 

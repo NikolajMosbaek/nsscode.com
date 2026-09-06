@@ -1,21 +1,8 @@
 ---
-import Contact from "../components/sections/Contact.astro";
-import Experience from "../components/sections/Experience.astro";
-import Intro from "../components/sections/Intro.astro";
-import Lab from "../components/sections/Lab.astro";
-import Principles from "../components/sections/Principles.astro";
-import Stack from "../components/sections/Stack.astro";
-import Work from "../components/sections/Work.astro";
-import { site } from "../data/site";
+import DemoChooser from "../components/DemoChooser.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<BaseLayout title={`${site.name}, ${site.title}`}>
-  <Intro />
-  <Work />
-  <Principles />
-  <Experience />
-  <Stack />
-  <Lab />
-  <Contact />
+<BaseLayout title="nsscode.com, four home pages">
+  <DemoChooser />
 </BaseLayout>

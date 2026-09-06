@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { demos } from "../data/demos";
 import { site } from "../data/site";
 import { buildRegistry, type ExperimentMeta, listed } from "../lib/registry";
 
@@ -10,6 +11,8 @@ export const GET: APIRoute = () => {
 	const paths = [
 		"/",
 		"/lab/",
+		"/demo/",
+		...demos.map((d) => `/demo/${d.slug}/`),
 		...listed(buildRegistry(modules)).map((e) => e.href),
 	];
 	const urls = paths

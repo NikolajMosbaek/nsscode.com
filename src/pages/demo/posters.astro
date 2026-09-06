@@ -1,0 +1,155 @@
+---
+import { demoBySlug } from "../../data/demos";
+import DemoLayout from "../../layouts/DemoLayout.astro";
+import { demoItems } from "../../lib/demo-items";
+import type { ExperimentMeta } from "../../lib/registry";
+
+const demo = demoBySlug("posters");
+const modules = import.meta.glob<{ default: ExperimentMeta }>(
+	"../../experiments/*/meta.ts",
+	{ eager: true },
+);
+const items = demoItems(modules);
+const issue = items.length;
+const date = new Intl.DateTimeFormat("en-GB", {
+	day: "numeric",
+	month: "short",
+	year: "numeric",
+}).format(new Date());
+
+const looks = [
+	{ bg: "#ffffff", fg: "#0b0b0b", shadow: "#0b0b0b" },
+	{ bg: "#0b0b0b", fg: "oklch(0.9 0.19 100)", shadow: "oklch(0.55 0.22 28)" },
+	{ bg: "oklch(0.55 0.22 28)", fg: "#ffffff", shadow: "#0b0b0b" },
+];
+const rotations = [-4, 3, -2, 3, -3, 2, -1];
+
+const style = [
+	"--demo-bg: oklch(0.9 0.19 100)",
+	"--demo-fg: #0b0b0b",
+	"--demo-accent: oklch(0.55 0.22 28)",
+	"--demo-font: 'Newsreader', Georgia, serif",
+	"--demo-mono: 'Anton', Impact, 'Arial Narrow', sans-serif",
+	"--demo-radius: 0px",
+	"--demo-border: 4px solid #0b0b0b",
+	"--demo-shadow: 10px 10px 0 #0b0b0b",
+].join("; ");
+---
+
+<DemoLayout demo={demo} style={style} themeColor="#f2e600">
+  <div class="posters">
+    <div class="ticker" aria-label="Ticker">
+      <div class="ticker-track">
+        <span>nsscode</span><span aria-hidden="true">—</span><span>tools</span><span aria-hidden="true">—</span><span>toys</span><span aria-hidden="true">—</span><span>experiments</span><span aria-hidden="true">—</span><span>no tracking</span><span aria-hidden="true">—</span><span>new: {items[0]?.title}</span><span aria-hidden="true">—</span><span>issue no. {issue}</span><span aria-hidden="true">—</span>
+        <span aria-hidden="true">nsscode — tools — toys — experiments — no tracking — new: {items[0]?.title} — issue no. {issue} —</span>
+      </div>
+    </div>
+
+    <header class="masthead">
+      <div class="title-block">
+        <h1>LAB</h1>
+        <p class="standfirst">{items.length} things that do one thing each, printed fresh every push.</p>
+      </div>
+      <div class="side">
+        <nav aria-label="Primary" class="tabs">
+          <a href="#wall" class="tab tab-active">All</a>
+          <a href="/lab/" class="tab">Tools</a>
+          <a href="/lab/" class="tab">Toys</a>
+          <a href="/demo/" class="tab">Colophon</a>
+        </nav>
+        <div class="issue">
+          <span class="issue-label">this issue</span>
+          <span class="issue-no">No. {issue}</span>
+          <span class="issue-label">{date} · copenhagen</span>
+        </div>
+      </div>
+    </header>
+
+    <section id="wall" class="wall" aria-label="Posters">
+      {
+        items.map((item, index) => {
+          const look = looks[index % looks.length];
+          const Tag = item.planned ? "div" : "a";
+          return (
+            <Tag
+              href={item.planned ? undefined : item.href}
+              class:list={["poster", { planned: item.planned }]}
+              style={`--p-bg: ${look.bg}; --p-fg: ${look.fg}; --p-shadow: ${look.shadow}; --r: ${rotations[index % rotations.length]}deg; --title-size: ${item.title.length > 7 ? "52px" : "78px"}; animation-delay: ${(index * 0.1).toFixed(2)}s;`}
+            >
+              <span class="poster-meta">No. {String(issue - index).padStart(2, "0")} · {item.planned ? "soon" : item.kind}</span>
+              <span class="poster-title">{item.title}</span>
+              <span class="poster-summary">{item.summary}</span>
+              {item.isNew && <span class="stamp" aria-label="New">New</span>}
+            </Tag>
+          );
+        })
+      }
+    </section>
+
+    <footer class="foot">
+      <span class="foot-note">That is all of them. For now.</span>
+      <div class="foot-links">
+        <a href="https://github.com/NikolajMosbaek/nsscode.com">Source</a>
+        <span>No tracking</span>
+        <span>Built {date}</span>
+      </div>
+    </footer>
+  </div>
+</DemoLayout>
+
+<style>
+  .posters {
+    --yellow: oklch(0.9 0.19 100);
+    --ink: #0b0b0b;
+    --red: oklch(0.55 0.22 28);
+    min-height: 100vh; display: flex; flex-direction: column;
+    background: var(--yellow); color: var(--ink);
+    font-family: 'Anton', Impact, 'Arial Narrow', sans-serif;
+    overflow-x: clip;
+  }
+  .posters a { color: inherit; text-decoration: none; }
+  .ticker { background: var(--ink); color: var(--yellow); overflow: hidden; white-space: nowrap; font-size: 22px; letter-spacing: 0.04em; text-transform: uppercase; padding: 10px 0; border-bottom: 4px solid var(--ink); }
+  .ticker-track { display: inline-flex; gap: 40px; animation: ticker 22s linear infinite; }
+  .masthead { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 24px; padding: 28px clamp(20px, 3.5vw, 48px) 0; }
+  .title-block { display: flex; flex-direction: column; }
+  .masthead h1 { margin: 0 0 0 -0.03em; font-size: clamp(120px, 21vw, 300px); line-height: 0.82; letter-spacing: -0.02em; text-transform: uppercase; font-weight: 400; }
+  .standfirst { margin: 18px 0 0; font-family: 'Newsreader', Georgia, serif; font-style: italic; font-size: clamp(22px, 2.4vw, 34px); line-height: 1.2; max-width: 20ch; text-wrap: balance; }
+  .side { display: flex; flex-direction: column; align-items: flex-end; gap: 30px; padding-top: 10px; }
+  .tabs { display: flex; flex-wrap: wrap; gap: 10px; font-size: 18px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .tab { display: inline-flex; align-items: center; min-height: 44px; border: 4px solid var(--ink); padding: 0 16px; }
+  .tab:hover { background: #fff; }
+  .posters .tab-active { background: var(--ink); color: var(--yellow); }
+  .tab-active:hover { background: var(--ink); }
+  .issue { border: 4px solid var(--ink); padding: 18px 22px; display: flex; flex-direction: column; gap: 4px; align-items: flex-end; background: #fff; }
+  .issue-label { font-size: 14px; text-transform: uppercase; letter-spacing: 0.14em; font-family: 'Newsreader', Georgia, serif; font-style: italic; }
+  .issue-no { font-size: 64px; line-height: 1; }
+  .wall { display: flex; flex-wrap: wrap; gap: 40px 48px; padding: 56px clamp(20px, 3.5vw, 48px) 40px; justify-content: center; }
+  .posters .poster {
+    position: relative; width: 300px; height: 380px; box-sizing: border-box; padding: 20px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    background: var(--p-bg); color: var(--p-fg);
+    border: 4px solid var(--ink); box-shadow: 10px 10px 0 var(--p-shadow);
+    transform: rotate(var(--r));
+    animation: drop 0.6s cubic-bezier(0.2, 0.9, 0.2, 1.2) both;
+    transition: transform 200ms ease;
+  }
+  a.poster:hover { transform: rotate(0deg) scale(1.03); z-index: 5; }
+  .poster.planned { border-style: dashed; box-shadow: none; }
+  .poster-meta { font-size: 16px; letter-spacing: 0.14em; text-transform: uppercase; font-family: 'Newsreader', Georgia, serif; font-style: italic; }
+  .poster-title { font-size: var(--title-size, 78px); line-height: 0.9; text-transform: uppercase; text-wrap: balance; }
+  .poster-summary { font-family: 'Newsreader', Georgia, serif; font-style: italic; font-size: 20px; line-height: 1.3; }
+  .stamp {
+    position: absolute; right: -18px; top: -18px;
+    background: var(--red); color: #fff; border: 4px solid var(--ink);
+    padding: 8px 14px; font-size: 22px; text-transform: uppercase;
+    transform: rotate(-12deg);
+    animation: stamp 0.5s cubic-bezier(0.2, 0.9, 0.2, 1.4) 0.6s both;
+  }
+  .foot { margin-top: auto; display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; align-items: center; padding: 0 clamp(20px, 3.5vw, 48px) 24px; }
+  .foot-note { font-family: 'Newsreader', Georgia, serif; font-style: italic; font-size: 18px; }
+  .foot-links { display: flex; gap: 24px; text-transform: uppercase; font-size: 16px; letter-spacing: 0.06em; }
+  .foot-links a { text-decoration: underline; text-underline-offset: 4px; }
+  @keyframes ticker { to { transform: translateX(-50%); } }
+  @keyframes stamp { 0% { transform: rotate(-12deg) scale(1.6); opacity: 0; } 60% { transform: rotate(-12deg) scale(0.96); opacity: 1; } 100% { transform: rotate(-12deg) scale(1); opacity: 1; } }
+  @keyframes drop { from { transform: translateY(-60px) rotate(var(--r)); opacity: 0; } to { transform: translateY(0) rotate(var(--r)); opacity: 1; } }
+</style>

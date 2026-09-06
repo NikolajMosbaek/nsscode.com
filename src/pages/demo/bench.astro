@@ -1,0 +1,206 @@
+---
+import { execSync } from "node:child_process";
+import { demoBySlug } from "../../data/demos";
+import DemoLayout from "../../layouts/DemoLayout.astro";
+import { demoItems } from "../../lib/demo-items";
+import type { ExperimentMeta } from "../../lib/registry";
+
+const demo = demoBySlug("bench");
+const modules = import.meta.glob<{ default: ExperimentMeta }>(
+	"../../experiments/*/meta.ts",
+	{ eager: true },
+);
+const items = demoItems(modules);
+const running = items.filter((item) => !item.planned).length;
+const builtAt = new Date().toISOString().slice(0, 16).replace("T", " ");
+
+let commits: string[] = [];
+try {
+	commits = execSync("git log --oneline -6 --no-decorate", { encoding: "utf8" })
+		.trim()
+		.split("\n")
+		.map((line) => line.replace(/^[0-9a-f]+\s/, ""));
+} catch {
+	commits = ["commit log unavailable at build"];
+}
+
+const style = [
+	"--demo-bg: oklch(0.14 0.012 250)",
+	"--demo-fg: oklch(0.82 0.15 78)",
+	"--demo-accent: oklch(0.82 0.15 78)",
+	"--demo-font: 'IBM Plex Mono', Menlo, Consolas, monospace",
+	"--demo-mono: 'IBM Plex Mono', Menlo, Consolas, monospace",
+	"--demo-radius: 0px",
+	"--demo-border: 1px solid oklch(0.82 0.15 78)",
+	"--demo-shadow: 0 0 0 1px oklch(0.3 0.03 250)",
+].join("; ");
+---
+
+<DemoLayout demo={demo} style={style} themeColor="#0f1116">
+  <div class="bench">
+    <div class="scanlines" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
+
+    <header class="bar">
+      <div class="bar-left">
+        <span class="led" aria-hidden="true"></span>
+        <span class="bar-name">nss/lab</span>
+        <span class="dim">rev {builtAt.slice(0, 10).replaceAll("-", ".")}</span>
+      </div>
+      <div class="bar-right">
+        <span>cph <time data-clock>--:--:--</time></span>
+        <span>modules {items.length}</span>
+        <span>running {running}</span>
+        <span>tracking none</span>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-text">
+        <p class="eyebrow-b">// bench</p>
+        <h1>{items.length} small instruments, wired straight into the browser.<span class="cursor" aria-hidden="true"></span></h1>
+        <p class="lede">&gt; every module is self-contained. select one to power it up. nothing leaves this machine.</p>
+        <div class="actions">
+          <a href="/lab/" class="btn btn-primary">[ run all ]</a>
+          <a href="/demo/" class="btn">[ colophon ]</a>
+        </div>
+      </div>
+      <aside class="signal" aria-label="Signal">
+        <div class="signal-head"><span>signal</span><span>live</span></div>
+        <svg viewBox="0 0 340 120" fill="none" aria-hidden="true" class="trace">
+          <g stroke="oklch(0.28 0.03 250)" stroke-width="1"><line x1="0" y1="30" x2="340" y2="30" /><line x1="0" y1="60" x2="340" y2="60" /><line x1="0" y1="90" x2="340" y2="90" /><line x1="85" y1="0" x2="85" y2="120" /><line x1="170" y1="0" x2="170" y2="120" /><line x1="255" y1="0" x2="255" y2="120" /></g>
+          <path d="M0 80 L30 78 L50 40 L70 95 L95 60 L130 62 L150 20 L170 100 L200 55 L240 58 L260 30 L285 85 L310 50 L340 52" stroke="oklch(0.82 0.15 78)" stroke-width="2" stroke-linejoin="round" class="trace-path" />
+        </svg>
+        <div class="signal-foot">
+          <div><span class="eyebrow-b">visitors</span><span class="big">unknown</span></div>
+          <span class="dim small">by design. no analytics on this bench.</span>
+        </div>
+      </aside>
+    </section>
+
+    <section class="modules" aria-label="Modules">
+      {
+        items.map((item, index) => {
+          const Tag = item.planned ? "div" : "a";
+          return (
+            <Tag href={item.planned ? undefined : item.href} class:list={["module", { planned: item.planned }]}>
+              <div class="module-head">
+                <span>mod-{String(index + 1).padStart(2, "0")}</span>
+                <span class:list={["led", "led-small", { dim: item.planned }]} style={`animation-duration: ${(0.9 + (index % 5) * 0.35).toFixed(2)}s`} aria-hidden="true"></span>
+              </div>
+              <span class="module-name">{item.title.toLowerCase()}</span>
+              <span class="module-desc">{item.summary.toLowerCase()}</span>
+              <span class="module-kind">{item.planned ? "idle · planned" : item.kind}</span>
+            </Tag>
+          );
+        })
+      }
+      <div class="module planned">
+        <div class="module-head"><span>mod-{String(items.length + 1).padStart(2, "0")}</span><span class="led led-small dim" aria-hidden="true"></span></div>
+        <span class="module-name">slot free</span>
+        <span class="module-desc">next experiment</span>
+        <span class="module-kind">idle</span>
+      </div>
+    </section>
+
+    <footer class="gauges">
+      <div class="gauge">
+        <svg width="64" height="40" viewBox="0 0 64 40" fill="none" aria-hidden="true"><path d="M6 36 A26 26 0 0 1 58 36" stroke="oklch(0.3 0.03 250)" stroke-width="4" /><path d="M6 36 A26 26 0 0 1 40 12" stroke="oklch(0.82 0.15 78)" stroke-width="4" /><g class="needle"><line x1="32" y1="36" x2="32" y2="14" stroke="oklch(0.94 0.08 78)" stroke-width="2" /></g><circle cx="32" cy="36" r="3" fill="oklch(0.94 0.08 78)" /></svg>
+        <div><span class="eyebrow-b">modules live</span><span class="big">{running} / {items.length}</span></div>
+      </div>
+      <div class="gauge">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true"><circle cx="20" cy="20" r="17" stroke="oklch(0.3 0.03 250)" stroke-width="2" /><g class="sweep"><line x1="20" y1="20" x2="20" y2="4" stroke="oklch(0.82 0.15 78)" stroke-width="2" /></g><circle cx="20" cy="20" r="2" fill="oklch(0.82 0.15 78)" /></svg>
+        <div><span class="eyebrow-b">last build</span><span class="big">{builtAt}</span></div>
+      </div>
+      <div class="gauge log" aria-label="Recent commits">
+        <div class="log-track">
+          {commits.map((c) => <span>&gt; {c}</span>)}
+          {commits.map((c) => <span aria-hidden="true">&gt; {c}</span>)}
+        </div>
+      </div>
+    </footer>
+  </div>
+</DemoLayout>
+
+<style>
+  .bench {
+    --amber: oklch(0.82 0.15 78);
+    --bright: oklch(0.94 0.08 78);
+    --dim: oklch(0.64 0.06 78);
+    --line: oklch(0.3 0.03 250);
+    --bg: oklch(0.14 0.012 250);
+    position: relative; min-height: 100vh; display: flex; flex-direction: column;
+    background: var(--bg); color: var(--amber);
+    font-family: 'IBM Plex Mono', Menlo, Consolas, monospace; font-size: 14px;
+    overflow-x: clip;
+  }
+  .bench a { color: inherit; text-decoration: none; }
+  .scanlines { position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(0deg, rgb(0 0 0 / 0.18) 0 1px, transparent 1px 3px); mix-blend-mode: multiply; }
+  .vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 30%, transparent 55%, rgb(0 0 0 / 0.55) 100%); }
+  .bar { position: relative; display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between; padding: 22px clamp(20px, 3.5vw, 48px); border-bottom: 1px solid var(--line); }
+  .bar-left { display: flex; align-items: center; gap: 16px; }
+  .bar-name { font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+  .bar-right { display: flex; flex-wrap: wrap; gap: 8px 32px; color: var(--dim); letter-spacing: 0.06em; text-transform: uppercase; font-size: 12px; }
+  .dim { color: var(--dim); }
+  .small { font-size: 11px; line-height: 1.5; max-width: 150px; text-align: right; }
+  .led { width: 10px; height: 10px; border-radius: 999px; background: var(--amber); animation: led 1.4s ease-in-out infinite; }
+  .led-small { width: 8px; height: 8px; }
+  .led.dim { background: oklch(0.45 0.05 78); animation-duration: 3s; }
+  .hero { position: relative; display: grid; grid-template-columns: 1fr 380px; gap: 32px; padding: 40px clamp(20px, 3.5vw, 48px) 0; }
+  @media (max-width: 960px) { .hero { grid-template-columns: 1fr; } }
+  .hero-text { display: flex; flex-direction: column; gap: 22px; }
+  .eyebrow-b { font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); margin: 0; }
+  .hero h1 { margin: 0; font-size: clamp(30px, 3.6vw, 52px); line-height: 1.05; font-weight: 500; color: var(--bright); max-width: 24ch; text-wrap: balance; }
+  .cursor { display: inline-block; width: 0.55em; height: 1em; background: var(--amber); margin-left: 8px; vertical-align: -0.15em; animation: cursor 1s steps(1) infinite; }
+  .lede { margin: 0; max-width: 62ch; line-height: 1.7; color: oklch(0.72 0.06 78); }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+  .btn { display: inline-flex; align-items: center; min-height: 44px; border: 1px solid var(--line); padding: 0 18px; letter-spacing: 0.1em; text-transform: uppercase; font-size: 12px; }
+  .btn:hover { border-color: var(--amber); }
+  .bench .btn-primary { border-color: var(--amber); background: var(--amber); color: var(--bg); font-weight: 600; }
+  .signal { border: 1px solid var(--line); padding: 20px; display: flex; flex-direction: column; gap: 14px; background: oklch(0.16 0.014 250); }
+  .signal-head { display: flex; justify-content: space-between; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim); }
+  .trace { width: 100%; height: 120px; }
+  .trace-path { stroke-dasharray: 700; stroke-dashoffset: 700; animation: trace 3.2s linear infinite; }
+  .signal-foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; }
+  .signal-foot div { display: flex; flex-direction: column; gap: 4px; }
+  .big { font-size: 22px; font-weight: 600; color: var(--bright); }
+  .modules { position: relative; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; padding: 36px clamp(20px, 3.5vw, 48px) 0; }
+  .module { border: 1px solid var(--line); padding: 18px; display: flex; flex-direction: column; gap: 14px; min-height: 150px; background: oklch(0.15 0.012 250); transition: border-color 150ms ease, background 150ms ease; }
+  a.module:hover { border-color: var(--amber); background: oklch(0.2 0.02 250); }
+  .module.planned { border-style: dashed; }
+  .module-head { display: flex; justify-content: space-between; align-items: center; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim); }
+  .module-name { font-size: 20px; font-weight: 600; color: var(--bright); }
+  .module-desc { line-height: 1.55; color: oklch(0.72 0.06 78); font-size: 13px; }
+  .module-kind { margin-top: auto; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
+  .gauges { position: relative; margin-top: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; padding: 36px clamp(20px, 3.5vw, 48px) 32px; }
+  .gauge { border: 1px solid var(--line); padding: 16px 18px; display: flex; align-items: center; gap: 18px; min-height: 74px; }
+  .gauge div { display: flex; flex-direction: column; gap: 2px; }
+  .needle { transform-origin: 32px 36px; animation: needle 4s ease-in-out infinite; }
+  .sweep { transform-origin: 20px 20px; animation: sweep 3s linear infinite; }
+  .log { padding: 0 18px; height: 74px; overflow: hidden; }
+  .log-track { display: flex; flex-direction: column; gap: 6px; padding: 12px 0; font-size: 12px; color: oklch(0.72 0.06 78); animation: scroll 12s linear infinite; }
+  @keyframes led { 0%, 100% { opacity: 1; box-shadow: 0 0 10px var(--amber); } 50% { opacity: 0.35; box-shadow: none; } }
+  @keyframes cursor { 50% { opacity: 0; } }
+  @keyframes trace { to { stroke-dashoffset: 0; } }
+  @keyframes sweep { to { transform: rotate(360deg); } }
+  @keyframes needle { 0%, 100% { transform: rotate(-40deg); } 50% { transform: rotate(35deg); } }
+  @keyframes scroll { to { transform: translateY(-50%); } }
+</style>
+
+<script>
+  const clock = document.querySelector<HTMLElement>("[data-clock]");
+  if (clock) {
+    const format = new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Europe/Copenhagen",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    });
+    const tick = () => {
+      clock.textContent = format.format(new Date());
+    };
+    tick();
+    setInterval(tick, 1000);
+  }
+</script>

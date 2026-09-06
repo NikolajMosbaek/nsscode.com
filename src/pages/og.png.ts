@@ -56,7 +56,7 @@ export const GET: APIRoute = async () => {
 					color: "#6f6a63",
 				},
 				[
-					el("span", {}, `${site.title} / ${site.location}`),
+					el("span", {}, "tools and toys, in the browser"),
 					el("span", {}, "nsscode.com"),
 				],
 			),
@@ -78,7 +78,7 @@ export const GET: APIRoute = async () => {
 							borderRadius: 999,
 							background: "#c0392b",
 						}),
-						el("span", {}, "Eleven years of iOS"),
+						el("span", {}, "no tracking, nothing to install"),
 					],
 				),
 				el(
@@ -90,7 +90,7 @@ export const GET: APIRoute = async () => {
 						fontWeight: 600,
 						maxWidth: 1000,
 					},
-					site.name,
+					"Small things that run in your browser.",
 				),
 			]),
 		],

@@ -1,0 +1,47 @@
+---
+/*
+ * Shell for the /demo/ home pages. No site header or footer: each
+ * direction brings its own chrome. Fonts come from Google Fonts here;
+ * the direction that wins gets self-hosted like the rest of the site.
+ */
+import "../styles/global.css";
+import DemoAbout from "../components/DemoAbout.astro";
+import Seo from "../components/Seo.astro";
+import type { Demo } from "../data/demos";
+
+interface Props {
+	demo: Demo;
+	/** CSS custom properties for the about dialog, set on <main>. */
+	style: string;
+	themeColor: string;
+}
+
+const { demo, style, themeColor } = Astro.props;
+const title = `${demo.letter} · ${demo.name}, a home page demo`;
+---
+
+<!doctype html>
+<html lang="en" class="h-full">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Seo title={title} description={demo.tagline} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content={themeColor} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href={demo.fonts} />
+  </head>
+  <body class="flex min-h-full flex-col antialiased" style={style}>
+    <a
+      href="#main"
+      class="sr-only rounded-md bg-black px-4 py-2 text-sm font-medium text-white focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[60]"
+    >
+      Skip to content
+    </a>
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+    <DemoAbout demo={demo} />
+  </body>
+</html>

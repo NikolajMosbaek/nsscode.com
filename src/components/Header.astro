@@ -3,11 +3,9 @@ import { site } from "../data/site";
 import ThemeToggle from "./ThemeToggle.astro";
 
 const path = Astro.url.pathname;
-const onHome = path === "/";
 const nav = [
-	{ label: "Work", href: onHome ? "#work" : "/#work" },
+	{ label: "Demos", href: "/demo/", current: path.startsWith("/demo") },
 	{ label: "Lab", href: "/lab/", current: path.startsWith("/lab") },
-	{ label: "Contact", href: onHome ? "#contact" : "/#contact" },
 ];
 ---
 

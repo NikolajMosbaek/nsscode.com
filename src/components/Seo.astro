@@ -18,18 +18,13 @@ const {
 const canonical = new URL(Astro.url.pathname, site.url).href;
 const image = new URL("/og.png", site.url).href;
 
-const person = {
+const schema = {
 	"@context": "https://schema.org",
-	"@type": "Person",
-	name: site.name,
-	jobTitle: site.title,
+	"@type": "WebSite",
+	name: "nsscode.com",
 	url: site.url,
-	address: {
-		"@type": "PostalAddress",
-		addressLocality: "Copenhagen",
-		addressCountry: "DK",
-	},
-	sameAs: site.links.map((link) => link.href),
+	description: site.description,
+	author: { "@type": "Person", name: site.name },
 };
 ---
 
@@ -54,4 +49,4 @@ const person = {
 <meta name="twitter:image" content={image} />
 <meta name="twitter:creator" content="@NikolajMosb" />
 
-<script is:inline type="application/ld+json" set:html={JSON.stringify(person)} />
+<script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />

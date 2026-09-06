@@ -1,0 +1,165 @@
+---
+import { demoBySlug } from "../../data/demos";
+import DemoLayout from "../../layouts/DemoLayout.astro";
+import { demoItems } from "../../lib/demo-items";
+import type { ExperimentMeta } from "../../lib/registry";
+
+const demo = demoBySlug("constellation");
+const modules = import.meta.glob<{ default: ExperimentMeta }>(
+	"../../experiments/*/meta.ts",
+	{ eager: true },
+);
+const items = demoItems(modules);
+
+/* Field of dots. Delay follows a wave over the grid so it breathes. */
+const cols = 30;
+const rows = 14;
+const dots = Array.from({ length: cols * rows }, (_, i) => {
+	const col = i % cols;
+	const row = Math.floor(i / cols);
+	const wave = Math.sin(col * 0.5) + Math.cos(row * 0.45);
+	return {
+		dur: `${(3 + ((i * 7) % 5) * 0.6).toFixed(2)}s`,
+		delay: `${(wave * 0.8).toFixed(2)}s`,
+	};
+});
+
+/*
+ * Stars sit along a gentle path, newest first and brightest. Positions are
+ * in a 1000 x 640 space; the SVG line and the labels share it.
+ */
+const path = [
+	[520, 60],
+	[640, 180],
+	[800, 140],
+	[930, 280],
+	[830, 460],
+	[660, 400],
+	[560, 540],
+	[400, 470],
+	[300, 580],
+];
+const stars = items.map((item, index) => {
+	const [x, y] = path[index % path.length];
+	return {
+		...item,
+		x,
+		y,
+		size: Math.max(6, 14 - index * 1.2),
+		opacity: item.planned ? 0.55 : 1,
+		delay: `${(index * 0.4).toFixed(1)}s`,
+		dur: `${(5 + (index % 3)).toFixed(1)}s`,
+	};
+});
+const line = stars.map((s) => `${s.x} ${s.y}`).join(" L ");
+
+const style = [
+	"--demo-bg: oklch(0.17 0.03 262)",
+	"--demo-fg: oklch(0.95 0.01 90)",
+	"--demo-accent: oklch(0.85 0.12 200)",
+	"--demo-font: 'Geist', 'Helvetica Neue', Arial, sans-serif",
+	"--demo-mono: 'Geist', 'Helvetica Neue', Arial, sans-serif",
+	"--demo-radius: 12px",
+	"--demo-border: 1px solid oklch(0.85 0.12 200 / 0.5)",
+	"--demo-shadow: 0 20px 60px rgb(0 0 0 / 0.5)",
+].join("; ");
+---
+
+<DemoLayout demo={demo} style={style} themeColor="#141a2b">
+  <div class="sky">
+    <div class="field" aria-hidden="true">
+      {dots.map((d) => <span style={`animation-duration: ${d.dur}; animation-delay: ${d.delay};`} />)}
+    </div>
+    <div class="haze" aria-hidden="true"></div>
+
+    <header class="top">
+      <a href="/demo/constellation/" class="wordmark">nsscode</a>
+      <nav aria-label="Primary" class="nav">
+        <a href="#map">Map</a>
+        <a href="/lab/">List</a>
+        <a href="/demo/">Colophon</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <h1>Things to <em>try.</em></h1>
+      <p>A slow-growing constellation of small experiments. Each point is one thing that works. Pick a bright one.</p>
+    </section>
+
+    <section id="map" class="map" aria-label="Experiments as a map">
+      <svg viewBox="0 0 1000 640" preserveAspectRatio="none" aria-hidden="true" class="lines">
+        <path d={`M ${line}`} class="line" />
+      </svg>
+      {
+        stars.map((star) => {
+          const Tag = star.planned ? "div" : "a";
+          return (
+            <Tag
+              href={star.planned ? undefined : star.href}
+              class:list={["star", { planned: star.planned }]}
+              style={`left: ${star.x / 10}%; top: ${(star.y / 640) * 100}%; --size: ${star.size}px; --delay: ${star.delay}; --dur: ${star.dur}; --o: ${star.opacity};`}
+            >
+              <span class="dot" aria-hidden="true"></span>
+              <span class="label">
+                <span class="name">{star.title}</span>
+                <span class="kind">{star.planned ? "soon" : star.kind}{star.isNew ? " · new" : ""}</span>
+              </span>
+            </Tag>
+          );
+        })
+      }
+    </section>
+
+    <footer class="foot">
+      <span>{items.filter((i) => !i.planned).length} points lit</span>
+      <span>{items.filter((i) => i.planned).length} planned</span>
+      <span>No tracking</span>
+      <a href="https://github.com/NikolajMosbaek/nsscode.com">Source</a>
+    </footer>
+  </div>
+</DemoLayout>
+
+<style>
+  .sky {
+    --bg: oklch(0.17 0.03 262);
+    --fg: oklch(0.95 0.01 90);
+    --muted: oklch(0.75 0.02 90);
+    --faint: oklch(0.66 0.03 90);
+    --glow: oklch(0.85 0.12 200);
+    position: relative; min-height: 100vh; display: flex; flex-direction: column;
+    background: var(--bg); color: var(--fg);
+    font-family: 'Geist', 'Helvetica Neue', Arial, sans-serif;
+    overflow: clip;
+  }
+  .sky a { color: inherit; text-decoration: none; }
+  .field { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(30, minmax(0, 1fr)); grid-template-rows: repeat(14, minmax(0, 1fr)); padding: 24px; pointer-events: none; }
+  .field span { justify-self: center; align-self: center; width: 3px; height: 3px; border-radius: 999px; background: var(--glow); animation: pulse 4s ease-in-out infinite; }
+  .haze { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 30% 40%, transparent 30%, oklch(0.17 0.03 262 / 0.9) 75%); }
+  .top { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 32px clamp(20px, 4vw, 56px); }
+  .wordmark { font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; letter-spacing: 0.01em; }
+  .nav { display: flex; gap: 8px; font-size: 14px; color: var(--muted); }
+  .nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; }
+  .nav a:hover { color: var(--fg); }
+  .hero { position: relative; padding: clamp(24px, 4vw, 70px) clamp(20px, 4vw, 56px) 0; animation: fadeup 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  .hero h1 { margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: clamp(56px, 8vw, 118px); line-height: 0.95; letter-spacing: -0.02em; max-width: 10ch; text-wrap: balance; }
+  .hero em { font-style: italic; color: var(--glow); }
+  .hero p { margin: 28px 0 0; font-size: 19px; line-height: 1.5; max-width: 26ch; color: var(--muted); }
+  .map { position: relative; height: 640px; margin-top: -120px; }
+  @media (max-width: 900px) { .map { margin-top: 24px; height: 520px; } }
+  .lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .line { fill: none; stroke: oklch(0.85 0.12 200 / 0.35); stroke-width: 1; stroke-dasharray: 3000; stroke-dashoffset: 3000; animation: draw 4s ease-out 0.4s both; }
+  .star { position: absolute; display: flex; align-items: center; gap: 14px; transform: translate(-50%, -50%); animation: drift var(--dur) ease-in-out infinite alternate; opacity: var(--o); transition: opacity 200ms ease; }
+  a.star:hover, .star:focus-within { opacity: 1; }
+  .dot { width: var(--size); height: var(--size); border-radius: 999px; background: var(--glow); animation: glow 2.6s ease-out infinite; animation-delay: var(--delay); flex: none; }
+  .star.planned .dot { background: oklch(0.6 0.06 200); animation: none; }
+  .label { display: flex; flex-direction: column; gap: 2px; }
+  .name { font-family: 'Instrument Serif', Georgia, serif; font-size: 24px; line-height: 1; }
+  .kind { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .foot { position: relative; margin-top: auto; display: flex; flex-wrap: wrap; gap: 12px 40px; padding: 24px clamp(20px, 4vw, 56px) 40px; font-size: 13px; color: var(--faint); }
+  .foot a { text-decoration: underline; text-underline-offset: 3px; }
+  @keyframes pulse { 0%, 100% { transform: scale(0.6); opacity: 0.25; } 50% { transform: scale(1.4); opacity: 0.9; } }
+  @keyframes glow { 0%, 100% { box-shadow: 0 0 0 0 oklch(0.85 0.12 200 / 0.6); } 50% { box-shadow: 0 0 0 10px oklch(0.85 0.12 200 / 0); } }
+  @keyframes drift { to { transform: translate(-50%, calc(-50% - 10px)); } }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes fadeup { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+</style>

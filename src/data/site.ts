@@ -20,7 +20,7 @@ export const site = {
 	title: "Senior iOS Engineer",
 	location: "Copenhagen, Denmark",
 	description:
-		"Nikolaj Søgaard Simonsen. Senior iOS engineer in Copenhagen. Eleven years of Swift, strict concurrency by design, one architecture per app.",
+		"nsscode.com. A lab of small tools and toys that run in the browser. Nothing tracked, nothing stored, nothing to install.",
 	yearsOfIOS: 11,
 	links: [
 		{

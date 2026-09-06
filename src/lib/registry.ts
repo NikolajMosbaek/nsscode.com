@@ -11,6 +11,8 @@ export interface ExperimentMeta {
 	date: string;
 	listed: boolean;
 	tags?: string[];
+	/** A tool does one job; a toy exists to be looked at. */
+	kind?: "tool" | "toy";
 }
 
 export interface ExperimentEntry extends ExperimentMeta {
