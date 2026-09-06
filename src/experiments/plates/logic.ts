@@ -175,7 +175,9 @@ export function ramp(
 		[0.93, "1"],
 	];
 	const steps: RampStep[] = [
-		{ label: "bar", loading: load(bar, bar, stock), reps: "8 to 10" },
+		...(bar > 0
+			? [{ label: "bar", loading: load(bar, bar, stock), reps: "8 to 10" }]
+			: []),
 	];
 	let last = bar;
 	for (const [fraction, reps] of fractions) {

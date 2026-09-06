@@ -67,7 +67,7 @@ const right = $derived.by(() => {
 const left = $derived(right.map((p) => ({ ...p, x: W - p.x - p.w })));
 </script>
 
-<svg viewBox="{half ? W / 2 + sleeveLen / 2 - 40 : 0} 0 {half ? W / 2 - sleeveLen / 2 + 40 : W} {H}" class="w-full" role="img" aria-label={perSide.length ? `Per side, from the collar outwards: ${perSide.map(formatKg).join(', ')} kg on a ${bar} kg bar` : `Empty ${bar} kg bar`}>
+<svg viewBox="{half ? W / 2 + sleeveLen / 2 - 40 : 0} 0 {half ? W / 2 - sleeveLen / 2 + 40 : W} {H}" class="w-full" role="img" aria-label={perSide.length ? `Per side, from the collar outwards: ${perSide.map(formatKg).join(', ')} kg${bar ? ` on a ${bar} kg bar` : ', bar not counted'}` : bar ? `Empty ${bar} kg bar` : 'Empty bar'}>
   <!-- shaft -->
   <rect x="0" y={shaftY} width={W} height="12" rx="6" class="steel" />
   <!-- sleeves, thicker -->
@@ -85,7 +85,7 @@ const left = $derived(right.map((p) => ({ ...p, x: W - p.x - p.w })));
     </g>
   {/each}
   {#if !compact && !half}
-    <text x={W / 2} y={mid + 28} text-anchor="middle" class="label">{bar} kg bar</text>
+    <text x={W / 2} y={mid + 28} text-anchor="middle" class="label">{bar ? `${bar} kg bar` : 'bar not counted'}</text>
   {/if}
 </svg>
 
