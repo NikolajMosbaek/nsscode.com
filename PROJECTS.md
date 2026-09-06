@@ -16,6 +16,7 @@ Sizes: **S** an evening, **M** a few evenings, **L** a couple of weeks,
 | `easing` | Easing | tool |
 | `actors` | Actors | toy |
 | `plates` | Plates | tool |
+| `life` | Life | toy |
 
 ## Announced (shown as "soon" on the shelf)
 
@@ -30,13 +31,6 @@ kommuneskat, top-, mellem- and top-topskat as they apply from 2026, plus
 marginal rate at the current income. Must handle beskæftigelsesfradrag
 and personfradrag correctly and state the kommune it assumes. Rates as a
 data file with the year in the name so 2027 is a copy, not a rewrite.
-
-### Life · `life` · toy · S
-
-Conway's game, because every lab needs one. Canvas, click or drag to
-paint, a handful of named patterns (glider gun, acorn, R-pentomino),
-speed and wrap toggles. Fun comes from the palette and the shelf
-miniature actually running.
 
 ### Timestamp · `timestamp` · tool · S
 
@@ -131,7 +125,7 @@ file handling in a static site.
 ## Order worth considering
 
 1. Spring Designer (small, immediately useful, completes Easing)
-2. Life and Boids (cheap shelf filler that moves)
+2. Boids (cheap shelf filler that moves)
 3. Topskat 2026 (announced, seasonal relevance)
 4. Programme Builder (builds on Plates)
 5. Swift Concurrency Playground (the showcase)
