@@ -37,23 +37,25 @@ const Experiment = wrapperFor(wrappers, experiment.slug);
   description={experiment.summary}
   noindex={!experiment.listed}
 >
-  <article class="pt-12 pb-20 sm:pt-20 sm:pb-28">
-    <p class="eyebrow mb-8 flex flex-wrap items-center gap-x-3 gap-y-1">
-      <a href="/lab/" class="hover:text-ink transition-colors">&larr; Lab</a>
+  <article class="pt-10 pb-8 sm:pt-16">
+    <p class="eyebrow mb-6 flex flex-wrap items-center gap-x-3 gap-y-1">
+      <a href="/lab/" class="hover:text-ink transition-colors">&larr; lab</a>
+      <span aria-hidden="true">/</span>
+      <span>{experiment.kind ?? "tool"}</span>
       <span aria-hidden="true">/</span>
       <span>{experiment.date}</span>
       {
         !experiment.listed && (
           <>
             <span aria-hidden="true">/</span>
-            <span class="text-accent">Unlisted</span>
+            <span class="bg-yellow text-accent-ink rounded-md px-1.5 py-0.5">unlisted</span>
           </>
         )
       }
     </p>
-    <h1 class="text-h2 max-w-[20ch] font-medium text-balance">{experiment.title}</h1>
-    <p class="text-lede text-ink-soft mt-4 max-w-[40ch] text-pretty">{experiment.summary}</p>
-    <div class="border-line-soft mt-12 border-t pt-12">
+    <h1 class="text-display max-w-[16ch] font-extrabold text-balance">{experiment.title}</h1>
+    <p class="text-lede text-ink-soft mt-5 max-w-[44ch] font-medium text-pretty">{experiment.summary}</p>
+    <div class="card mt-10 p-5 sm:p-8">
       <Experiment />
     </div>
   </article>

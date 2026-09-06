@@ -1,19 +1,29 @@
 ---
 import { site } from "../data/site";
+import { buildRegistry, type ExperimentMeta, listed } from "../lib/registry";
 
+const modules = import.meta.glob<{ default: ExperimentMeta }>(
+	"../experiments/*/meta.ts",
+	{ eager: true },
+);
+const running = listed(buildRegistry(modules)).length;
 const built = new Date().toISOString().slice(0, 10);
-const year = built.slice(0, 4);
+const facts = [
+	`${running} things running`,
+	`built ${built}`,
+	"no tracking",
+	"astro + svelte + react",
+	"made in copenhagen",
+];
 ---
 
-<footer class="border-line-soft border-t">
-  <div class="mx-auto flex w-full max-w-[76rem] flex-col gap-3 px-6 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-10">
-    <p class="eyebrow">
-      &copy; {year} {site.name}
-    </p>
-    <p class="eyebrow flex flex-wrap gap-x-5 gap-y-2">
-      <span>No tracking</span>
-      <a href={site.source} class="hover:text-ink transition-colors">Source</a>
-      <span>Built {built}</span>
-    </p>
+<footer class="bg-ink text-ground border-line mt-16 overflow-hidden border-t-3 py-3.5 font-mono text-sm font-medium" aria-label="Site facts">
+  <div class="ticker-track">
+    {facts.map((fact) => <><span>{fact}</span><span aria-hidden="true">·</span></>)}
+    <a href={site.source} class="underline decoration-2 underline-offset-4">source on github</a>
+    <span aria-hidden="true">·</span>
+    <a href="/colophon/" class="underline decoration-2 underline-offset-4">colophon</a>
+    <span aria-hidden="true">·</span>
+    <span aria-hidden="true">{facts.join(" · ")} · source on github · colophon ·</span>
   </div>
 </footer>

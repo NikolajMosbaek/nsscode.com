@@ -1,7 +1,7 @@
 /*
- * The four home-page directions built as live demos under /demo/.
- * Each entry carries the honest case for and against, shown by the
- * "about" button on its page.
+ * The home-page directions that were not chosen, kept as live demos under
+ * /demo/ for reference. Toybox won and became the site. Each entry carries
+ * the case for and against, shown by the "about" button on its page.
  */
 
 export interface Demo {
@@ -16,26 +16,6 @@ export interface Demo {
 }
 
 export const demos: Demo[] = [
-	{
-		slug: "toybox",
-		letter: "A",
-		name: "Toybox",
-		tagline:
-			"Chunky tiles, hard offset shadows, four accents at equal chroma. Every tile is a live miniature of its experiment. The site feels like a shelf of gadgets.",
-		pros: [
-			"The most fun per pixel while still working as an index.",
-			"A tile is just an experiment folder plus a small preview component, so adding things stays cheap.",
-			"Light ground and black outlines keep contrast trivially high; accessibility comes for free.",
-			"Scales down to a phone as a single column without losing the idea.",
-		],
-		cons: [
-			"Playful reads as less serious. If the site is ever meant to impress a hiring manager, this is the one they will squint at.",
-			"Every experiment needs a mini-preview or the grid goes flat and generic.",
-			"Hue-rotating and bobbing tiles are charming for ten seconds; they must calm down after load.",
-		],
-		fonts:
-			"https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=JetBrains+Mono:wght@500&display=swap",
-	},
 	{
 		slug: "bench",
 		letter: "B",

@@ -3,15 +3,15 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
 <BaseLayout title="Not found, nsscode.com" description="There is nothing at this address." noindex>
-  <section class="pt-14 pb-24 sm:pt-24 sm:pb-32">
-    <p class="eyebrow mb-6">404</p>
-    <h1 class="text-display max-w-[14ch] font-medium text-balance">Nothing at this address.</h1>
-    <p class="prose-site mt-8">
+  <section class="pt-10 pb-16 sm:pt-16">
+    <p class="eyebrow mb-5">404</p>
+    <h1 class="text-display max-w-[12ch] font-extrabold text-balance">Nothing at this address.</h1>
+    <p class="prose-site mt-6">
       Either the link is old or the experiment was never listed to begin with. Both happen.
     </p>
-    <p class="eyebrow mt-10 flex flex-wrap gap-x-6">
-      <a href="/" class="hover:text-ink transition-colors">&larr; Home</a>
-      <a href="/lab/" class="hover:text-ink transition-colors">Lab</a>
-    </p>
+    <div class="mt-8 flex flex-wrap gap-2.5">
+      <a href="/" class="pill pill-active">&larr; everything</a>
+      <a href="/lab/" class="pill">lab</a>
+    </div>
   </section>
 </BaseLayout>

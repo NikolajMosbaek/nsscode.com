@@ -1,0 +1,191 @@
+---
+/*
+ * The live miniature inside a tile. One drawing per known slug; a real
+ * experiment can ship its own by adding a case here. Unknown slugs get the
+ * first letter, large.
+ */
+interface Props {
+	slug: string;
+	title: string;
+}
+
+const { slug, title } = Astro.props;
+
+const cells = Array.from({ length: 40 }, (_, i) => ({
+	on: (i * 7 + 3) % 5 !== 0,
+	dur: `${(1.2 + ((i * 13) % 7) * 0.35).toFixed(2)}s`,
+	delay: `${(((i * 17) % 11) * 0.13).toFixed(2)}s`,
+}));
+---
+
+<div class="preview" aria-hidden="true">
+  {
+    slug === "palette" && (
+      <div class="stripes">
+        {[0.95, 0.86, 0.76, 0.65, 0.52, 0.38, 0.25].map((l) => (
+          <span style={`background: oklch(${l} 0.16 30)`} />
+        ))}
+      </div>
+    )
+  }
+  {
+    slug === "easing" && (
+      <div class="curve">
+        <svg viewBox="0 0 100 60" preserveAspectRatio="none">
+          <path d="M0 58 C 20 58, 20 2, 100 2" fill="none" stroke="currentColor" stroke-width="1.6" vector-effect="non-scaling-stroke" />
+        </svg>
+        <span class="ball" />
+      </div>
+    )
+  }
+  {
+    slug === "tokens" && (
+      <div class="swatches">
+        <span style="background: var(--accent)" /><span style="background: var(--blue)" /><span style="background: var(--yellow)" /><span style="background: var(--green)" />
+      </div>
+    )
+  }
+  {
+    slug === "plates" && (
+      <svg viewBox="0 0 180 60" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" class="svg">
+        <line x1="8" y1="30" x2="172" y2="30" />
+        <rect x="30" y="8" width="10" height="44" rx="2" fill="var(--accent)" />
+        <rect x="42" y="14" width="8" height="32" rx="2" fill="var(--blue)" />
+        <rect x="52" y="18" width="6" height="24" rx="2" fill="var(--green)" />
+        <rect x="140" y="8" width="10" height="44" rx="2" fill="var(--accent)" />
+        <rect x="130" y="14" width="8" height="32" rx="2" fill="var(--blue)" />
+        <rect x="122" y="18" width="6" height="24" rx="2" fill="var(--green)" />
+      </svg>
+    )
+  }
+  {
+    slug === "life" && (
+      <div class="cells">
+        {cells.map((cell) => (
+          <span style={`background: ${cell.on ? "var(--green)" : "transparent"}; animation-duration: ${cell.dur}; animation-delay: ${cell.delay};`} />
+        ))}
+      </div>
+    )
+  }
+  {
+    slug === "actors" && (
+      <svg viewBox="0 0 180 60" fill="none" stroke="currentColor" stroke-width="3" class="svg">
+        <rect x="10" y="8" width="60" height="44" rx="6" />
+        <rect x="110" y="8" width="60" height="44" rx="6" />
+        <path d="M70 30h40" stroke-dasharray="6 6" />
+        <circle cx="40" cy="30" r="7" fill="var(--accent)" class="msg" />
+      </svg>
+    )
+  }
+  {
+    slug === "topskat" && (
+      <svg viewBox="0 0 180 60" fill="none" stroke="currentColor" stroke-width="3" class="svg">
+        <path d="M10 52 H60 V38 H110 V22 H170 V56 H10 Z" fill="var(--accent)" fill-opacity="0.35" stroke="none" />
+        <path d="M10 52 H60 V38 H110 V22 H170" stroke-linejoin="round" />
+      </svg>
+    )
+  }
+  {
+    slug === "timestamp" && (
+      <svg viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" class="svg clock">
+        <circle cx="30" cy="30" r="24" />
+        <path d="M30 30V14" class="hand" />
+        <path d="M30 30l11 8" />
+      </svg>
+    )
+  }
+  {
+    !["palette", "easing", "tokens", "plates", "life", "actors", "topskat", "timestamp"].includes(slug) && (
+      <span class="letter">{title.slice(0, 1)}</span>
+    )
+  }
+</div>
+
+<style>
+  .preview {
+    position: relative;
+    height: 110px;
+    overflow: hidden;
+    border: 3px solid var(--line);
+    border-radius: 12px;
+    background: var(--surface);
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .stripes {
+    display: flex;
+    gap: 6px;
+    width: 100%;
+    height: 100%;
+    animation: hue 12s linear infinite;
+  }
+  .stripes span {
+    flex: 1;
+  }
+  .swatches {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+    width: 100%;
+    height: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+  }
+  .swatches span {
+    border-radius: 6px;
+    border: 3px solid var(--line);
+  }
+  .curve {
+    position: absolute;
+    inset: 0;
+  }
+  .curve svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .ball {
+    position: absolute;
+    top: 50%;
+    margin-top: -12px;
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    background: var(--accent);
+    border: 3px solid var(--line);
+    animation: ballx 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) infinite alternate;
+  }
+  .svg {
+    width: 80%;
+    height: 70%;
+  }
+  .msg {
+    animation: msg 2.4s ease-in-out infinite alternate;
+  }
+  .clock .hand {
+    transform-origin: 30px 30px;
+    animation: spin 6s linear infinite;
+  }
+  .cells {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 4px;
+    width: 100%;
+    height: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    background: var(--ink);
+  }
+  .cells span {
+    border-radius: 3px;
+    animation: blink 1.5s steps(1) infinite;
+  }
+  .letter {
+    font-size: 64px;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+  }
+</style>

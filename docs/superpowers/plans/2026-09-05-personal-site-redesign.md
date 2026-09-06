@@ -120,7 +120,11 @@ Content is the bottleneck in this project, not code. Every task after Phase 1 is
 
 ---
 
-## Where things stand (2026-09-06, published)
+## Decision (2026-09-06): A · Toybox, with dark mode
+
+The owner picked Toybox and asked for dark mode. The direction is now the site: tokens, fonts (Bricolage Grotesque and JetBrains Mono, self-hosted), header pills with the theme toggle, tiles with live miniatures, the ticker footer, a lab index sorted by kind, an experiment page framed as a card, a colophon page, and a matching social image. Dark mode inverts ink and ground; the four accents keep their hue and carry ink text in both themes, and the hard shadows turn cream. The three unchosen directions stay under `/demo/` as unlisted references. The personal sections and their data files are deleted; they remain in git history.
+
+## Where things stood (2026-09-06, demos published)
 
 The owner's feedback on the overnight build: better, but modern and boring, and the site should not be about a person at all. It should be something to show off and a place for experiments. Four directions were mocked on a design canvas, then built as live demo home pages under `/demo/` (`toybox`, `bench`, `posters`, `constellation`), each with an "about" button that states the case for and against. The home page is now the chooser for those four. The personal sections remain in `src/components/sections/` unused; the name stays only in the footer and the schema author field. Published to `main` on the owner's instruction.
 

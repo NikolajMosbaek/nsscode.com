@@ -1,10 +1,9 @@
 ---
-import "@fontsource-variable/schibsted-grotesk";
-import "@fontsource/commit-mono/400.css";
-import "@fontsource/commit-mono/500.css";
+import "@fontsource-variable/bricolage-grotesque/standard.css";
+import "@fontsource-variable/jetbrains-mono";
 import "../styles/global.css";
-import commitMonoLatin from "@fontsource/commit-mono/files/commit-mono-latin-400-normal.woff2?url";
-import schibstedLatin from "@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-wght-normal.woff2?url";
+import bricolageLatin from "@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-standard-normal.woff2?url";
+import jetbrainsLatin from "@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2?url";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import Seo from "../components/Seo.astro";
@@ -37,20 +36,20 @@ const { title, description, noindex } = Astro.props;
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfaf8" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#141518" />
-    <link rel="preload" href={schibstedLatin} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={commitMonoLatin} as="font" type="font/woff2" crossorigin />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f5ef" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1d1a16" />
+    <link rel="preload" href={bricolageLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={jetbrainsLatin} as="font" type="font/woff2" crossorigin />
   </head>
-  <body class="bg-ground text-ink flex min-h-full flex-col font-sans antialiased">
+  <body class="bg-ground text-ink flex min-h-full flex-col overflow-x-clip font-sans antialiased">
     <a
       href="#main"
-      class="bg-ink text-ground focus-visible:outline-accent sr-only rounded-md px-4 py-2 text-sm font-medium focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50"
+      class="bg-ink text-ground sr-only rounded-full px-4 py-2 font-mono text-sm font-medium focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50"
     >
       Skip to content
     </a>
     <Header />
-    <main id="main" class="mx-auto w-full max-w-[76rem] flex-1 px-6 sm:px-10">
+    <main id="main" class="mx-auto w-full max-w-[90rem] flex-1 px-5 sm:px-10 lg:px-14">
       <slot />
     </main>
     <Footer />

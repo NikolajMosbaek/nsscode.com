@@ -58,7 +58,7 @@ repository is public, so unlisted means unlisted, not secret.
 ## Design
 
 Tokens (colour in `oklch`, fluid type scale, motion) are in `src/styles/global.css`
-and rendered live at `/lab/tokens/`. Fonts are Schibsted Grotesk and Commit Mono,
+and rendered live at `/lab/tokens/`. Fonts are Bricolage Grotesque and JetBrains Mono,
 self-hosted from Fontsource. The social image is generated at build time by
 `src/pages/og.png.ts`. The redesign plan and its open questions are in
 `docs/superpowers/plans/2026-09-05-personal-site-redesign.md`.

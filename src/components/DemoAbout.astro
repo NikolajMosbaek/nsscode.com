@@ -47,14 +47,14 @@ const others = demos.filter((d) => d.slug !== demo.slug);
     </div>
 
     <p class="demo-about-note">
-      A demo, not a decision. The experiments that link are real; the ones marked soon are proposals from the plan.
+      A demo kept for reference. Toybox won and is the site. The experiments that link are real; the ones marked soon are proposals from the plan.
     </p>
 
     <nav aria-label="Other directions" class="demo-about-nav">
       {others.map((other) => (
         <a href={`/demo/${other.slug}/`}>{other.letter} · {other.name}</a>
       ))}
-      <a href="/demo/">All four</a>
+      <a href="/">A · Toybox, the site</a>
     </nav>
 
     <form method="dialog" class="demo-about-close">
