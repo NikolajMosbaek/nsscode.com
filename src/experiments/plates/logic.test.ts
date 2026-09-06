@@ -86,6 +86,13 @@ describe("ramp", () => {
 		expect(totals.at(-1)).toBe(100);
 	});
 
+	it("has no bar step when the bar is not counted", () => {
+		const steps = ramp(100, 0, standardStock);
+		expect(steps[0].label).toBe("50%");
+		expect(steps[0].loading.total).toBe(50);
+		expect(steps.at(-1)?.loading.perSide).toEqual([25, 25]);
+	});
+
 	it("skips steps that would not rise for a light work weight", () => {
 		const steps = ramp(25, 20, standardStock);
 		expect(steps.map((s) => s.label)).toEqual(["bar", "work"]);

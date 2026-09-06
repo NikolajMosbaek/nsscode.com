@@ -13,6 +13,7 @@ import {
 let target = $state(100);
 let bar = $state(20);
 let customBar = $state(false);
+let countBar = $state(true);
 let stock = $state<PlateStock[]>(standardStock.map((p) => ({ ...p })));
 let showRamp = $state(false);
 let narrow = $state(false);
@@ -36,9 +37,10 @@ const stockSummary = $derived(
 		.join("  "),
 );
 
-const result = $derived(load(target, bar, stock));
-const above = $derived(result.exact ? null : nextAbove(target, bar, stock));
-const steps = $derived(showRamp ? ramp(target, bar, stock) : []);
+const barKg = $derived(countBar ? bar : 0);
+const result = $derived(load(target, barKg, stock));
+const above = $derived(result.exact ? null : nextAbove(target, barKg, stock));
+const steps = $derived(showRamp ? ramp(target, barKg, stock) : []);
 const perSideText = $derived(
 	result.perSide.length
 		? result.perSide.map(formatKg).join(" · ")
@@ -46,7 +48,7 @@ const perSideText = $derived(
 );
 
 function bump(delta: number) {
-	target = Math.max(bar, Math.round((target + delta) * 4) / 4);
+	target = Math.max(barKg, Math.round((target + delta) * 4) / 4);
 }
 function setStock(index: number, perSide: number) {
 	stock = stock.map((p, i) =>
@@ -57,6 +59,10 @@ function pickBar(kg: number) {
 	bar = kg;
 	customBar = false;
 	if (target < kg) target = kg;
+}
+function toggleCountBar() {
+	countBar = !countBar;
+	if (countBar && target < bar) target = bar;
 }
 </script>
 
@@ -72,7 +78,7 @@ function pickBar(kg: number) {
               id="plates-target"
               type="number"
               inputmode="decimal"
-              min={bar}
+              min={barKg}
               step="0.25"
               bind:value={target}
               class="w-full min-w-0 bg-transparent text-center font-sans text-[40px] leading-none font-extrabold tracking-[-0.03em] outline-none"
@@ -86,14 +92,20 @@ function pickBar(kg: number) {
       <fieldset class="grid gap-2">
         <legend class="eyebrow mb-2">Bar</legend>
         <div class="flex flex-wrap items-center gap-2.5">
-          {#each bars as b (b.kg)}
-            <button type="button" class="pill {bar === b.kg && !customBar ? 'pill-active' : ''}" aria-pressed={bar === b.kg && !customBar} onclick={() => pickBar(b.kg)} title={b.note}>{b.label}</button>
-          {/each}
-          <button type="button" class="pill {customBar ? 'pill-active' : ''}" aria-pressed={customBar} onclick={() => (customBar = true)}>other</button>
-          {#if customBar}
-            <input type="number" min="0" step="0.5" bind:value={bar} class="card-flat w-24 px-3 py-2 font-mono text-sm" aria-label="Bar weight in kilograms" />
-          {/if}
+          <button type="button" class="pill {countBar ? 'pill-active' : ''}" aria-pressed={countBar} onclick={toggleCountBar}>Bar counts</button>
+          <span class="text-small text-ink-muted">{countBar ? "The target includes the bar." : "The target is plates only."}</span>
         </div>
+        {#if countBar}
+          <div class="mt-1 flex flex-wrap items-center gap-2.5">
+            {#each bars as b (b.kg)}
+              <button type="button" class="pill {bar === b.kg && !customBar ? 'pill-active' : ''}" aria-pressed={bar === b.kg && !customBar} onclick={() => pickBar(b.kg)} title={b.note}>{b.label}</button>
+            {/each}
+            <button type="button" class="pill {customBar ? 'pill-active' : ''}" aria-pressed={customBar} onclick={() => (customBar = true)}>other</button>
+            {#if customBar}
+              <input type="number" min="0" step="0.5" bind:value={bar} class="card-flat w-24 px-3 py-2 font-mono text-sm" aria-label="Bar weight in kilograms" />
+            {/if}
+          </div>
+        {/if}
       </fieldset>
     </div>
 
@@ -124,11 +136,11 @@ function pickBar(kg: number) {
         <span class="mt-1 block text-h2 font-extrabold tracking-[-0.03em]">{perSideText}</span>
       </p>
       <p class="m-0 text-right">
-        <span class="eyebrow">On the bar</span>
+        <span class="eyebrow">{countBar ? "On the bar" : "Plates only"}</span>
         <span class="mt-1 block text-h3 font-extrabold tabular-nums">{formatKg(result.total)} kg</span>
       </p>
     </div>
-    <Barbell perSide={result.perSide} bar={bar} half={narrow} />
+    <Barbell perSide={result.perSide} bar={barKg} half={narrow} />
     {#if narrow}
       <p class="eyebrow mt-2 text-center">one side shown, collar on the left</p>
     {/if}
@@ -141,7 +153,7 @@ function pickBar(kg: number) {
 
   <div class="flex flex-wrap items-center gap-2.5">
     <button type="button" class="pill {showRamp ? 'pill-active' : ''}" aria-pressed={showRamp} onclick={() => (showRamp = !showRamp)}>Warm-up ramp</button>
-    <span class="text-small text-ink-muted">Bar, then 50 / 70 / 85 / 93 percent, rounded to what loads.</span>
+    <span class="text-small text-ink-muted">{countBar ? "Bar, then " : ""}50 / 70 / 85 / 93 percent, rounded to what loads.</span>
   </div>
 
   {#if showRamp}
@@ -154,7 +166,7 @@ function pickBar(kg: number) {
             <span class="text-small text-ink-muted">× {step.reps}</span>
           </div>
           <span class="font-mono text-sm">{step.loading.perSide.length ? step.loading.perSide.map(formatKg).join(" · ") : "empty bar"}</span>
-          <Barbell perSide={step.loading.perSide} bar={bar} compact half={narrow} />
+          <Barbell perSide={step.loading.perSide} bar={barKg} compact half={narrow} />
         </li>
       {/each}
     </ol>
