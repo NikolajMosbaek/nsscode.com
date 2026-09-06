@@ -15,6 +15,26 @@ let bar = $state(20);
 let customBar = $state(false);
 let stock = $state<PlateStock[]>(standardStock.map((p) => ({ ...p })));
 let showRamp = $state(false);
+let narrow = $state(false);
+let stockOpen = $state(true);
+
+$effect(() => {
+	const media = window.matchMedia("(max-width: 640px)");
+	const apply = () => {
+		narrow = media.matches;
+		stockOpen = !media.matches;
+	};
+	apply();
+	media.addEventListener("change", apply);
+	return () => media.removeEventListener("change", apply);
+});
+
+const stockSummary = $derived(
+	stock
+		.filter((p) => p.perSide > 0)
+		.map((p) => `${p.perSide}×${formatKg(p.kg)}`)
+		.join("  "),
+);
 
 const result = $derived(load(target, bar, stock));
 const above = $derived(result.exact ? null : nextAbove(target, bar, stock));
@@ -40,28 +60,28 @@ function pickBar(kg: number) {
 }
 </script>
 
-<div class="grid gap-8">
-  <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
+<div class="grid grid-cols-[minmax(0,1fr)] gap-8">
+  <div class="grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
     <div class="grid content-start gap-5">
-      <label class="grid gap-2">
-        <span class="eyebrow">Target</span>
-        <div class="flex flex-wrap items-center gap-2.5">
+      <div class="grid gap-2">
+        <label for="plates-target" class="eyebrow">Target weight</label>
+        <div class="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2.5">
           <button type="button" class="pill" onclick={() => bump(-2.5)} aria-label="Minus 2.5 kg">−2.5</button>
-          <div class="card-flat flex items-baseline gap-2 px-4 py-2">
+          <div class="card-flat flex min-w-0 items-baseline justify-center gap-2 px-4 py-2">
             <input
+              id="plates-target"
               type="number"
               inputmode="decimal"
               min={bar}
               step="0.25"
               bind:value={target}
-              class="w-28 bg-transparent font-sans text-[40px] leading-none font-extrabold tracking-[-0.03em] outline-none"
-              aria-label="Target weight in kilograms"
+              class="w-full min-w-0 bg-transparent text-center font-sans text-[40px] leading-none font-extrabold tracking-[-0.03em] outline-none"
             />
             <span class="eyebrow">kg</span>
           </div>
           <button type="button" class="pill" onclick={() => bump(2.5)} aria-label="Plus 2.5 kg">+2.5</button>
         </div>
-      </label>
+      </div>
 
       <fieldset class="grid gap-2">
         <legend class="eyebrow mb-2">Bar</legend>
@@ -77,8 +97,12 @@ function pickBar(kg: number) {
       </fieldset>
     </div>
 
-    <fieldset class="card-flat grid content-start gap-2 p-4">
-      <legend class="eyebrow px-1">Plates per side</legend>
+    <details class="card-flat grid min-w-0 content-start p-4" bind:open={stockOpen}>
+      <summary class="eyebrow flex cursor-pointer list-none items-center justify-between gap-3">
+        <span>Plates you have, per side</span>
+        <span class="text-ink min-w-0 flex-1 truncate text-right font-mono text-[11px] tabular-nums">{stockOpen ? "" : stockSummary}</span>
+      </summary>
+      <div class="mt-3 grid gap-2">
       {#each stock as plate, i (plate.kg)}
         <div class="flex items-center justify-between gap-3">
           <span class="font-mono text-sm font-medium tabular-nums">{formatKg(plate.kg)} kg</span>
@@ -89,7 +113,8 @@ function pickBar(kg: number) {
           </div>
         </div>
       {/each}
-    </fieldset>
+      </div>
+    </details>
   </div>
 
   <section class="card p-5 sm:p-7" aria-live="polite">
@@ -103,7 +128,10 @@ function pickBar(kg: number) {
         <span class="mt-1 block text-h3 font-extrabold tabular-nums">{formatKg(result.total)} kg</span>
       </p>
     </div>
-    <Barbell perSide={result.perSide} bar={bar} />
+    <Barbell perSide={result.perSide} bar={bar} half={narrow} />
+    {#if narrow}
+      <p class="eyebrow mt-2 text-center">one side shown, collar on the left</p>
+    {/if}
     {#if !result.exact}
       <p class="bg-yellow text-accent-ink border-line mt-4 rounded-xl border-3 px-4 py-3 text-sm font-medium">
         {formatKg(target)} kg cannot be made from these plates. Nearest below is {formatKg(result.total)} kg{#if above}, nearest above is {formatKg(above)} kg{/if}.
@@ -126,7 +154,7 @@ function pickBar(kg: number) {
             <span class="text-small text-ink-muted">× {step.reps}</span>
           </div>
           <span class="font-mono text-sm">{step.loading.perSide.length ? step.loading.perSide.map(formatKg).join(" · ") : "empty bar"}</span>
-          <Barbell perSide={step.loading.perSide} bar={bar} compact />
+          <Barbell perSide={step.loading.perSide} bar={bar} compact half={narrow} />
         </li>
       {/each}
     </ol>
