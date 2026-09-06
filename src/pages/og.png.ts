@@ -3,7 +3,6 @@ import { createRequire } from "node:module";
 import { Resvg } from "@resvg/resvg-js";
 import type { APIRoute } from "astro";
 import satori from "satori";
-import { site } from "../data/site";
 
 const require = createRequire(import.meta.url);
 
