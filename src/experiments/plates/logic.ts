@@ -36,6 +36,7 @@ export const standardStock: PlateStock[] = [
 ];
 
 export const bars = [
+	{ kg: 25, label: "25 kg", note: "trap bar or Smith machine" },
 	{ kg: 20, label: "20 kg", note: "men's olympic bar" },
 	{ kg: 15, label: "15 kg", note: "women's olympic bar" },
 	{ kg: 10, label: "10 kg", note: "technique bar" },
