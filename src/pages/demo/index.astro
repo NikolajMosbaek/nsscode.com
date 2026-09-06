@@ -1,8 +1,25 @@
 ---
-import DemoChooser from "../../components/DemoChooser.astro";
+import { demos } from "../../data/demos";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 ---
 
-<BaseLayout title="Four home pages, nsscode.com" description="Four directions for the nsscode.com home page, built as live demos.">
-  <DemoChooser />
+<BaseLayout title="The other directions, nsscode.com" description="The three home-page directions that were not chosen, kept as live demos." noindex>
+  <section class="pt-10 sm:pt-16">
+    <p class="eyebrow mb-5">Demo</p>
+    <h1 class="text-display max-w-[14ch] font-extrabold text-balance">The ones that did not win.</h1>
+    <p class="prose-site mt-6">
+      Toybox became the site. These three are kept as working pages for reference. Each has an about button with the case for and against.
+    </p>
+  </section>
+  <section class="mt-12 grid gap-6 sm:grid-cols-3" aria-label="Directions">
+    {
+      demos.map((demo, index) => (
+        <a href={`/demo/${demo.slug}/`} class="card bob-in flex min-h-[220px] flex-col gap-3 p-6 no-underline" style={`--i: ${index}; rotate: ${[-1, 0.8, -0.5][index]}deg;`}>
+          <span class="eyebrow">{demo.letter}</span>
+          <span class="text-h3 font-extrabold">{demo.name}</span>
+          <span class="text-small text-ink-muted mt-auto font-medium">{demo.tagline}</span>
+        </a>
+      ))
+    }
+  </section>
 </BaseLayout>

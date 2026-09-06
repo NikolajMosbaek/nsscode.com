@@ -1,15 +1,17 @@
 /*
- * What the demo home pages list: the real listed experiments from the
- * registry, followed by the experiments proposed in the plan. Planned
- * items are marked and never link anywhere, so the demos show a full
- * shelf without pretending anything exists that does not.
+ * What the shelf shows: the real listed experiments from the registry,
+ * followed by the experiments proposed in the plan. Planned items are
+ * marked and never link anywhere, so the shelf is full without pretending
+ * anything exists that does not. Delete an entry from `planned` when the
+ * real experiment lands, or leave it: a real experiment with the same slug
+ * replaces its placeholder.
  */
 
 import { buildRegistry, type ExperimentMeta, listed } from "./registry";
 
 export type Kind = "tool" | "toy";
 
-export interface DemoItem {
+export interface ShelfItem {
 	slug: string;
 	title: string;
 	summary: string;
@@ -19,7 +21,7 @@ export interface DemoItem {
 	isNew: boolean;
 }
 
-const planned: Omit<DemoItem, "planned" | "isNew">[] = [
+const planned: Omit<ShelfItem, "planned" | "isNew">[] = [
 	{
 		slug: "plates",
 		title: "Plates",
@@ -52,9 +54,9 @@ const planned: Omit<DemoItem, "planned" | "isNew">[] = [
 	},
 ];
 
-export function demoItems(
+export function shelfItems(
 	modules: Record<string, { default: ExperimentMeta }>,
-): DemoItem[] {
+): ShelfItem[] {
 	const real = listed(buildRegistry(modules)).map((e, index) => ({
 		slug: e.slug,
 		title: e.title,
@@ -64,8 +66,11 @@ export function demoItems(
 		planned: false,
 		isNew: index === 0,
 	}));
+	const realSlugs = new Set(real.map((r) => r.slug));
 	return [
 		...real,
-		...planned.map((p) => ({ ...p, planned: true, isNew: false })),
+		...planned
+			.filter((p) => !realSlugs.has(p.slug))
+			.map((p) => ({ ...p, planned: true, isNew: false })),
 	];
 }

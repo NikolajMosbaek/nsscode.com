@@ -2,15 +2,15 @@
 import { execSync } from "node:child_process";
 import { demoBySlug } from "../../data/demos";
 import DemoLayout from "../../layouts/DemoLayout.astro";
-import { demoItems } from "../../lib/demo-items";
 import type { ExperimentMeta } from "../../lib/registry";
+import { shelfItems } from "../../lib/shelf";
 
 const demo = demoBySlug("bench");
 const modules = import.meta.glob<{ default: ExperimentMeta }>(
 	"../../experiments/*/meta.ts",
 	{ eager: true },
 );
-const items = demoItems(modules);
+const items = shelfItems(modules);
 const running = items.filter((item) => !item.planned).length;
 const builtAt = new Date().toISOString().slice(0, 16).replace("T", " ");
 

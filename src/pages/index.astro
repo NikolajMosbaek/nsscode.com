@@ -1,8 +1,53 @@
 ---
-import DemoChooser from "../components/DemoChooser.astro";
+import Tile from "../components/Tile.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import type { ExperimentMeta } from "../lib/registry";
+import { shelfItems } from "../lib/shelf";
+
+const modules = import.meta.glob<{ default: ExperimentMeta }>(
+	"../experiments/*/meta.ts",
+	{ eager: true },
+);
+const items = shelfItems(modules);
+const newest = items.find((item) => item.isNew);
 ---
 
-<BaseLayout title="nsscode.com, four home pages">
-  <DemoChooser />
+<BaseLayout title="nsscode.com, small things that run in your browser">
+  <section class="relative pt-10 sm:pt-16">
+    <h1 class="text-display max-w-[14ch] font-extrabold text-balance">Small things that run in your browser.</h1>
+    <p class="text-lede text-ink-soft mt-6 max-w-[34ch] font-medium text-pretty">
+      A shelf of tools and toys, built one evening at a time. Nothing tracked, nothing stored, nothing to install.
+    </p>
+    {
+      newest && (
+        <a href={newest.href} class="sticker bg-yellow text-accent-ink border-line mt-8 inline-flex min-h-11 items-center rounded-full border-3 px-5 font-mono text-sm font-medium shadow-[5px_5px_0_var(--line)] lg:absolute lg:top-2 lg:right-8 lg:mt-0">
+          new this week: {newest.title}
+        </a>
+      )
+    }
+  </section>
+
+  <section id="shelf" class="shelf mt-12 grid gap-6 sm:mt-16" aria-label="Experiments">
+    {items.map((item, index) => <Tile item={item} index={index} />)}
+    <div class="card-dashed text-ink-muted bob-in flex min-h-[250px] items-center justify-center gap-2.5 font-mono text-sm font-medium" style={`--i: ${items.length}; rotate: -0.4deg;`}>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+      next thing goes here
+    </div>
+  </section>
 </BaseLayout>
+
+<style>
+  .shelf {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  }
+  .sticker {
+    rotate: -8deg;
+    animation: wiggle 3s ease-in-out infinite;
+  }
+  @media (max-width: 1023px) {
+    .sticker {
+      rotate: -2deg;
+      animation: none;
+    }
+  }
+</style>

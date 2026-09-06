@@ -1,0 +1,74 @@
+---
+import { site } from "../data/site";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const rules = [
+	[
+		"Runs in the browser",
+		"No server, no database, no accounts. Every experiment is pure client-side code.",
+	],
+	[
+		"Nothing tracked",
+		"No analytics, no cookies, no third-party requests. Fonts are served from this domain.",
+	],
+	[
+		"Nothing stored",
+		"Except the theme you picked, which stays in your browser.",
+	],
+	[
+		"One folder per thing",
+		"An experiment is a folder in the repository. Listed ones appear on the shelf; unlisted ones only have a URL.",
+	],
+	[
+		"Built on push",
+		"Every push to main runs lint, types, unit tests, a build and an accessibility check over every page in both themes, then deploys.",
+	],
+];
+
+const stack = [
+	["Astro", "Static pages, islands only where something is interactive."],
+	["Svelte and React", "Whichever fits the experiment."],
+	["Tailwind CSS 4", "Tokens in CSS, colours in oklch."],
+	["Bricolage Grotesque, JetBrains Mono", "Self-hosted, variable."],
+	["Playwright with axe", "Every page, both themes, on every deploy."],
+	["GitHub Pages", "Hosting."],
+];
+---
+
+<BaseLayout title="Colophon, nsscode.com" description="How nsscode.com is built and the rules it keeps.">
+  <section class="pt-10 sm:pt-16">
+    <p class="eyebrow mb-5">Colophon</p>
+    <h1 class="text-display max-w-[12ch] font-extrabold text-balance">How this is made.</h1>
+    <p class="prose-site mt-6">
+      nsscode.com is a lab: a shelf of small tools and toys, made by {site.name} in Copenhagen, one evening at a time. It is not about anyone. It is about the things.
+    </p>
+  </section>
+
+  <section class="mt-14 grid gap-6 sm:mt-20 lg:grid-cols-2" aria-label="Rules and stack">
+    <div class="card p-6 sm:p-8">
+      <h2 class="text-h2 font-extrabold">Rules</h2>
+      <dl class="mt-6 grid gap-5">
+        {rules.map(([term, detail]) => (
+          <div>
+            <dt class="text-h3 font-extrabold">{term}</dt>
+            <dd class="text-small text-ink-muted mt-1 font-medium">{detail}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+    <div class="card bg-yellow text-accent-ink p-6 sm:p-8">
+      <h2 class="text-h2 font-extrabold">Stack</h2>
+      <dl class="mt-6 grid gap-4">
+        {stack.map(([term, detail]) => (
+          <div class="grid gap-x-4 sm:grid-cols-[minmax(0,14rem)_1fr]">
+            <dt class="font-mono text-sm font-medium">{term}</dt>
+            <dd class="text-small font-medium">{detail}</dd>
+          </div>
+        ))}
+      </dl>
+      <p class="mt-8 font-mono text-sm font-medium">
+        <a href={site.source} class="underline decoration-2 underline-offset-4">Source on GitHub &rarr;</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>

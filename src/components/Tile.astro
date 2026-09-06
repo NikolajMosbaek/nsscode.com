@@ -1,0 +1,119 @@
+---
+/*
+ * One item on the shelf. Four looks cycle by index: surface, blue, yellow,
+ * ink. Ink text sits on every accent; the ink tile inverts. Planned items
+ * are not links and carry a "soon" tag.
+ */
+import type { ShelfItem } from "../lib/shelf";
+import TilePreview from "./TilePreview.astro";
+
+interface Props {
+	item: ShelfItem;
+	index: number;
+}
+
+const { item, index } = Astro.props;
+const looks = ["surface", "blue", "yellow", "ink"] as const;
+const look = looks[index % looks.length];
+const rotations = [-1, 1.2, -0.6, 0.8, 0.5, -0.9, 1, -0.4];
+const rotation = rotations[index % rotations.length];
+const Tag = item.planned ? "div" : "a";
+---
+
+<Tag
+  href={item.planned ? undefined : item.href}
+  class:list={["tile bob-in", `tile-${look}`, { planned: item.planned }]}
+  style={`--i: ${index}; --r: ${rotation}deg;`}
+>
+  <TilePreview slug={item.slug} title={item.title} />
+  <div class="text">
+    <span class="title">
+      {item.title}
+      {item.planned && <span class="tag">soon</span>}
+      {item.isNew && <span class="tag tag-new">new</span>}
+    </span>
+    <span class="summary">{item.summary}</span>
+  </div>
+</Tag>
+
+<style>
+  .tile {
+    --tile-bg: var(--surface);
+    --tile-fg: var(--ink);
+    --tile-muted: var(--ink-muted);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 250px;
+    padding: 20px;
+    border: 3px solid var(--line);
+    border-radius: 22px;
+    background: var(--tile-bg);
+    color: var(--tile-fg);
+    box-shadow: 6px 6px 0 var(--line);
+    rotate: var(--r, 0deg);
+    text-decoration: none;
+    transition:
+      translate var(--duration-fast) var(--ease-out),
+      box-shadow var(--duration-fast) var(--ease-out);
+  }
+  a.tile:hover {
+    translate: -3px -3px;
+    box-shadow: 9px 9px 0 var(--line);
+  }
+  .tile-blue {
+    --tile-bg: var(--blue);
+    --tile-fg: var(--accent-ink);
+    --tile-muted: var(--accent-ink);
+  }
+  .tile-yellow {
+    --tile-bg: var(--yellow);
+    --tile-fg: var(--accent-ink);
+    --tile-muted: oklch(0.32 0.01 60);
+  }
+  .tile-ink {
+    --tile-bg: var(--ink);
+    --tile-fg: var(--ground);
+    --tile-muted: var(--surface-strong);
+  }
+  .tile.planned {
+    border-style: dashed;
+    box-shadow: none;
+  }
+  .text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: auto;
+  }
+  .title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+  }
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    border: 2px solid currentColor;
+    border-radius: 6px;
+    padding: 2px 6px;
+  }
+  .tag-new {
+    background: var(--yellow);
+    color: var(--accent-ink);
+    border-color: var(--accent-ink);
+  }
+  .summary {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.45;
+    color: var(--tile-muted);
+  }
+</style>

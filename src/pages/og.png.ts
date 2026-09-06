@@ -16,16 +16,40 @@ const el = (
 	children?: Node | Node[] | string,
 ): Node => ({ type, props: { style, children } });
 
+const ink = "#1c1a17";
+const ground = "#f8f5ef";
+
+const tile = (bg: string, fg: string, label: string, rotate: number): Node =>
+	el(
+		"div",
+		{
+			display: "flex",
+			alignItems: "flex-end",
+			width: 220,
+			height: 150,
+			padding: 18,
+			borderRadius: 22,
+			border: `4px solid ${ink}`,
+			background: bg,
+			color: fg,
+			boxShadow: `8px 8px 0 ${ink}`,
+			transform: `rotate(${rotate}deg)`,
+			fontSize: 26,
+			fontWeight: 800,
+			letterSpacing: "-0.03em",
+		},
+		label,
+	);
+
 export const GET: APIRoute = async () => {
-	/* Commit Mono's WOFF trips satori's font parser, so labels use the sans. */
-	const [sans, sansRegular] = await Promise.all([
+	const [bold, medium] = await Promise.all([
 		fontFile(
-			"@fontsource/schibsted-grotesk",
-			"schibsted-grotesk-latin-600-normal.woff",
+			"@fontsource/bricolage-grotesque",
+			"bricolage-grotesque-latin-800-normal.woff",
 		),
 		fontFile(
-			"@fontsource/schibsted-grotesk",
-			"schibsted-grotesk-latin-400-normal.woff",
+			"@fontsource/bricolage-grotesque",
+			"bricolage-grotesque-latin-500-normal.woff",
 		),
 	]);
 
@@ -37,61 +61,89 @@ export const GET: APIRoute = async () => {
 			display: "flex",
 			flexDirection: "column",
 			justifyContent: "space-between",
-			padding: "72px 80px",
-			background: "#fbfaf8",
-			color: "#1c1a17",
-			fontFamily: "Schibsted Grotesk",
+			padding: "64px 72px",
+			background: ground,
+			color: ink,
+			fontFamily: "Bricolage Grotesque",
 		},
 		[
 			el(
 				"div",
 				{
 					display: "flex",
-					justifyContent: "space-between",
-					fontSize: 24,
-					fontWeight: 400,
-					letterSpacing: "0.08em",
-					textTransform: "uppercase",
-					color: "#6f6a63",
+					alignItems: "center",
+					gap: 16,
+					fontSize: 30,
+					fontWeight: 800,
+					letterSpacing: "-0.03em",
 				},
 				[
-					el("span", {}, "tools and toys, in the browser"),
-					el("span", {}, "nsscode.com"),
+					el("span", {
+						width: 44,
+						height: 44,
+						borderRadius: 12,
+						border: `4px solid ${ink}`,
+						background: "#f4795f",
+						boxShadow: `5px 5px 0 ${ink}`,
+					}),
+					el("span", {}, "nsscode"),
 				],
 			),
-			el("div", { display: "flex", flexDirection: "column", gap: 28 }, [
-				el(
-					"div",
-					{
-						display: "flex",
-						alignItems: "center",
-						gap: 20,
-						fontSize: 26,
-						fontWeight: 400,
-						color: "#6f6a63",
-					},
-					[
-						el("span", {
-							width: 14,
-							height: 14,
-							borderRadius: 999,
-							background: "#c0392b",
-						}),
-						el("span", {}, "no tracking, nothing to install"),
-					],
-				),
-				el(
-					"div",
-					{
-						fontSize: 92,
-						lineHeight: 0.98,
-						letterSpacing: "-0.035em",
-						fontWeight: 600,
-						maxWidth: 1000,
-					},
-					"Small things that run in your browser.",
-				),
-			]),
+			el(
+				"div",
+				{
+					display: "flex",
+					alignItems: "flex-end",
+					justifyContent: "space-between",
+					gap: 40,
+				},
+				[
+					el(
+						"div",
+						{
+							display: "flex",
+							flexDirection: "column",
+							gap: 20,
+							maxWidth: 620,
+						},
+						[
+							el(
+								"div",
+								{
+									fontSize: 74,
+									lineHeight: 0.92,
+									letterSpacing: "-0.045em",
+									fontWeight: 800,
+								},
+								"Small things that run in your browser.",
+							),
+							el(
+								"div",
+								{
+									fontSize: 24,
+									fontWeight: 500,
+									color: "#3a3632",
+									lineHeight: 1.3,
+								},
+								"Tools and toys. Nothing tracked, nothing to install.",
+							),
+						],
+					),
+					el(
+						"div",
+						{
+							display: "flex",
+							flexDirection: "column",
+							gap: 28,
+							paddingRight: 12,
+						},
+						[
+							tile("#ffffff", ink, "Easing", -3),
+							tile("#7aa2f7", ink, "OKLCH ramp", 2),
+						],
+					),
+				],
+			),
 		],
 	);
 
@@ -99,11 +151,11 @@ export const GET: APIRoute = async () => {
 		width: 1200,
 		height: 630,
 		fonts: [
-			{ name: "Schibsted Grotesk", data: sans, weight: 600, style: "normal" },
+			{ name: "Bricolage Grotesque", data: bold, weight: 800, style: "normal" },
 			{
-				name: "Schibsted Grotesk",
-				data: sansRegular,
-				weight: 400,
+				name: "Bricolage Grotesque",
+				data: medium,
+				weight: 500,
 				style: "normal",
 			},
 		],

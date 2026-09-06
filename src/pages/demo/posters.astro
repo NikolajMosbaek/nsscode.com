@@ -1,15 +1,15 @@
 ---
 import { demoBySlug } from "../../data/demos";
 import DemoLayout from "../../layouts/DemoLayout.astro";
-import { demoItems } from "../../lib/demo-items";
 import type { ExperimentMeta } from "../../lib/registry";
+import { shelfItems } from "../../lib/shelf";
 
 const demo = demoBySlug("posters");
 const modules = import.meta.glob<{ default: ExperimentMeta }>(
 	"../../experiments/*/meta.ts",
 	{ eager: true },
 );
-const items = demoItems(modules);
+const items = shelfItems(modules);
 const issue = items.length;
 const date = new Intl.DateTimeFormat("en-GB", {
 	day: "numeric",
