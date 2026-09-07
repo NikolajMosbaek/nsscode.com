@@ -19,6 +19,7 @@ Sizes: **S** an evening, **M** a few evenings, **L** a couple of weeks,
 | `life` | Life | toy |
 | `claude-code` | Claude Code, from zero | tool |
 | `spring` | Spring | tool |
+| `boids` | Boids | toy |
 
 ## Announced (shown as "soon" on the shelf)
 
@@ -112,12 +113,6 @@ Europe/Copenhagen, plus a `DateFormatter` pattern sandbox that shows why
 
 ### Toys
 
-#### Boids · `boids` · toy · S
-
-Flocking on canvas with separation, alignment and cohesion sliders,
-drawn in the Toybox palette. Cheap, looks alive on the shelf tile, and
-people play with it for two minutes.
-
 #### Dither · `dither` · toy · M
 
 Drop an image, get Floyd-Steinberg, Bayer and Atkinson dithering to a
@@ -127,12 +122,11 @@ file handling in a static site.
 
 ## Order worth considering
 
-1. Boids (cheap shelf filler that moves)
-2. Topskat 2026 (announced, seasonal relevance)
-3. Programme Builder (builds on Plates)
-4. Swift Concurrency Playground (the showcase)
-5. Danish Mortgage Lab
-6. The rest as needed
+1. Topskat 2026 (announced, seasonal relevance)
+2. Programme Builder (builds on Plates)
+3. Swift Concurrency Playground (the showcase)
+4. Danish Mortgage Lab
+5. The rest as needed
 
 ## Adding an experiment
 
