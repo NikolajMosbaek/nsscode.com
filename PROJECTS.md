@@ -18,6 +18,7 @@ Sizes: **S** an evening, **M** a few evenings, **L** a couple of weeks,
 | `plates` | Plates | tool |
 | `life` | Life | toy |
 | `claude-code` | Claude Code, from zero | tool |
+| `spring` | Spring | tool |
 
 ## Announced (shown as "soon" on the shelf)
 
@@ -117,14 +118,6 @@ Flocking on canvas with separation, alignment and cohesion sliders,
 drawn in the Toybox palette. Cheap, looks alive on the shelf tile, and
 people play with it for two minutes.
 
-#### Spring Designer · `spring` · tool · M
-
-Same shape as Easing, for `spring(response:dampingFraction:)`. Drag
-damping and response, see the curve and the bouncing ball, copy the
-exact SwiftUI initialiser and the CSS `linear()` approximation. Easing
-covers cubic-bezier; springs are what ships on iOS. Highest value per
-hour on this list.
-
 #### Dither · `dither` · toy · M
 
 Drop an image, get Floyd-Steinberg, Bayer and Atkinson dithering to a
@@ -134,13 +127,12 @@ file handling in a static site.
 
 ## Order worth considering
 
-1. Spring Designer (small, immediately useful, completes Easing)
-2. Boids (cheap shelf filler that moves)
-3. Topskat 2026 (announced, seasonal relevance)
-4. Programme Builder (builds on Plates)
-5. Swift Concurrency Playground (the showcase)
-6. Danish Mortgage Lab
-7. The rest as needed
+1. Boids (cheap shelf filler that moves)
+2. Topskat 2026 (announced, seasonal relevance)
+3. Programme Builder (builds on Plates)
+4. Swift Concurrency Playground (the showcase)
+5. Danish Mortgage Lab
+6. The rest as needed
 
 ## Adding an experiment
 
