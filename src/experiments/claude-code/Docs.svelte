@@ -1,5 +1,5 @@
 <script lang="ts">
-import Code from "./Code.svelte";
+import Code from "../../components/Code.svelte";
 import { starters } from "./logic";
 
 let name = $state("Shop");

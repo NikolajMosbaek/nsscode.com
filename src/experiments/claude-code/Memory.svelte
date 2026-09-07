@@ -1,5 +1,5 @@
 <script lang="ts">
-import Code from "./Code.svelte";
+import Code from "../../components/Code.svelte";
 import { exampleFiles, loadedFor } from "./logic";
 
 const targets = [

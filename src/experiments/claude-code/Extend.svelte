@@ -1,5 +1,5 @@
 <script lang="ts">
-import Code from "./Code.svelte";
+import Code from "../../components/Code.svelte";
 
 type Tab = "rules" | "skills" | "agents" | "hooks";
 let tab = $state<Tab>("rules");
