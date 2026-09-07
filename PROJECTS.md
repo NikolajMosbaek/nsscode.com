@@ -17,6 +17,7 @@ Sizes: **S** an evening, **M** a few evenings, **L** a couple of weeks,
 | `actors` | Actors | toy |
 | `plates` | Plates | tool |
 | `life` | Life | toy |
+| `claude-code` | Claude Code, from zero | tool |
 
 ## Announced (shown as "soon" on the shelf)
 
@@ -40,6 +41,15 @@ time ("in 3 days"). Could merge into the Cron and Date Format Decoder
 below rather than sit beside it.
 
 ## Proposed
+
+### Claude Code, from zero · `claude-code` · tool · shipped
+
+A guided tour for developers new to Claude Code: seven chapters (start,
+CLAUDE.md, project files, rules/skills/agents/hooks, models and effort,
+prompts, workflow), a prompt grader, good-versus-bad prompt pairs, a
+model and effort picker, a CLAUDE.md loading demo and a starter-file
+generator. Facts checked against the docs in September 2026; re-check
+when Claude Code changes its model list or effort levels.
 
 ### Bigger projects
 
