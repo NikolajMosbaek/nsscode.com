@@ -168,12 +168,12 @@ const duration = $derived(`${linear.duration}s`);
     font-family: var(--font-mono);
     font-size: 11px;
   }
-  @keyframes springslide {
+  @keyframes -global-springslide {
     to {
       transform: translate(calc(100cqw - 3.75rem), -50%);
     }
   }
-  @keyframes springscale {
+  @keyframes -global-springscale {
     from {
       transform: translate(-50%, -50%) scale(0.4);
     }
