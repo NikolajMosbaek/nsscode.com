@@ -14,6 +14,7 @@ import {
 	set,
 	step,
 } from "./logic";
+import Rule from "./Rule.svelte";
 
 /*
  * Wide screens get a landscape grid, phones a square one so cells stay big
@@ -72,6 +73,11 @@ function restart(next: Pattern | null) {
 	grid = next
 		? place(empty, next.cells, Math.floor(cols / 2), Math.floor(rows / 2))
 		: empty;
+}
+
+function jump(next: Pattern) {
+	restart(next);
+	canvas?.scrollIntoView({ block: "center" });
 }
 
 function random() {
@@ -285,9 +291,56 @@ $effect(() => {
     </div>
   </div>
 
-  <p class="text-small text-ink-muted max-w-[62ch]">
-    Three neighbours and a dead cell is born; two or three and a live cell survives; anything else and it dies. That is the whole rule. Colour is how long a cell has been alive, so gliders stay yellow and orange while still lifes turn blue.
-  </p>
+  <section class="grid gap-5" aria-labelledby="life-how">
+    <div class="grid gap-2">
+      <h2 id="life-how" class="m-0 text-h3 font-extrabold tracking-[-0.02em]">How it works</h2>
+      <p class="text-body text-ink-soft m-0 max-w-[62ch] font-medium text-pretty">
+        Nobody plays. You lay out a starting position, and from then on every cell looks at its eight neighbours and follows the same few rules, all at once, generation after generation.
+      </p>
+    </div>
+    <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <Rule title="Birth" before="O.O.....O" survives={true} text="A dead cell with exactly three live neighbours comes alive." />
+      <Rule title="Survival" before="O..OO...." survives={true} text="A live cell with two or three live neighbours stays alive." />
+      <Rule title="Loneliness" before="....O...O" survives={false} text="A live cell with fewer than two neighbours dies." />
+      <Rule title="Crowding" before="O.O.O.O.O" survives={false} text="A live cell with more than three neighbours dies." />
+    </div>
+    <p class="text-small text-ink-muted m-0 max-w-[62ch]">
+      That is the entire rule set. Everything you see on the grid, the gliders, the guns, the shapes that explode and then settle, follows from these four cases and nothing else.
+    </p>
+  </section>
+
+  <section class="grid gap-4" aria-labelledby="life-look">
+    <h2 id="life-look" class="m-0 text-h3 font-extrabold tracking-[-0.02em]">What to look for</h2>
+    <dl class="m-0 grid gap-x-8 gap-y-3 sm:grid-cols-2">
+      <div class="grid gap-1">
+        <dt class="eyebrow">Still lifes</dt>
+        <dd class="text-small text-ink-muted m-0">Shapes that never change. A 2×2 block is the simplest. They turn blue once they have been around for thirty generations.</dd>
+      </div>
+      <div class="grid gap-1">
+        <dt class="eyebrow">Oscillators</dt>
+        <dd class="text-small text-ink-muted m-0">Shapes that cycle through a few states and come back. Three in a row is a blinker with period two. <button type="button" class="link" onclick={() => jump(patterns[4])}>Pulsar</button> has period three.</dd>
+      </div>
+      <div class="grid gap-1">
+        <dt class="eyebrow">Spaceships</dt>
+        <dd class="text-small text-ink-muted m-0">Shapes that rebuild themselves a little further along. The <button type="button" class="link" onclick={() => jump(patterns[0])}>glider</button> is the famous one; the <button type="button" class="link" onclick={() => jump(patterns[5])}>spaceship</button> moves straight.</dd>
+      </div>
+      <div class="grid gap-1">
+        <dt class="eyebrow">Guns</dt>
+        <dd class="text-small text-ink-muted m-0">Oscillators that spit out a spaceship every cycle. The <button type="button" class="link" onclick={() => jump(patterns[1])}>glider gun</button> was the first proof that a pattern can grow without limit.</dd>
+      </div>
+      <div class="grid gap-1">
+        <dt class="eyebrow">Methuselahs</dt>
+        <dd class="text-small text-ink-muted m-0">Tiny seeds that take ages to settle. <button type="button" class="link" onclick={() => jump(patterns[2])}>Acorn</button> is seven cells and runs for 5206 generations; <button type="button" class="link" onclick={() => jump(patterns[3])}>R-pentomino</button> is five and runs for 1103. Both need more room than this grid to finish.</dd>
+      </div>
+      <div class="grid gap-1">
+        <dt class="eyebrow">Colour</dt>
+        <dd class="text-small text-ink-muted m-0">Colour is age, not kind. A glider is always yellow and coral because it is reborn every step, while a still life sits and turns green, then blue.</dd>
+      </div>
+    </dl>
+    <p class="text-small text-ink-muted m-0 max-w-[62ch]">
+      John Conway published it in 1970. It has since been shown to be Turing complete: you can build a computer out of gliders, if you have the patience. Wrap edges is on by default so spaceships come back around instead of dying at the border.
+    </p>
+  </section>
 </div>
 
 <style>
