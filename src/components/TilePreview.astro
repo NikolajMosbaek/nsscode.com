@@ -95,7 +95,17 @@ const cells = Array.from({ length: 40 }, (_, i) => ({
     )
   }
   {
-    !["palette", "easing", "tokens", "plates", "life", "actors", "topskat", "timestamp"].includes(slug) && (
+    slug === "claude-code" && (
+      <div class="term">
+        <span class="term-line"><span class="prompt">&gt;</span> fix the retry button in LoginFeature.swift</span>
+        <span class="term-line dim">reading LoginFeature.swift…</span>
+        <span class="term-line dim">running swift test <span class="ok">✓ 14 passed</span></span>
+        <span class="term-line"><span class="prompt">&gt;</span> <span class="caret" /></span>
+      </div>
+    )
+  }
+  {
+    !["palette", "easing", "tokens", "plates", "life", "actors", "topskat", "timestamp", "claude-code"].includes(slug) && (
       <span class="letter">{title.slice(0, 1)}</span>
     )
   }
@@ -182,6 +192,40 @@ const cells = Array.from({ length: 40 }, (_, i) => ({
   .cells span {
     border-radius: 3px;
     animation: blink 1.5s steps(1) infinite;
+  }
+  .term {
+    display: grid;
+    align-content: start;
+    gap: 6px;
+    width: 100%;
+    height: 100%;
+    padding: 12px 14px;
+    box-sizing: border-box;
+    background: var(--ink);
+    color: var(--ground);
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    line-height: 1.3;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .term .prompt {
+    color: var(--accent);
+  }
+  .term .dim {
+    opacity: 0.6;
+  }
+  .term .ok {
+    font-weight: 700;
+  }
+  .term .caret {
+    display: inline-block;
+    width: 7px;
+    height: 12px;
+    vertical-align: -2px;
+    background: var(--ground);
+    animation: blink 1s steps(1) infinite;
   }
   .letter {
     font-size: 64px;
