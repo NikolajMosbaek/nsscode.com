@@ -54,6 +54,8 @@ $effect(() => {
 	return () => media.removeEventListener("change", apply);
 });
 
+let pending: ReturnType<typeof setTimeout> | undefined;
+
 $effect(() => {
 	const query = `${encode(state)}&s=w${week}d${day}`;
 	/* Leave the address alone until the reader changes something. */
@@ -61,11 +63,24 @@ $effect(() => {
 		synced = true;
 		return;
 	}
-	history.replaceState(
-		null,
-		"",
-		`${location.pathname}?${query}${location.hash}`,
-	);
+	/*
+	 * Debounced, and allowed to fail: Safari throws once a page calls
+	 * replaceState about a hundred times in half a minute, and a dragged
+	 * slider would get there. A shareable address is not worth a dead page.
+	 */
+	clearTimeout(pending);
+	pending = setTimeout(() => {
+		try {
+			history.replaceState(
+				null,
+				"",
+				`${location.pathname}?${query}${location.hash}`,
+			);
+		} catch {
+			/* The address stays as it was. Everything else still works. */
+		}
+	}, 400);
+	return () => clearTimeout(pending);
 });
 
 const programme = $derived(
