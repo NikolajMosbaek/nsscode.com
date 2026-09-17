@@ -95,6 +95,16 @@ const cells = Array.from({ length: 40 }, (_, i) => ({
     )
   }
   {
+    slug === "programme" && (
+      <svg viewBox="0 0 180 60" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" class="svg">
+        <line x1="12" y1="18" x2="60" y2="18" /><rect x="40" y="12" width="5" height="12" rx="1.5" fill="var(--green)" />
+        <line x1="12" y1="34" x2="60" y2="34" /><rect x="40" y="26" width="5" height="16" rx="1.5" fill="var(--blue)" /><rect x="47" y="29" width="4" height="10" rx="1.5" fill="var(--yellow)" />
+        <line x1="12" y1="50" x2="60" y2="50" /><rect x="40" y="40" width="6" height="20" rx="1.5" fill="var(--accent)" /><rect x="48" y="43" width="5" height="14" rx="1.5" fill="var(--blue)" />
+        <path d="M84 18h84M84 34h60M84 50h72" stroke="var(--line-soft)" stroke-width="6" />
+      </svg>
+    )
+  }
+  {
     slug === "boids" && (
       <div class="flock">
         {[0, 1, 2, 3, 4, 5, 6].map((i) => (
@@ -122,7 +132,7 @@ const cells = Array.from({ length: 40 }, (_, i) => ({
     )
   }
   {
-    !["palette", "easing", "tokens", "plates", "life", "actors", "topskat", "timestamp", "claude-code", "spring", "boids"].includes(slug) && (
+    !["palette", "easing", "tokens", "plates", "life", "actors", "topskat", "timestamp", "claude-code", "spring", "boids", "programme"].includes(slug) && (
       <span class="letter">{title.slice(0, 1)}</span>
     )
   }
