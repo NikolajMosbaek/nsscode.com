@@ -5,6 +5,7 @@ export default {
 	summary:
 		"A flock from three rules. Turn separation, alignment and cohesion up and down, chase it with the pointer, and watch order appear from nothing.",
 	date: "2026-09-10",
+	collection: "alive",
 	listed: true,
 	kind: "toy",
 	tags: ["simulation", "canvas", "svelte"],

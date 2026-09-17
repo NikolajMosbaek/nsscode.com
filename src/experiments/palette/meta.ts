@@ -5,6 +5,7 @@ export default {
 	summary:
 		"Pick a hue and a chroma, get a perceptually even ramp and the CSS to paste. The tokens of this site were built with it.",
 	date: "2026-09-05",
+	collection: "making",
 	listed: true,
 	kind: "tool",
 	tags: ["css", "colour", "svelte"],

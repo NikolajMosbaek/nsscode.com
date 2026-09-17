@@ -5,6 +5,7 @@ export default {
 	summary:
 		"Design a SwiftUI spring by response and damping, watch it settle, and copy the same motion as SwiftUI, CSS linear(), Compose or Framer Motion.",
 	date: "2026-09-09",
+	collection: "making",
 	listed: true,
 	kind: "tool",
 	tags: ["swiftui", "motion", "css", "svelte"],

@@ -4,6 +4,8 @@
  * out of the sitemap and marked noindex, but it still builds at its URL.
  */
 
+import type { CollectionId } from "./collections";
+
 export interface ExperimentMeta {
 	title: string;
 	summary: string;
@@ -13,6 +15,8 @@ export interface ExperimentMeta {
 	tags?: string[];
 	/** A tool does one job; a toy exists to be looked at. */
 	kind?: "tool" | "toy";
+	/** Which shelf it belongs on. Drives the grouping and the colour. */
+	collection: CollectionId;
 }
 
 export interface ExperimentEntry extends ExperimentMeta {
