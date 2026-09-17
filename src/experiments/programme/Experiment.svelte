@@ -232,7 +232,7 @@ async function share() {
                   <span class="block text-h2 font-extrabold tracking-[-0.03em] tabular-nums">{formatKg(set.weight)} <span class="text-h3">kg</span></span>
                   <span class="text-small text-ink-muted block">
                     {#if set.perSide.length}per side, collar outwards: <strong class="text-ink font-mono">{set.perSide.map(formatKg).join(" · ")}</strong>{:else}empty bar{/if}
-                    {#if Math.abs(set.weight - set.target) >= 0.25}<span class="text-ink-faint"> · rounded from {formatKg(Math.round(set.target * 4) / 4)}</span>{/if}
+                    {#if Math.abs(set.weight - set.target) >= 0.25}<span> · rounded from {formatKg(Math.round(set.target * 4) / 4)}</span>{/if}
                   </span>
                 </div>
                 <Barbell perSide={set.perSide} bar={rack.bar} compact half />
