@@ -39,8 +39,14 @@ const path = [
 	[400, 470],
 	[300, 580],
 ];
-const stars = items.map((item, index) => {
-	const [x, y] = path[index % path.length];
+/*
+ * The path has a fixed number of points, so only that many things can be
+ * drawn: wrapping round it stacks later items exactly on earlier ones.
+ * This page is a frozen sketch of one design direction, not a shelf that
+ * grows, so it shows the first few and stops.
+ */
+const stars = items.slice(0, path.length).map((item, index) => {
+	const [x, y] = path[index];
 	return {
 		...item,
 		x,

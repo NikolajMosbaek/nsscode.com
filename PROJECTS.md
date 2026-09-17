@@ -22,6 +22,7 @@ Sizes: **S** an evening, **M** a few evenings, **L** a couple of weeks,
 | `boids` | Boids | toy |
 | `topskat` | Topskat 2026 | tool |
 | `programme` | Programme | tool |
+| `realkredit` | Realkredit | tool |
 
 ## Announced (shown as "soon" on the shelf)
 
@@ -59,15 +60,6 @@ timeline per task, and detectors for reentrancy and priority inversion.
 Real parser, real scheduler, program state encoded in the URL so a
 scenario can be shared. Actors' `logic.ts` is the seed. This is the one
 that makes the site something to show people.
-
-#### Danish Mortgage Lab · `realkredit` · tool · L
-
-Realkredit compared properly. Fixed 30-year vs F5 vs FlexKort, with
-afdragsfrihed, bidragssats by LTV band, kursskæring and kurstab, and the
-conversion game: op- and nedkonvertering when the bond price moves.
-Drag a rate path, see restgæld and total cost over time, and a
-"rates go to X in year 5" slider. Bond math has to be right; that is the
-whole value. Assumptions stated on the page, never hidden.
 
 ### Tools
 
@@ -110,8 +102,7 @@ file handling in a static site.
 ## Order worth considering
 
 1. Swift Concurrency Playground (the showcase)
-2. Danish Mortgage Lab
-3. The rest as needed
+2. The rest as needed
 
 ## Adding an experiment
 
