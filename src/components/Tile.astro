@@ -4,6 +4,12 @@
  * the top of the home page, `compact` is a row member. Colour comes from
  * the collection, never from the index, so it means something and does
  * not change when a new experiment lands. Planned items are not links.
+ *
+ * The layout follows the width the tile is given, not the viewport: a
+ * category with one or two experiments gets wide columns, and a wide
+ * tile puts its drawing beside the text instead of above it. That is a
+ * container query, so it has to look at an inner element; a container
+ * cannot style itself.
  */
 import { collectionOf } from "../lib/collections";
 import type { ShelfItem } from "../lib/shelf";
@@ -25,25 +31,27 @@ const Tag = item.planned ? "div" : "a";
   class:list={["tile bob-in", `tile-${size}`, { planned: item.planned }]}
   style={`--i: ${index}; --accent-colour: ${collection.colour};`}
 >
-  <div class="preview-wrap">
-    <TilePreview slug={item.slug} title={item.title} />
-  </div>
-  <div class="text">
-    <span class="title">
-      {item.title}
-      {item.planned && <span class="tag">soon</span>}
-      {item.isNew && <span class="tag tag-new">new</span>}
-    </span>
-    <span class="summary">{item.summary}</span>
-    {size === "feature" && <span class="cue">Open it →</span>}
+  <div class="inner">
+    <div class="preview-wrap">
+      <TilePreview slug={item.slug} title={item.title} />
+    </div>
+    <div class="text">
+      <span class="title">
+        {item.title}
+        {item.planned && <span class="tag">soon</span>}
+        {item.isNew && <span class="tag tag-new">new</span>}
+      </span>
+      <span class="summary">{item.summary}</span>
+      {size === "feature" && <span class="cue">Open it →</span>}
+    </div>
   </div>
 </Tag>
 
 <style>
   .tile {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
+    container-type: inline-size;
+    display: block;
+    height: 100%;
     padding: 18px;
     border: 3px solid var(--line);
     border-radius: 20px;
@@ -63,6 +71,13 @@ const Tag = item.planned ? "div" : "a";
     border-style: dashed;
     box-shadow: none;
     opacity: 0.75;
+  }
+
+  .inner {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    height: 100%;
   }
 
   /* The collection colour, as a band above the drawing. */
@@ -122,12 +137,33 @@ const Tag = item.planned ? "div" : "a";
     border-color: var(--accent-ink);
   }
 
+  /* Wide enough for two columns of reading: give it two. */
+  @container (min-width: 430px) {
+    .tile-compact .inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+      align-items: center;
+      gap: 24px;
+    }
+    .tile-compact .preview-wrap :global(.preview) {
+      height: 150px;
+    }
+    .tile-compact .title {
+      font-size: 25px;
+    }
+    .tile-compact .summary {
+      font-size: 14.5px;
+    }
+  }
+
   /* The one loud thing. */
   .tile-feature {
-    gap: 22px;
     padding: 22px;
     border-radius: 26px;
     box-shadow: 8px 8px 0 var(--line);
+  }
+  .tile-feature .inner {
+    gap: 22px;
   }
   .tile-feature .title {
     font-size: clamp(30px, 4vw, 44px);
@@ -150,8 +186,8 @@ const Tag = item.planned ? "div" : "a";
     translate: -4px -4px;
     box-shadow: 12px 12px 0 var(--line);
   }
-  @media (min-width: 900px) {
-    .tile-feature {
+  @container (min-width: 760px) {
+    .tile-feature .inner {
       display: grid;
       grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
       align-items: center;
@@ -159,9 +195,6 @@ const Tag = item.planned ? "div" : "a";
     }
     .tile-feature .preview-wrap :global(.preview) {
       height: 260px;
-    }
-    .tile-feature .text {
-      align-self: center;
     }
   }
 </style>

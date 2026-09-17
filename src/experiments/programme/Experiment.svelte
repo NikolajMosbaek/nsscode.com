@@ -14,26 +14,37 @@ import {
 	type State,
 } from "./logic";
 
-let state = $state<State>({
-	...defaultState,
-	maxes: { ...defaultState.maxes },
-});
-let week = $state(1);
-let day = $state(1);
-let ready = $state(false);
+/*
+ * The address bar is the source of truth on load, read once here rather
+ * than inside an effect: an effect that writes this state and then reads
+ * it back re-runs itself without end, which locks the page up.
+ */
+function fromUrl(): { state: State; week: number; day: number } {
+	const blank = {
+		state: { ...defaultState, maxes: { ...defaultState.maxes } },
+		week: 1,
+		day: 1,
+	};
+	if (typeof location === "undefined") return blank;
+	const picked = new URLSearchParams(location.search)
+		.get("s")
+		?.match(/^w(\d+)d(\d+)$/);
+	return {
+		state: decode(location.search.slice(1)),
+		week: picked ? Number(picked[1]) : 1,
+		day: picked ? Number(picked[2]) : 1,
+	};
+}
+
+const opened = fromUrl();
+let state = $state<State>(opened.state);
+let week = $state(opened.week);
+let day = $state(opened.day);
 let narrow = $state(false);
-let initial = "";
+/* Deliberately not reactive: it only skips the first run below. */
+let synced = false;
 
 $effect(() => {
-	const q = new URLSearchParams(location.search);
-	state = decode(location.search.slice(1));
-	const s = q.get("s")?.match(/^w(\d+)d(\d+)$/);
-	if (s) {
-		week = Number(s[1]);
-		day = Number(s[2]);
-	}
-	initial = `${encode(state)}&s=w${week}d${day}`;
-	ready = true;
 	const media = window.matchMedia("(max-width: 640px)");
 	const apply = () => {
 		narrow = media.matches;
@@ -42,12 +53,19 @@ $effect(() => {
 	media.addEventListener("change", apply);
 	return () => media.removeEventListener("change", apply);
 });
+
 $effect(() => {
-	if (!ready) return;
-	const q = `${encode(state)}&s=w${week}d${day}`;
-	/* Leave the address alone until something actually changes. */
-	if (q === initial) return;
-	history.replaceState(null, "", `${location.pathname}?${q}${location.hash}`);
+	const query = `${encode(state)}&s=w${week}d${day}`;
+	/* Leave the address alone until the reader changes something. */
+	if (!synced) {
+		synced = true;
+		return;
+	}
+	history.replaceState(
+		null,
+		"",
+		`${location.pathname}?${query}${location.hash}`,
+	);
 });
 
 const programme = $derived(

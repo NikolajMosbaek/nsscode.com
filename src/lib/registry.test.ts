@@ -15,7 +15,7 @@ const meta = (
 		summary: "S",
 		date: "2026-01-01",
 		listed: true,
-		collection: "making",
+		collection: "software",
 		...over,
 	},
 });

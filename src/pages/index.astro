@@ -14,7 +14,7 @@ const feature = items.find((item) => item.isNew) ?? items[0];
 const shelves = collections
 	.map((collection) => ({
 		collection,
-		items: inCollection(items, collection.id).filter((i) => i !== feature),
+		items: inCollection(items, collection.id),
 	}))
 	.filter((shelf) => shelf.items.length > 0);
 const count = items.filter((i) => !i.planned).length;
@@ -65,7 +65,12 @@ const count = items.filter((i) => !i.planned).length;
 </BaseLayout>
 
 <style>
+  /*
+   * auto-fit, not auto-fill: a category with one or two experiments gets
+   * wide columns instead of a mostly empty row, and the tile itself goes
+   * horizontal at that width.
+   */
   .shelf {
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
   }
 </style>
