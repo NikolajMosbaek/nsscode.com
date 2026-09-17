@@ -21,6 +21,7 @@ Sizes: **S** an evening, **M** a few evenings, **L** a couple of weeks,
 | `spring` | Spring | tool |
 | `boids` | Boids | toy |
 | `topskat` | Topskat 2026 | tool |
+| `programme` | Programme | tool |
 
 ## Announced (shown as "soon" on the shelf)
 
@@ -66,14 +67,6 @@ Drag a rate path, see restgæld and total cost over time, and a
 "rates go to X in year 5" slider. Bond math has to be right; that is the
 whole value. Assumptions stated on the page, never hidden.
 
-#### Programme Builder · `programme` · tool · L
-
-Plates answers "how do I load 100 kg". This answers "what do I lift this
-week": 5/3/1, Texas Method or a linear progression from training maxes,
-every set pre-loaded through the Plates engine with a warm-up ramp,
-printable per session, state in the URL so there is no backend. Reuses
-`src/experiments/plates/logic.ts` and `Barbell.svelte` as is.
-
 ### Tools
 
 #### Regex Explainer · `regex` · tool · M
@@ -114,10 +107,9 @@ file handling in a static site.
 
 ## Order worth considering
 
-1. Programme Builder (builds on Plates)
-2. Swift Concurrency Playground (the showcase)
-3. Danish Mortgage Lab
-4. The rest as needed
+1. Swift Concurrency Playground (the showcase)
+2. Danish Mortgage Lab
+3. The rest as needed
 
 ## Adding an experiment
 
