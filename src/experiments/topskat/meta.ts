@@ -5,6 +5,7 @@ export default {
 	summary:
 		"Where the Danish tax brackets bite. Salary in, take-home out, with the marginal rate at every krone and the distance to the next bracket.",
 	date: "2026-09-17",
+	collection: "numbers",
 	listed: true,
 	kind: "tool",
 	tags: ["skat", "denmark", "svelte"],

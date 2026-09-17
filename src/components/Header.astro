@@ -4,8 +4,7 @@ import ThemeToggle from "./ThemeToggle.astro";
 const path = Astro.url.pathname;
 const nav = [
 	{ label: "everything", href: "/", current: path === "/" },
-	{ label: "tools", href: "/lab/#tools", current: false },
-	{ label: "toys", href: "/lab/#toys", current: false },
+	{ label: "index", href: "/lab/", current: path.startsWith("/lab/") },
 	{
 		label: "colophon",
 		href: "/colophon/",

@@ -1,12 +1,12 @@
 /*
  * What the shelf shows: the real listed experiments from the registry,
  * followed by the experiments proposed in the plan. Planned items are
- * marked and never link anywhere, so the shelf is full without pretending
- * anything exists that does not. Delete an entry from `planned` when the
- * real experiment lands, or leave it: a real experiment with the same slug
- * replaces its placeholder.
+ * marked and never link anywhere, so the lab index is honest about what
+ * is coming without pretending it exists. A real experiment with the
+ * same slug replaces its placeholder.
  */
 
+import type { CollectionId } from "./collections";
 import { buildRegistry, type ExperimentMeta, listed } from "./registry";
 
 export type Kind = "tool" | "toy";
@@ -16,41 +16,35 @@ export interface ShelfItem {
 	title: string;
 	summary: string;
 	kind: Kind;
+	collection: CollectionId;
+	date: string;
+	tags: string[];
 	href?: string;
 	planned: boolean;
 	isNew: boolean;
 }
 
-const planned: Omit<ShelfItem, "planned" | "isNew">[] = [
-	{
-		slug: "plates",
-		title: "Plates",
-		summary: "Type a weight in kg, see which plates go on the bar.",
-		kind: "tool",
-	},
-	{
-		slug: "actors",
-		title: "Actors",
-		summary: "Swift actor isolation, drawn as rooms with doors.",
-		kind: "toy",
-	},
-	{
-		slug: "topskat",
-		title: "Topskat 2026",
-		summary: "Where the Danish tax brackets bite. DKK in, DKK out.",
-		kind: "tool",
-	},
-	{
-		slug: "life",
-		title: "Life",
-		summary: "Conway's game, because every lab needs one.",
-		kind: "toy",
-	},
+const planned: Omit<ShelfItem, "planned" | "isNew" | "date" | "tags">[] = [
 	{
 		slug: "timestamp",
 		title: "Timestamp",
 		summary: "Unix, ISO and Copenhagen local, in every direction.",
 		kind: "tool",
+		collection: "numbers",
+	},
+	{
+		slug: "regex",
+		title: "Regex",
+		summary: "A pattern as a railroad diagram, matching as you type.",
+		kind: "tool",
+		collection: "making",
+	},
+	{
+		slug: "dither",
+		title: "Dither",
+		summary: "Drop an image, get it in four colours and a worker thread.",
+		kind: "toy",
+		collection: "alive",
 	},
 ];
 
@@ -62,6 +56,9 @@ export function shelfItems(
 		title: e.title,
 		summary: e.summary,
 		kind: e.kind ?? "tool",
+		collection: e.collection,
+		date: e.date,
+		tags: e.tags ?? [],
 		href: e.href,
 		planned: false,
 		isNew: index === 0,
@@ -71,6 +68,14 @@ export function shelfItems(
 		...real,
 		...planned
 			.filter((p) => !realSlugs.has(p.slug))
-			.map((p) => ({ ...p, planned: true, isNew: false })),
+			.map((p) => ({ ...p, date: "", tags: [], planned: true, isNew: false })),
 	];
+}
+
+/** Listed, real experiments in one collection, newest first. */
+export function inCollection(
+	items: ShelfItem[],
+	collection: CollectionId,
+): ShelfItem[] {
+	return items.filter((i) => !i.planned && i.collection === collection);
 }

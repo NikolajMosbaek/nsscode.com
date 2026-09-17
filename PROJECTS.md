@@ -116,7 +116,15 @@ file handling in a static site.
 ## Adding an experiment
 
 `src/experiments/<slug>/` with `meta.ts`, `Experiment.astro`, `logic.ts`,
-`logic.test.ts` and a `.svelte` or `.tsx` component. Set `listed: false`
-in `meta.ts` to build it at its URL without linking it, indexing it or
-adding it to the sitemap. Give it a miniature in
+`logic.test.ts` and a `.svelte` or `.tsx` component. `meta.ts` must name
+a `collection`: `making` (for making software), `numbers` (answers a
+number) or `alive` (runs on its own). The collection decides which shelf
+it lands on and which colour it wears; see `src/lib/collections.ts`. Set
+`listed: false` to build it at its URL without linking it, indexing it
+or adding it to the sitemap. Give it a miniature in
 `src/components/TilePreview.astro` before listing it.
+
+The home page shows the newest experiment large, then one row per
+collection. The lab page is the dense index of everything, planned items
+included. Adding an eleventh experiment should not make either page
+worse: if a collection grows past about five, split it.
