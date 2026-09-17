@@ -1,6 +1,8 @@
 <script lang="ts">
 import { assess, type IngredientId, ingredients } from "./logic";
 import { pairs } from "./prompts";
+import Steps from "./Steps.svelte";
+import { steps } from "./steps";
 
 let index = $state(0);
 let highlight = $state<IngredientId | null>(null);
@@ -99,4 +101,5 @@ function pick(i: number) {
       {/if}
     </div>
   </div>
+  <Steps steps={steps["prompts"]} />
 </div>

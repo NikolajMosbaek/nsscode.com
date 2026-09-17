@@ -1,10 +1,14 @@
 <script lang="ts">
 import Code from "../../components/Code.svelte";
+import Steps from "./Steps.svelte";
+import { steps } from "./steps";
 
-const first = `cd your-project
-claude          # start a session in this folder
-/init           # let it write a first CLAUDE.md
-/help           # everything it can do`;
+const first = `> What does this project do, and where is the entry point?
+  Read, do not change anything.
+
+> @src/App.swift  what does this file own?
+
+> !swift test`;
 
 const keys = [
 	[
@@ -23,7 +27,7 @@ const keys = [
 	["/clear", "New task, empty context. Use it more than you think."],
 	["/compact", "Long session, context filling up: summarise and carry on."],
 	["/model", "Pick the model. /effort picks how hard it thinks."],
-	["/cost", "How much context is used and roughly what it cost."],
+	["/usage", "How much context is used and roughly what it cost."],
 ];
 </script>
 
@@ -37,7 +41,7 @@ const keys = [
         The one idea behind everything on this page: <strong class="text-ink">it can only work with what is in its context.</strong> Your files, your instructions, the output of the commands it ran. Every technique here is a way of putting the right things in that context and keeping the wrong things out.
       </p>
     </div>
-    <Code code={first} label="terminal" />
+    <Code code={first} label="your first three prompts" />
   </div>
 
   <div class="grid gap-3">
@@ -62,4 +66,5 @@ const keys = [
       <li><strong class="text-ink">Commit small.</strong> One task, one commit. Ask it to commit; do not let it decide when.</li>
     </ol>
   </div>
+  <Steps steps={steps["start"]} />
 </div>
