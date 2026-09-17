@@ -20,20 +20,12 @@ Sizes: **S** an evening, **M** a few evenings, **L** a couple of weeks,
 | `claude-code` | Claude Code, from zero | tool |
 | `spring` | Spring | tool |
 | `boids` | Boids | toy |
+| `topskat` | Topskat 2026 | tool |
 
 ## Announced (shown as "soon" on the shelf)
 
 Slugs are fixed by `src/lib/shelf.ts`; a real experiment with the same
 slug replaces its placeholder.
-
-### Topskat 2026 · `topskat` · tool · M
-
-Where the Danish tax brackets bite. DKK in, DKK out. Gross salary and
-pension contribution in, a stacked bar of AM-bidrag, bundskat,
-kommuneskat, top-, mellem- and top-topskat as they apply from 2026, plus
-marginal rate at the current income. Must handle beskæftigelsesfradrag
-and personfradrag correctly and state the kommune it assumes. Rates as a
-data file with the year in the name so 2027 is a copy, not a rewrite.
 
 ### Timestamp · `timestamp` · tool · S
 
@@ -122,11 +114,10 @@ file handling in a static site.
 
 ## Order worth considering
 
-1. Topskat 2026 (announced, seasonal relevance)
-2. Programme Builder (builds on Plates)
-3. Swift Concurrency Playground (the showcase)
-4. Danish Mortgage Lab
-5. The rest as needed
+1. Programme Builder (builds on Plates)
+2. Swift Concurrency Playground (the showcase)
+3. Danish Mortgage Lab
+4. The rest as needed
 
 ## Adding an experiment
 
