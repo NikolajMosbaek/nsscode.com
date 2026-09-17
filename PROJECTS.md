@@ -1,9 +1,14 @@
 # Projects
 
-Ideas for the lab at nsscode.com. Each entry names the kind (tool or toy),
-a rough size, and what it has to do to be worth shipping. Shipped
-experiments live in `src/experiments/<slug>/`; the shelf on the home page
-shows the ones listed under "Announced" as `soon` tiles until they land.
+Ideas for nsscode.com. Most are experiments for the lab: each entry names
+the kind (tool or toy), a rough size, and what it has to do to be worth
+shipping. Shipped experiments live in `src/experiments/<slug>/`; the shelf
+on the home page shows the ones listed under "Announced" as `soon` tiles
+until they land.
+
+"Beyond the lab" at the bottom holds the two larger projects that do not
+fit that shape at all: they are their own things that happen to live on
+the domain.
 
 Sizes: **S** an evening, **M** a few evenings, **L** a couple of weeks,
 **XL** an ongoing project.
@@ -99,10 +104,92 @@ Drop an image, get Floyd-Steinberg, Bayer and Atkinson dithering to a
 downloads a PNG, never uploads anything. Strong tile, and a real test of
 file handling in a static site.
 
+## Beyond the lab
+
+Two projects that outgrow an experiment folder. Neither is a tile on the
+shelf: each wants its own route (`/swift/`, `/penge/`), its own
+navigation, and possibly its own build step. They do not replace the lab,
+and they are not bound to its narrative.
+
+### Swift in the browser · `/swift/` · XL
+
+Compile Swift to WebAssembly with SwiftWasm and run **real Swift** on the
+page. The reader edits an actual `actor`, presses run, and watches their
+own code execute, rather than watching a hand-written scheduler simulate
+it. Actors and the proposed Concurrency playground are the sketch; this
+is the real thing, and it makes the two of them redundant.
+
+Why it is worth it: nobody has a good version. An iOS engineer who finds
+a page where they can paste a concurrency bug and watch it happen will
+send it to their team. It is the one project here that travels on its own.
+
+The work, roughly in order:
+
+1. Get the SwiftWasm toolchain producing a `.wasm` that runs in a browser
+   at all, from a fixed source file. Nothing interactive. This is the
+   step that decides whether the project is viable.
+2. Measure the bundle. The Swift runtime is the whole risk: if a hello
+   world costs several megabytes, decide then whether to lazy-load it
+   behind a "run" button, or stop.
+3. A fixed set of editable examples rather than arbitrary input, so the
+   compile step can happen server-side or ahead of time if in-browser
+   compilation turns out to be impractical.
+4. Instrument the concurrency runtime so task state can be drawn: which
+   task is suspended, which actor is occupied, where an await handed
+   control away. The drawing is the product; execution alone is a REPL.
+5. Then the tutorials: reentrancy, priority inversion, `Sendable`,
+   task groups, cancellation, each as a program the reader can break.
+
+The honest risk: steps 1 and 2 are a month of toolchain plumbing before
+anything is worth showing, and they may end in "this does not fit in a
+web page". Time-box the first two and decide with real numbers rather
+than hope.
+
+### Danish personal finance · `/penge/` · XL
+
+Topskat and Realkredit are two rooms. This is the house: one model of a
+Danish salary and what happens to it, with the pieces that actually
+interact rather than four calculators side by side.
+
+What goes in the model:
+
+- Løn, AM-bidrag and the four brackets. Topskat's engine already does
+  this and moves over unchanged.
+- **Pension**: ratepension against aldersopsparing against livrente, and
+  the thing every calculator misses, that a contribution which drops you
+  under the topskat threshold is worth far more than one that does not.
+  This is the single most useful number on the site if it is right.
+- **Realkredit**: the existing tool, with its interest feeding the same
+  negative net capital income the rest of the model uses.
+- **Aktiesparekonto against a normal depot**: 17 % running against 27/42 %
+  on realisation, and where the crossover falls for a given horizon.
+- Ejendomsværdiskat and grundskyld, which Realkredit deliberately leaves
+  out and which change the answer on a house.
+- Optionally fri bil, which is a large and badly understood number for
+  the people who have it.
+
+Everything client-side, state in the URL, no accounts and nothing stored,
+like the rest of the site. Rates live in one data file per year
+(`rates-2026.ts` already sets the pattern) so January is a copy and a
+diff rather than a rewrite.
+
+Why it is worth it: no honest version of this exists in Danish. Every
+one that does is a bank's, and shaped accordingly. It would be genuinely
+useful to a few hundred thousand people.
+
+The honest risk: you own its correctness, and being wrong about someone's
+pension is worse than being wrong about a colour ramp. Two rules from the
+start: every number states its source and its year, and the page says
+plainly what it is not. Budget a week each January.
+
 ## Order worth considering
 
-1. Swift Concurrency Playground (the showcase)
-2. The rest as needed
+1. Swift Concurrency Playground (the showcase), or skip it and go
+   straight to Swift in the browser, which replaces it
+2. Swift in the browser, after time-boxing the toolchain question
+3. Danish personal finance, once Realkredit has been used in anger a few
+   times and its model is trusted
+4. The rest as needed
 
 ## Adding an experiment
 
