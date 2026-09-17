@@ -1,5 +1,7 @@
 <script lang="ts">
 import Code from "../../components/Code.svelte";
+import Steps from "./Steps.svelte";
+import { steps as practice } from "./steps";
 
 const steps = [
 	{
@@ -123,4 +125,5 @@ claude -p "Summarise the failing tests in ci.log"   # one shot, no chat`;
       You are not typing code any more. You are writing work orders, reviewing diffs and maintaining the documentation that makes the next work order shorter. The people who get a lot out of Claude Code are the ones who were already good at explaining a task to a colleague. That is the skill to practise.
     </p>
   </div>
+  <Steps steps={practice.workflow} />
 </div>

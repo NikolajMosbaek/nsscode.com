@@ -22,6 +22,7 @@ let week = $state(1);
 let day = $state(1);
 let ready = $state(false);
 let narrow = $state(false);
+let initial = "";
 
 $effect(() => {
 	const q = new URLSearchParams(location.search);
@@ -31,6 +32,7 @@ $effect(() => {
 		week = Number(s[1]);
 		day = Number(s[2]);
 	}
+	initial = `${encode(state)}&s=w${week}d${day}`;
 	ready = true;
 	const media = window.matchMedia("(max-width: 640px)");
 	const apply = () => {
@@ -43,6 +45,8 @@ $effect(() => {
 $effect(() => {
 	if (!ready) return;
 	const q = `${encode(state)}&s=w${week}d${day}`;
+	/* Leave the address alone until something actually changes. */
+	if (q === initial) return;
 	history.replaceState(null, "", `${location.pathname}?${q}${location.hash}`);
 });
 

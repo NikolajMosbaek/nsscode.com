@@ -1,6 +1,8 @@
 <script lang="ts">
 import Code from "../../components/Code.svelte";
 import { exampleFiles, loadedFor } from "./logic";
+import Steps from "./Steps.svelte";
+import { steps } from "./steps";
 
 const targets = [
 	"README.md",
@@ -110,4 +112,5 @@ Swift 6, strict concurrency, TCA. Xcode 26, iOS 18+.
       Run <span class="font-mono">/init</span> in a project and it drafts a CLAUDE.md from what it finds. Treat that as a first draft: delete half of it, then add the rules you actually care about. When Claude does something you dislike, fix the instruction, not just the code, or you will be correcting it again next session. <span class="font-mono">/memory</span> shows every file it loaded and lets you edit them.
     </p>
   </div>
+  <Steps steps={steps["claude-md"]} />
 </div>

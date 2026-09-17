@@ -39,11 +39,13 @@ below rather than sit beside it.
 
 ### Claude Code, from zero · `claude-code` · tool · shipped
 
-A guided tour for developers new to Claude Code: seven chapters (start,
-CLAUDE.md, project files, rules/skills/agents/hooks, models and effort,
-prompts, workflow), a prompt grader, good-versus-bad prompt pairs, a
-model and effort picker, a CLAUDE.md loading demo and a starter-file
-generator. Facts checked against the docs in September 2026; re-check
+A step-by-step course for developers new to Claude Code: nine chapters
+(install, first session, CLAUDE.md, prompts, workflow, project files,
+models and effort, rules/skills/agents/hooks, ready) each with a
+"do it now" checklist run on the reader's own practice repo, progress
+saved in localStorage, a prompt grader, good-versus-bad prompt pairs, a
+model and effort picker, a CLAUDE.md loading demo, a starter-file
+generator, and a final readiness check with cheat sheet and glossary. Facts checked against the docs in September 2026; re-check
 when Claude Code changes its model list or effort levels.
 
 ### Bigger projects

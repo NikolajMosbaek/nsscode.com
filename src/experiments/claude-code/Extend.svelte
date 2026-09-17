@@ -1,5 +1,7 @@
 <script lang="ts">
 import Code from "../../components/Code.svelte";
+import Steps from "./Steps.svelte";
+import { steps } from "./steps";
 
 type Tab = "rules" | "skills" | "agents" | "hooks";
 let tab = $state<Tab>("rules");
@@ -145,4 +147,5 @@ const picker = [
       {/each}
     </ul>
   </div>
+  <Steps steps={steps["extend"]} />
 </div>

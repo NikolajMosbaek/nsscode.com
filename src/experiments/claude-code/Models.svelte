@@ -7,6 +7,8 @@ import {
 	recommend,
 	type TaskSize,
 } from "./logic";
+import Steps from "./Steps.svelte";
+import { steps } from "./steps";
 
 let size = $state<TaskSize>("medium");
 let novelty = $state<Novelty>("some");
@@ -120,4 +122,5 @@ const cmds = `/model            # pick a model; Enter saves it, s = this session
       <p class="text-small text-ink-muted m-0">{pick.why}</p>
     </div>
   </div>
+  <Steps steps={steps["models"]} />
 </div>

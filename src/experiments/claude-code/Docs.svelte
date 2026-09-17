@@ -1,6 +1,8 @@
 <script lang="ts">
 import Code from "../../components/Code.svelte";
 import { starters } from "./logic";
+import Steps from "./Steps.svelte";
+import { steps } from "./steps";
 
 let name = $state("Shop");
 let stack = $state("Swift 6 with strict concurrency, TCA, Xcode 26.");
@@ -84,4 +86,5 @@ const why = [
       End a session by asking: "What did you learn about this codebase that is not in CLAUDE.md or ARCHITECTURE.md? Propose additions." Read them, keep the good ones, commit. The documentation compounds, and the next session starts smarter than this one did.
     </p>
   </div>
+  <Steps steps={steps["project-files"]} />
 </div>
