@@ -117,8 +117,8 @@ file handling in a static site.
 
 `src/experiments/<slug>/` with `meta.ts`, `Experiment.astro`, `logic.ts`,
 `logic.test.ts` and a `.svelte` or `.tsx` component. `meta.ts` must name
-a `collection`: `making` (for making software), `numbers` (answers a
-number) or `alive` (runs on its own). The collection decides which shelf
+a `collection`: `software`, `finance`, `training` or `games`. The
+collection decides which shelf
 it lands on and which colour it wears; see `src/lib/collections.ts`. Set
 `listed: false` to build it at its URL without linking it, indexing it
 or adding it to the sitemap. Give it a miniature in

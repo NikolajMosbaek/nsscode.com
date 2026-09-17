@@ -26,25 +26,34 @@ export interface ShelfItem {
 
 const planned: Omit<ShelfItem, "planned" | "isNew" | "date" | "tags">[] = [
 	{
-		slug: "timestamp",
-		title: "Timestamp",
-		summary: "Unix, ISO and Copenhagen local, in every direction.",
-		kind: "tool",
-		collection: "numbers",
+		slug: "concurrency",
+		title: "Concurrency",
+		summary:
+			"Write a small Swift program with tasks and actors, watch it run as rooms and doors.",
+		kind: "toy",
+		collection: "software",
 	},
 	{
 		slug: "regex",
 		title: "Regex",
 		summary: "A pattern as a railroad diagram, matching as you type.",
 		kind: "tool",
-		collection: "making",
+		collection: "software",
 	},
 	{
-		slug: "dither",
-		title: "Dither",
-		summary: "Drop an image, get it in four colours and a worker thread.",
-		kind: "toy",
-		collection: "alive",
+		slug: "timestamp",
+		title: "Timestamp",
+		summary: "Unix, ISO and Copenhagen local, in every direction.",
+		kind: "tool",
+		collection: "software",
+	},
+	{
+		slug: "realkredit",
+		title: "Realkredit",
+		summary:
+			"Fixed against flex, bidragssats by LTV, and the conversion game when the bond price moves.",
+		kind: "tool",
+		collection: "finance",
 	},
 ];
 
