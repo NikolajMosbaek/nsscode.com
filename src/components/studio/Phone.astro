@@ -1,0 +1,104 @@
+---
+/*
+ * An iPhone drawn in CSS. The screen is laid out at the real 390 by 844
+ * points and scaled down as one piece, so the screens can use the same
+ * numbers as the apps' design files.
+ */
+interface Props {
+	label: string;
+	class?: string;
+}
+
+const { label, class: className } = Astro.props;
+---
+
+<div class:list={["phone", className]} role="img" aria-label={label} data-mockup>
+  <div class="frame">
+    <div class="screen">
+      <div class="status" aria-hidden="true">
+        <span>9:41</span>
+        <span class="island"></span>
+        <span class="glyphs">
+          <svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1" /><rect x="5" y="5.5" width="3" height="6.5" rx="1" /><rect x="10" y="3" width="3" height="9" rx="1" /><rect x="15" y="0" width="3" height="12" rx="1" /></svg>
+          <svg width="27" height="13" viewBox="0 0 27 13"><rect x="0.5" y="0.5" width="23" height="12" rx="3.8" fill="none" stroke="currentColor" opacity="0.4" /><rect x="2.5" y="2.5" width="19" height="8" rx="2" /><rect x="25" y="4.5" width="1.6" height="4" rx="0.8" opacity="0.4" /></svg>
+        </span>
+      </div>
+      <slot />
+    </div>
+  </div>
+</div>
+
+<style>
+  .phone {
+    --scale: 0.62;
+    width: calc(414px * var(--scale));
+    height: calc(868px * var(--scale));
+    flex: none;
+  }
+
+  .frame {
+    width: 414px;
+    height: 868px;
+    padding: 12px;
+    border-radius: 68px;
+    background: linear-gradient(145deg, #4a4b4f, #1b1c1e 40%, #2e2f33 70%, #121314);
+    box-shadow:
+      0 0 0 1px rgb(255 255 255 / 0.08) inset,
+      0 2px 1px rgb(255 255 255 / 0.12) inset,
+      0 60px 120px -30px rgb(0 0 0 / 0.9),
+      0 30px 60px -30px rgb(0 0 0 / 0.8);
+    transform: scale(var(--scale));
+    transform-origin: top left;
+  }
+
+  .screen {
+    position: relative;
+    width: 390px;
+    height: 844px;
+    border-radius: 56px;
+    overflow: hidden;
+    background: #000;
+    color: #fff;
+    font-family: -apple-system, "SF Pro Text", system-ui, "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .status {
+    position: absolute;
+    z-index: 2;
+    inset: 0 0 auto;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 34px 0 50px;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--status-ink, #fff);
+  }
+
+  .island {
+    position: absolute;
+    left: 50%;
+    top: 11px;
+    width: 124px;
+    height: 36px;
+    margin-left: -62px;
+    border-radius: 20px;
+    background: #000;
+  }
+
+  .glyphs {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+    fill: currentColor;
+  }
+
+  @media (max-width: 640px) {
+    .phone {
+      --scale: 0.5;
+    }
+  }
+</style>

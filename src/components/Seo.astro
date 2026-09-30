@@ -6,6 +6,8 @@ interface Props {
 	description?: string;
 	noindex?: boolean;
 	type?: "website" | "article";
+	/* Path to a 1200 by 630 share image. */
+	image?: string;
 }
 
 const {
@@ -13,10 +15,11 @@ const {
 	description = site.description,
 	noindex = false,
 	type = "website",
+	image: imagePath = "/og.png",
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, site.url).href;
-const image = new URL("/og.png", site.url).href;
+const image = new URL(imagePath, site.url).href;
 
 const schema = {
 	"@context": "https://schema.org",

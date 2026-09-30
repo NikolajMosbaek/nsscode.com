@@ -1,0 +1,185 @@
+---
+/*
+ * Don't Break Fast, timer screen, dark. Numbers follow the app's design
+ * file: a 16:8 fast started yesterday at 20:00. A small script on the page
+ * keeps the clock running.
+ */
+const circumference = 2 * Math.PI * 141;
+const fastSeconds = 16 * 3600;
+const elapsed = 12 * 3600 + 34 * 60;
+const filled = (elapsed / fastSeconds) * circumference;
+---
+
+<div class="timer" data-fast={fastSeconds} data-elapsed={elapsed}>
+  <div class="top">
+    <span class="glass plan">16:8 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(235,235,245,0.6)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6" /></svg></span>
+    <span class="glass tools">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1" /><path d="M3.5 3.5v4.5h4.5" /><path d="M12 8v4.5l3 1.8" /></svg>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2" /><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M5.5 18.5l1.7-1.7M16.8 7.2l1.7-1.7" /></svg>
+    </span>
+  </div>
+
+  <div class="dial">
+    <svg width="300" height="300" viewBox="0 0 300 300">
+      <circle cx="150" cy="150" r="141" fill="none" stroke="rgba(235,235,245,0.12)" stroke-width="18" />
+      <circle
+        data-ring
+        cx="150"
+        cy="150"
+        r="141"
+        fill="none"
+        stroke="#36c6b8"
+        stroke-width="18"
+        stroke-linecap="round"
+        stroke-dasharray={`${filled.toFixed(1)} ${circumference.toFixed(1)}`}
+      />
+    </svg>
+    <div class="readout">
+      <span class="caption">Remaining</span>
+      <span class="big numeral" data-remaining>3:26:00</span>
+      <span class="small"><span data-elapsed-label>12:34</span> elapsed</span>
+    </div>
+  </div>
+
+  <div class="goal">
+    <span class="alarm">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="rgba(235,235,245,0.6)"><path d="M12 2.5a6 6 0 0 0-6 6v3.2c0 .9-.3 1.8-.9 2.5L3.6 16c-.6.7-.1 1.8.8 1.8h15.2c.9 0 1.4-1.1.8-1.8l-1.5-1.8a3.9 3.9 0 0 1-.9-2.5V8.5a6 6 0 0 0-6-6z" /><path d="M9.5 19.5a2.5 2.5 0 0 0 5 0z" /></svg>
+      12:00
+    </span>
+    <span class="small">Started <span class="teal">yesterday, 20:00</span></span>
+  </div>
+
+  <span class="end">End fast</span>
+</div>
+
+<style>
+  .timer {
+    position: absolute;
+    inset: 0;
+    background: #000;
+  }
+
+  .top {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    top: 62px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .glass {
+    display: flex;
+    align-items: center;
+    height: 44px;
+    border-radius: 22px;
+    background: rgb(44 44 48 / 0.7);
+    border: 1px solid rgb(255 255 255 / 0.14);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.18);
+  }
+
+  .plan {
+    gap: 6px;
+    padding: 0 14px 0 16px;
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  .tools {
+    gap: 24px;
+    padding: 0 16px;
+  }
+
+  .dial {
+    position: absolute;
+    left: 45px;
+    top: 160px;
+    width: 300px;
+    height: 300px;
+  }
+
+  .dial svg {
+    display: block;
+    transform: rotate(-90deg);
+  }
+
+  .readout {
+    position: absolute;
+    inset: 44px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .caption {
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: rgb(235 235 245 / 0.6);
+  }
+
+  .numeral {
+    font-family: ui-rounded, "SF Pro Rounded", -apple-system, system-ui, sans-serif;
+  }
+
+  .big {
+    font-size: 46px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .small {
+    font-size: 15px;
+    color: rgb(235 235 245 / 0.6);
+    margin-top: 4px;
+  }
+
+  .goal {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 492px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .alarm {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 17px;
+    font-weight: 500;
+  }
+
+  .teal {
+    color: #36c6b8;
+    font-weight: 500;
+  }
+
+  .end {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: 50px;
+    height: 54px;
+    border-radius: 27px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    font-weight: 600;
+    background: color-mix(in oklab, #36c6b8 82%, black);
+    border: 1px solid rgb(255 255 255 / 0.45);
+    box-shadow:
+      0 12px 28px color-mix(in oklab, #36c6b8 35%, transparent),
+      inset 0 1px 0 rgb(255 255 255 / 0.55);
+  }
+</style>

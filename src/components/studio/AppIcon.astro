@@ -1,0 +1,87 @@
+---
+/*
+ * The two app icons, redrawn from the apps' own icon sources so the page
+ * needs no image files. The squircle is a CSS mask shape, close to the
+ * iOS corner.
+ */
+interface Props {
+	slug: "dbf" | "meal-planner";
+	size?: number;
+	class?: string;
+}
+
+const { slug, size = 96, class: className } = Astro.props;
+const clip = `dbf-cut-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<span class:list={["app-icon", className]} style={`--size: ${size}px`} aria-hidden="true">
+  {
+    slug === "dbf" ? (
+      <svg viewBox="0 0 240 240" class="dbf">
+        <defs>
+          <clipPath id={clip}>
+            <path d="M0 0h184v88H0zM0 96h184v88H0z" />
+          </clipPath>
+        </defs>
+        <g transform="translate(28 28)">
+          <g
+            fill="none"
+            stroke="#00B1A3"
+            stroke-width="15"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            clip-path={`url(#${clip})`}
+          >
+            <path d="M18 42v100h18c26 0 39-17 39-50S62 42 36 42H18" />
+            <path d="M87 42v100M87 42h17c20 0 30 10 30 25s-10 25-30 25H87M104 92c22 0 34 10 34 25s-12 25-34 25H87" />
+            <path d="M151 142V42h31M151 92h29" />
+          </g>
+          <circle cx="184" cy="92" r="6" fill="#E99B2A" />
+        </g>
+      </svg>
+    ) : (
+      <svg viewBox="0 0 1024 1024" class="meal">
+        <circle cx="512" cy="512" r="256" fill="none" stroke="#E3EBE4" stroke-opacity="0.25" stroke-width="120" />
+        <circle
+          cx="512"
+          cy="512"
+          r="256"
+          fill="none"
+          stroke="#E3EBE4"
+          stroke-width="120"
+          stroke-linecap="round"
+          stroke-dasharray="1158.116 1608.495"
+          transform="rotate(-90 512 512)"
+        />
+      </svg>
+    )
+  }
+</span>
+
+<style>
+  .app-icon {
+    display: inline-block;
+    flex: none;
+    width: var(--size);
+    height: var(--size);
+    border-radius: 22.5%;
+    overflow: hidden;
+    box-shadow:
+      0 1px 0 rgb(255 255 255 / 0.18) inset,
+      0 18px 40px -12px rgb(0 0 0 / 0.7);
+  }
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .dbf {
+    background: linear-gradient(180deg, #fbfbfd, #e6e6ec);
+  }
+
+  .meal {
+    background: linear-gradient(180deg, #3a7d5d, #24573f);
+  }
+</style>

@@ -1,0 +1,315 @@
+---
+/*
+ * Meal Planner, plan screen, dark. Colours are the app's dark tokens from
+ * its design record: canvas, surface, accent and the three macro colours.
+ */
+const days = [
+	["M", "28"],
+	["T", "29"],
+	["W", "30"],
+	["T", "1"],
+	["F", "2"],
+	["S", "3"],
+	["S", "4"],
+];
+const selected = 1;
+
+const r = 26;
+const c = 2 * Math.PI * r;
+const gauges = [
+	{ label: "kcal", value: "2140", share: 0.93, colour: "#82C69F" },
+	{ label: "protein", value: "152", share: 0.95, colour: "#E58B70" },
+	{ label: "carbs", value: "210", share: 0.88, colour: "#E3B24E" },
+	{ label: "fat", value: "71", share: 0.89, colour: "#8FB3D4" },
+];
+
+const meals = [
+	[
+		"Breakfast",
+		"Skyr, oats and blueberries",
+		"420 kcal",
+		"38 g protein",
+		"#E3B24E",
+	],
+	["Lunch", "Chicken, rice and greens", "640 kcal", "52 g protein", "#82C69F"],
+	[
+		"Dinner",
+		"Salmon, new potatoes and dill",
+		"780 kcal",
+		"46 g protein",
+		"#E58B70",
+	],
+];
+---
+
+<div class="plan">
+  <div class="head">
+    <span class="label">Week 40</span>
+    <span class="display">This week</span>
+  </div>
+
+  <div class="days">
+    {
+      days.map(([d, n], i) => (
+        <span class:list={["chip", { on: i === selected }]}>
+          <span class="d">{d}</span>
+          <span class="n">{n}</span>
+        </span>
+      ))
+    }
+  </div>
+
+  <div class="panel summary">
+    <span class="label">Tuesday · on your numbers</span>
+    <div class="gauges">
+      {
+        gauges.map((g) => (
+          <span class="gauge">
+            <svg width="64" height="64" viewBox="0 0 64 64">
+              <circle cx="32" cy="32" r={r} fill="none" stroke="#232B24" stroke-width="7" />
+              <circle
+                cx="32"
+                cy="32"
+                r={r}
+                fill="none"
+                stroke={g.colour}
+                stroke-width="7"
+                stroke-linecap="round"
+                stroke-dasharray={`${(g.share * c).toFixed(1)} ${c.toFixed(1)}`}
+                transform="rotate(-90 32 32)"
+              />
+              <text x="32" y="37" text-anchor="middle">{g.value}</text>
+            </svg>
+            <span class="g">{g.label}</span>
+          </span>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="meals">
+    {
+      meals.map(([slot, name, kcal, protein, colour]) => (
+        <div class="panel meal">
+          <span class="swatch" style={`background:${colour}`} />
+          <span class="text">
+            <span class="slot">{slot}</span>
+            <span class="name">{name}</span>
+            <span class="facts">{kcal} · {protein}</span>
+          </span>
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="bar">
+    <span class="tab on">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15" rx="3" /><path d="M3.5 10h17M8 3v4M16 3v4" /></svg>
+      Plan
+    </span>
+    <span class="tab">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 4.5h11a3 3 0 0 1 3 3v12H8a3 3 0 0 1-3-3z" /><path d="M9 9h6M9 13h4" /></svg>
+      Recipes
+    </span>
+    <span class="tab">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6h11M9 12h11M9 18h11" /><circle cx="4.5" cy="6" r="1.2" /><circle cx="4.5" cy="12" r="1.2" /><circle cx="4.5" cy="18" r="1.2" /></svg>
+      List
+    </span>
+  </div>
+</div>
+
+<style>
+  .plan {
+    position: absolute;
+    inset: 0;
+    background: #101410;
+    color: #e9ede7;
+    --rounded: ui-rounded, "SF Pro Rounded", -apple-system, system-ui, sans-serif;
+  }
+
+  .head {
+    position: absolute;
+    left: 20px;
+    top: 72px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a6b1a8;
+  }
+
+  .display {
+    font-family: var(--rounded);
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .days {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    top: 150px;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+  }
+
+  .chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 9px 0 10px;
+    border-radius: 14px;
+    background: #181d19;
+  }
+
+  .chip .d {
+    font-size: 12px;
+    font-weight: 600;
+    color: #a6b1a8;
+  }
+
+  .chip .n {
+    font-family: var(--rounded);
+    font-size: 19px;
+    font-weight: 600;
+  }
+
+  .chip.on {
+    background: #82c69f;
+    color: #101410;
+  }
+
+  .chip.on .d {
+    color: #101410;
+  }
+
+  .panel {
+    background: #181d19;
+    border-radius: 22px;
+  }
+
+  .summary {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    top: 236px;
+    padding: 16px 16px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .gauges {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .gauge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .gauge text {
+    font-family: var(--rounded);
+    font-size: 15px;
+    font-weight: 600;
+    fill: #e9ede7;
+  }
+
+  .g {
+    font-size: 12px;
+    color: #a6b1a8;
+  }
+
+  .meals {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    top: 406px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .meal {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px;
+  }
+
+  .swatch {
+    width: 58px;
+    height: 58px;
+    flex: none;
+    border-radius: 14px;
+    opacity: 0.85;
+    background-image: radial-gradient(circle at 30% 30%, rgb(255 255 255 / 0.35), transparent 60%) !important;
+  }
+
+  .text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .slot {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #a6b1a8;
+  }
+
+  .name {
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  .facts {
+    font-size: 14px;
+    color: #a6b1a8;
+  }
+
+  .bar {
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    bottom: 34px;
+    height: 62px;
+    border-radius: 31px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: rgb(35 43 36 / 0.78);
+    border: 1px solid rgb(255 255 255 / 0.12);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.16),
+      0 12px 30px rgb(0 0 0 / 0.5);
+  }
+
+  .tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #a6b1a8;
+  }
+
+  .tab.on {
+    color: #82c69f;
+  }
+</style>
