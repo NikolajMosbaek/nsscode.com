@@ -96,6 +96,38 @@ const { label, class: className } = Astro.props;
     fill: currentColor;
   }
 
+  /* A soft reflection that slides across the glass as the phone scrolls past. */
+  .screen::after {
+    content: "";
+    position: absolute;
+    z-index: 3;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(115deg, transparent 35%, rgb(255 255 255 / 0.07) 48%, transparent 60%);
+    background-size: 300% 100%;
+    background-position: 100% 0;
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .screen::after {
+        opacity: 1;
+        animation-name: sheen;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: view();
+        animation-range: cover 10% cover 90%;
+      }
+    }
+  }
+
+  @keyframes sheen {
+    to {
+      background-position: 0 0;
+    }
+  }
+
   @media (max-width: 640px) {
     .phone {
       --scale: 0.5;
