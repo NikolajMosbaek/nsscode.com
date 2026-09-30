@@ -205,6 +205,7 @@ const since = new Date().getFullYear() - site.yearsOfIOS;
     padding: clamp(140px, 22vh, 220px) 20px clamp(96px, 16vh, 160px);
     isolation: isolate;
     overflow-x: clip;
+    perspective: 900px;
   }
 
   .halo {
@@ -434,6 +435,13 @@ const since = new Date().getFullYear() - site.yearsOfIOS;
     align-items: flex-start;
     isolation: isolate;
     padding: 20px 0 60px;
+    perspective: 1600px;
+    /* Phones on the right turn toward the copy on the left, and back again when flipped. */
+    --turn: 1;
+  }
+
+  .app.flip .stage {
+    --turn: -1;
   }
 
   .glow {
@@ -586,21 +594,36 @@ const since = new Date().getFullYear() - site.yearsOfIOS;
 
     @supports (animation-timeline: view()) {
       .reveal {
-        animation: reveal linear both;
+        animation-name: reveal;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
         animation-timeline: view();
         animation-range: entry 0% entry 70%;
       }
 
+      /* The phones turn in as they arrive, settle near the middle of the screen, and tip away as they leave. */
       .stage :global(.front) {
-        animation: lift linear both;
+        animation-name: turn-front;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
         animation-timeline: view();
         animation-range: cover 0% cover 100%;
       }
 
       .stage :global(.back) {
-        animation: sink linear both;
+        animation-name: turn-back;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
         animation-timeline: view();
         animation-range: cover 0% cover 100%;
+      }
+
+      .icons {
+        animation-name: tip;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: view();
+        animation-range: exit 0% exit 100%;
       }
     }
   }
@@ -633,21 +656,34 @@ const since = new Date().getFullYear() - site.yearsOfIOS;
     }
   }
 
-  @keyframes lift {
+  @keyframes turn-front {
     from {
-      transform: translateY(70px);
+      transform: translateY(70px) rotateX(12deg) rotateY(calc(var(--turn) * -18deg));
+    }
+    50% {
+      transform: translateY(0) rotateX(2deg) rotateY(calc(var(--turn) * -5deg));
     }
     to {
-      transform: translateY(-40px);
+      transform: translateY(-40px) rotateX(-8deg) rotateY(calc(var(--turn) * 6deg));
     }
   }
 
-  @keyframes sink {
+  @keyframes turn-back {
     from {
-      transform: translateY(-20px);
+      transform: translateY(-20px) rotateX(10deg) rotateY(calc(var(--turn) * -26deg));
+    }
+    50% {
+      transform: translateY(10px) rotateX(2deg) rotateY(calc(var(--turn) * -12deg));
     }
     to {
-      transform: translateY(50px);
+      transform: translateY(50px) rotateX(-6deg) rotateY(calc(var(--turn) * -2deg));
+    }
+  }
+
+  @keyframes tip {
+    to {
+      opacity: 0.3;
+      transform: translateY(-24px) rotateX(38deg) scale(0.92);
     }
   }
 </style>
