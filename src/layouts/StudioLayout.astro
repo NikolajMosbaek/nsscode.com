@@ -36,7 +36,7 @@ const year = new Date().getFullYear();
     <a href="#main" class="skip">Skip to content</a>
     <header class="top">
       <a href="/" class="mark" aria-label="nsscode, home">nsscode</a>
-      <a href="/lab/" class="lab">lab <span aria-hidden="true">→</span></a>
+      <a href="/lab/" class="lab">lab <span class="arrow" aria-hidden="true">→</span></a>
     </header>
     <main id="main">
       <slot />
@@ -133,8 +133,20 @@ const year = new Date().getFullYear();
     transition: color var(--duration-fast) var(--ease-out);
   }
 
-  .lab:hover {
+  .lab:hover,
+  .lab:focus-visible {
     color: var(--ink);
+  }
+
+  .arrow {
+    display: inline-block;
+    transition: translate var(--duration-base) var(--ease-out);
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .lab:hover .arrow {
+      translate: 3px 0;
+    }
   }
 
   .foot {
@@ -162,7 +174,12 @@ const year = new Date().getFullYear();
     list-style: none;
   }
 
-  .foot a:hover {
+  .foot a {
+    transition: color var(--duration-base) var(--ease-out);
+  }
+
+  .foot a:hover,
+  .foot a:focus-visible {
     color: var(--ink);
   }
 </style>

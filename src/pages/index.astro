@@ -63,8 +63,8 @@ const since = new Date().getFullYear() - site.yearsOfIOS;
   <section class="hero" aria-labelledby="hero-title">
     <div class="halo" aria-hidden="true"></div>
     <div class="icons">
-      <AppIcon slug="dbf" size={104} class="float-a" />
-      <AppIcon slug="meal-planner" size={104} class="float-b" />
+      <a href="#dbf" aria-label="Don't Break Fast"><AppIcon slug="dbf" size={104} class="float-a" /></a>
+      <a href="#meal-planner" aria-label="Meal Planner"><AppIcon slug="meal-planner" size={104} class="float-b" /></a>
     </div>
     <p class="kicker in" style="--d: 0">iPhone apps from Copenhagen</p>
     <h1 id="hero-title" class="in" style="--d: 1">Apps that keep<br /> to themselves.</h1>
@@ -131,14 +131,16 @@ const since = new Date().getFullYear() - site.yearsOfIOS;
               )}
             </div>
           </div>
-          <div class="stage">
+          <div class="stage" data-tilt>
             <div class="glow" aria-hidden="true" />
-            <Phone class="back drift" label={back.label}>
-              <Back />
-            </Phone>
-            <Phone class="front rise" label={front.label}>
-              <Front />
-            </Phone>
+            <div class="tilt">
+              <Phone class="back" label={back.label}>
+                <Back />
+              </Phone>
+              <Phone class="front" label={front.label}>
+                <Front />
+              </Phone>
+            </div>
           </div>
         </section>
       );
@@ -192,6 +194,33 @@ const since = new Date().getFullYear() - site.yearsOfIOS;
     };
     tick();
     setInterval(tick, 1000);
+  }
+
+  /*
+   * Phones lean toward the pointer. Only for a mouse or trackpad, and only
+   * when motion is welcome. The page's CSS reads the four variables.
+   */
+  const lean = matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
+  if (lean.matches) {
+    for (const stage of document.querySelectorAll<HTMLElement>("[data-tilt]")) {
+      let frame = 0;
+      stage.addEventListener("pointermove", (event) => {
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(() => {
+          const box = stage.getBoundingClientRect();
+          const x = (event.clientX - box.left) / box.width - 0.5;
+          const y = (event.clientY - box.top) / box.height - 0.5;
+          stage.style.setProperty("--ry", `${(x * 8).toFixed(2)}deg`);
+          stage.style.setProperty("--rx", `${(-y * 8).toFixed(2)}deg`);
+          stage.style.setProperty("--px", `${((x + 0.5) * 100).toFixed(1)}%`);
+          stage.style.setProperty("--py", `${((y + 0.5) * 100).toFixed(1)}%`);
+        });
+      });
+      stage.addEventListener("pointerleave", () => {
+        cancelAnimationFrame(frame);
+        for (const name of ["--rx", "--ry", "--px", "--py"]) stage.style.removeProperty(name);
+      });
+    }
   }
 </script>
 
@@ -416,16 +445,29 @@ const since = new Date().getFullYear() - site.yearsOfIOS;
     font-size: 14px;
   }
 
+  /* Two underlines: a faint one always, and a bright one that draws in from the left. */
   .links a {
+    padding-bottom: 3px;
     color: var(--ink-muted);
-    text-decoration: underline;
-    text-decoration-color: rgb(255 255 255 / 0.2);
-    text-underline-offset: 4px;
+    background-image: linear-gradient(currentColor, currentColor), linear-gradient(rgb(255 255 255 / 0.2), rgb(255 255 255 / 0.2));
+    background-size:
+      0% 1px,
+      100% 1px;
+    background-position:
+      0 100%,
+      0 100%;
+    background-repeat: no-repeat;
+    transition:
+      color var(--duration-base) var(--ease-out),
+      background-size var(--duration-slow) var(--ease-out);
   }
 
-  .links a:hover {
+  .links a:hover,
+  .links a:focus-visible {
     color: var(--ink);
-    text-decoration-color: currentColor;
+    background-size:
+      100% 1px,
+      100% 1px;
   }
 
   .stage {
@@ -456,11 +498,74 @@ const since = new Date().getFullYear() - site.yearsOfIOS;
     filter: blur(10px);
   }
 
+  .tilt {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+    /* Its own perspective, not preserve-3d: each phone stays flat in its own plane and the back one never cuts through the front. */
+    perspective: 1600px;
+    transition: transform 700ms var(--ease-out);
+  }
+
   .stage :global(.back) {
     margin-top: 60px;
     margin-right: -110px;
     opacity: 0.72;
     filter: saturate(0.9) brightness(0.85);
+    transition:
+      opacity var(--duration-slow) var(--ease-out),
+      filter var(--duration-slow) var(--ease-out),
+      translate var(--duration-slow) var(--ease-out);
+  }
+
+  .stage :global(.front) {
+    transition: translate var(--duration-slow) var(--ease-out);
+  }
+
+  /* Hovering the pair fans it open a little. translate composes with the scroll animation's transform. */
+  @media (hover: hover) and (pointer: fine) {
+    .stage:hover :global(.back) {
+      opacity: 0.95;
+      filter: none;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .stage:hover :global(.back) {
+      translate: -24px 6px;
+    }
+
+    .stage:hover :global(.front) {
+      translate: 8px -4px;
+    }
+  }
+
+  .icons a {
+    display: block;
+    border-radius: 24px;
+  }
+
+  .icons :global(.app-icon) {
+    transition:
+      translate var(--duration-slow) var(--ease-out),
+      box-shadow var(--duration-slow) var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .icons a:hover :global(.app-icon),
+    .icons a:focus-visible :global(.app-icon) {
+      box-shadow:
+        0 1px 0 rgb(255 255 255 / 0.18) inset,
+        0 22px 50px -14px var(--icon-glow);
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .icons a:hover :global(.app-icon),
+    .icons a:focus-visible :global(.app-icon) {
+      translate: 0 -3px;
+    }
   }
 
   .stage :global(.front) {

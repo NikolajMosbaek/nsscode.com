@@ -14,7 +14,7 @@ const { slug, size = 96, class: className } = Astro.props;
 const clip = `dbf-cut-${Math.random().toString(36).slice(2, 8)}`;
 ---
 
-<span class:list={["app-icon", className]} style={`--size: ${size}px`} aria-hidden="true">
+<span class:list={["app-icon", slug, className]} style={`--size: ${size}px`} aria-hidden="true">
   {
     slug === "dbf" ? (
       <svg viewBox="0 0 240 240" class="dbf">
@@ -71,13 +71,21 @@ const clip = `dbf-cut-${Math.random().toString(36).slice(2, 8)}`;
       0 18px 40px -12px rgb(0 0 0 / 0.7);
   }
 
+  .app-icon.dbf {
+    --icon-glow: rgb(54 198 184 / 0.55);
+  }
+
+  .app-icon.meal-planner {
+    --icon-glow: rgb(130 198 159 / 0.5);
+  }
+
   svg {
     display: block;
     width: 100%;
     height: 100%;
   }
 
-  .dbf {
+  svg.dbf {
     background: linear-gradient(180deg, #fbfbfd, #e6e6ec);
   }
 
