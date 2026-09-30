@@ -10,6 +10,7 @@ export const GET: APIRoute = () => {
 	const paths = [
 		"/",
 		"/lab/",
+		"/lab/all/",
 		"/colophon/",
 		...listed(buildRegistry(modules)).map((e) => e.href),
 	];

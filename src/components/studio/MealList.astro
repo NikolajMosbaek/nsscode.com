@@ -1,0 +1,199 @@
+---
+/*
+ * Meal Planner, shopping list, dark. Quantities are summed across the
+ * week's recipes, grouped by the order you walk the store.
+ */
+const aisles = [
+	{
+		name: "Produce",
+		items: [
+			["Blueberries", "500 g", true],
+			["New potatoes", "1.2 kg", true],
+			["Broccoli", "2", false],
+			["Dill", "1 bunch", false],
+		],
+	},
+	{
+		name: "Dairy",
+		items: [
+			["Skyr", "2 kg", false],
+			["Eggs", "12", false],
+		],
+	},
+	{
+		name: "Fish and meat",
+		items: [
+			["Salmon fillet", "600 g", false],
+			["Chicken breast", "900 g", false],
+		],
+	},
+] as const;
+---
+
+<div class="list">
+  <div class="head">
+    <span class="label">From this week's plan</span>
+    <span class="display">Shopping</span>
+  </div>
+
+  <div class="progress">
+    <span class="bar"><span style="width:22%"></span></span>
+    <span class="count">2 of 9</span>
+  </div>
+
+  <div class="aisles">
+    {
+      aisles.map((aisle) => (
+        <div class="group">
+          <span class="label">{aisle.name}</span>
+          <div class="panel">
+            {aisle.items.map(([name, qty, done]) => (
+              <div class:list={["item", { done }]}>
+                <span class="check">
+                  {done && (
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#101410" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+                  )}
+                </span>
+                <span class="name">{name}</span>
+                <span class="qty">{qty}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .list {
+    position: absolute;
+    inset: 0;
+    background: #101410;
+    color: #e9ede7;
+  }
+
+  .head {
+    position: absolute;
+    left: 20px;
+    top: 72px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a6b1a8;
+  }
+
+  .display {
+    font-family: ui-rounded, "SF Pro Rounded", -apple-system, system-ui, sans-serif;
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .progress {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    top: 150px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .bar {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: #232b24;
+    overflow: hidden;
+  }
+
+  .bar span {
+    display: block;
+    height: 100%;
+    border-radius: 3px;
+    background: #82c69f;
+  }
+
+  .count {
+    font-size: 13px;
+    color: #a6b1a8;
+  }
+
+  .aisles {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    top: 184px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .group > .label {
+    padding: 0 16px;
+  }
+
+  .panel {
+    background: #181d19;
+    border-radius: 22px;
+    overflow: hidden;
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    height: 52px;
+    padding: 0 16px;
+    border-bottom: 1px solid #2a322c;
+  }
+
+  .item:last-child {
+    border-bottom: 0;
+  }
+
+  .check {
+    width: 26px;
+    height: 26px;
+    flex: none;
+    border-radius: 50%;
+    border: 2px solid #79867c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .done .check {
+    border-color: #82c69f;
+    background: #82c69f;
+  }
+
+  .name {
+    flex: 1;
+    font-size: 17px;
+  }
+
+  .done .name {
+    color: #79867c;
+    text-decoration: line-through;
+  }
+
+  .qty {
+    font-size: 15px;
+    color: #a6b1a8;
+  }
+</style>

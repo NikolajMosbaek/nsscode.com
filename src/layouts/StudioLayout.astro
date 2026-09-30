@@ -1,0 +1,168 @@
+---
+/*
+ * The front page's own shell: always dark, no theme toggle, and one quiet
+ * link to the lab in the corner. The lab keeps BaseLayout.
+ */
+import "@fontsource-variable/bricolage-grotesque/standard.css";
+import "@fontsource-variable/jetbrains-mono";
+import "../styles/global.css";
+import bricolageLatin from "@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-standard-normal.woff2?url";
+import Seo from "../components/Seo.astro";
+import { site } from "../data/site";
+
+interface Props {
+	title: string;
+	description?: string;
+	image?: string;
+}
+
+const { title, description, image } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="en" class="studio">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Seo title={title} description={description} image={image} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#09090a" />
+    <link rel="preload" href={bricolageLatin} as="font" type="font/woff2" crossorigin />
+  </head>
+  <body>
+    <a href="#main" class="skip">Skip to content</a>
+    <header class="top">
+      <a href="/" class="mark" aria-label="nsscode, home">nsscode</a>
+      <a href="/lab/" class="lab">lab <span aria-hidden="true">→</span></a>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="foot">
+      <p>© {year} {site.name}</p>
+      <ul>
+        {
+          site.links.map((link) => (
+            <li>
+              <a href={link.href}>{link.label}</a>
+            </li>
+          ))
+        }
+        <li><a href="/lab/">Lab</a></li>
+        <li><a href="/colophon/">Colophon</a></li>
+      </ul>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  /* html:root.studio outranks the theme selectors in global.css. */
+  html:root.studio {
+    color-scheme: dark;
+    --ground: #09090a;
+    --ink: #f2f2ef;
+    --ink-soft: #c9cac6;
+    --ink-muted: #9c9e9a;
+    --line-soft: rgb(255 255 255 / 0.09);
+    --accent: #36c6b8;
+    --selection: rgb(54 198 184 / 0.35);
+    background: var(--ground);
+  }
+
+  html.studio body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: clip;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  html.studio main {
+    flex: 1;
+  }
+</style>
+
+<style>
+  .skip {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    z-index: 50;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--ground);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 500;
+    transform: translateY(-200%);
+  }
+
+  .skip:focus {
+    transform: none;
+  }
+
+  .top {
+    position: absolute;
+    z-index: 10;
+    inset: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px clamp(20px, 5vw, 56px);
+  }
+
+  .mark {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  .lab {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--ink-muted);
+    padding: 6px 2px;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .lab:hover {
+    color: var(--ink);
+  }
+
+  .foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 32px;
+    padding: 40px clamp(20px, 5vw, 56px) 48px;
+    border-top: 1px solid var(--line-soft);
+    font-size: 14px;
+    color: var(--ink-muted);
+  }
+
+  .foot p {
+    margin: 0;
+  }
+
+  .foot ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .foot a:hover {
+    color: var(--ink);
+  }
+</style>

@@ -202,7 +202,8 @@ it lands on and which colour it wears; see `src/lib/collections.ts`. Set
 or adding it to the sitemap. Give it a miniature in
 `src/components/TilePreview.astro` before listing it.
 
-The home page shows the newest experiment large, then one row per
-collection. The lab page is the dense index of everything, planned items
-included. Adding an eleventh experiment should not make either page
+The lab's front page (`/lab/`) shows the newest experiment large, then
+one row per collection. `/lab/all/` is the dense index of everything,
+planned items included. The site's own front page (`/`) presents the
+apps and links to the lab from its corner. Adding an eleventh experiment should not make either page
 worse: if a collection grows past about five, split it.

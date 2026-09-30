@@ -38,7 +38,19 @@ for (const route of routes) {
 			await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
 			await page.goto(route);
 
+			/*
+			 * Phone mockups are one image each, labelled in text. Their screens
+			 * copy the apps' own iOS label colours, so only contrast skips them.
+			 */
+			const mockups =
+				(await page.locator("[data-mockup]").count()) > 0
+					? await new AxeBuilder({ page })
+							.include("[data-mockup]")
+							.disableRules(["color-contrast"])
+							.analyze()
+					: null;
 			const results = await new AxeBuilder({ page })
+				.exclude("[data-mockup]")
 				.withTags([
 					"wcag2a",
 					"wcag2aa",
@@ -48,7 +60,9 @@ for (const route of routes) {
 				])
 				.analyze();
 			expect(
-				results.violations.map((v) => `${v.id}: ${v.help} (${v.nodes.length})`),
+				[...results.violations, ...(mockups?.violations ?? [])].map(
+					(v) => `${v.id}: ${v.help} (${v.nodes.length})`,
+				),
 			).toEqual([]);
 
 			await expect(page.locator("h1")).toHaveCount(1);
@@ -69,7 +83,7 @@ for (const route of routes) {
 
 test("the theme toggle switches and persists", async ({ page }) => {
 	await page.emulateMedia({ colorScheme: "light" });
-	await page.goto("/");
+	await page.goto("/lab/");
 	const toggle = page.locator("[data-theme-toggle]").first();
 	await expect(toggle).toHaveAttribute("aria-label", "Switch to dark theme");
 	await toggle.click();

@@ -1,4 +1,5 @@
 ---
+import Tile from "../../components/Tile.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { collections } from "../../lib/collections";
 import type { ExperimentMeta } from "../../lib/registry";
@@ -9,67 +10,67 @@ const modules = import.meta.glob<{ default: ExperimentMeta }>(
 	{ eager: true },
 );
 const items = shelfItems(modules);
-const shelves = collections.map((collection) => ({
-	collection,
-	items: inCollection(items, collection.id),
-}));
-const planned = items.filter((i) => i.planned);
-const real = items.filter((i) => !i.planned);
-const dates = real.map((i) => i.date).sort();
+const feature = items.find((item) => item.isNew) ?? items[0];
+const shelves = collections
+	.map((collection) => ({
+		collection,
+		items: inCollection(items, collection.id),
+	}))
+	.filter((shelf) => shelf.items.length > 0);
+const count = items.filter((i) => !i.planned).length;
 ---
 
-<BaseLayout title="Lab, nsscode.com" description="Every experiment on the site, listed with its kind and date.">
+<BaseLayout title="Lab, nsscode.com" description="Small tools and toys that run in the browser, grouped by subject.">
   <section class="pt-10 sm:pt-16">
-    <p class="eyebrow mb-5">Lab</p>
-    <h1 class="text-display max-w-[16ch] font-extrabold text-balance">The index.</h1>
-    <p class="prose-site mt-6">
-      {real.length} experiments, {dates[0]?.slice(0, 7)} to {dates.at(-1)?.slice(0, 7)}. A folder in the repository is all one needs. Listed ones appear here; unlisted ones only have a URL. Everything runs in the browser, nothing is tracked, nothing is stored.
+    <h1 class="text-display max-w-[14ch] font-extrabold text-balance">Small things that run in your browser.</h1>
+    <p class="text-lede text-ink-soft mt-6 max-w-[38ch] font-medium text-pretty">
+      {count} tools and toys, built one evening at a time. Nothing tracked, nothing stored, nothing to install.
     </p>
   </section>
 
   {
-    shelves.map((shelf) => (
-      <section id={shelf.collection.id} class="mt-12 scroll-mt-8 sm:mt-16" aria-labelledby={`${shelf.collection.id}-heading`}>
-        <div class="border-line mb-1 flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b-3 pb-3">
-          <h2 id={`${shelf.collection.id}-heading`} class="text-h3 flex items-center gap-3 font-extrabold">
-            <span class="border-line inline-block size-3.5 shrink-0 rounded-md border-2" style={`background: ${shelf.collection.colour}`} aria-hidden="true" />
+    feature && (
+      <section class="mt-10 sm:mt-14" aria-labelledby="feature-heading">
+        <p id="feature-heading" class="eyebrow mb-4">Newest</p>
+        <Tile item={feature} size="feature" index={0} />
+      </section>
+    )
+  }
+
+  {
+    shelves.map((shelf, shelfIndex) => (
+      <section id={shelf.collection.id} class="mt-14 scroll-mt-8 sm:mt-20" aria-labelledby={`${shelf.collection.id}-heading`}>
+        <div class="border-line mb-6 flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b-3 pb-3">
+          <h2 id={`${shelf.collection.id}-heading`} class="text-h2 flex items-center gap-3 font-extrabold">
+            <span class="border-line inline-block size-4 shrink-0 rounded-md border-3" style={`background: ${shelf.collection.colour}`} aria-hidden="true" />
             {shelf.collection.label}
           </h2>
           <span class="eyebrow">{shelf.collection.blurb}</span>
-          <span class="eyebrow text-ink-muted ml-auto tabular-nums">{shelf.items.length}</span>
         </div>
-        <ul class="m-0 grid list-none gap-0 p-0">
-          {shelf.items.map((item) => (
-            <li class="border-line-soft border-b-2 last:border-0">
-              <a href={item.href} class="group grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-6 gap-y-1 py-4 no-underline sm:grid-cols-[minmax(0,14rem)_minmax(0,1fr)_auto]">
-                <span class="text-h3 group-hover:text-accent font-extrabold tracking-[-0.02em] transition-colors">{item.title}</span>
-                <span class="text-ink-muted order-3 text-sm sm:order-none">{item.summary}</span>
-                <span class="eyebrow text-ink-muted whitespace-nowrap">{item.kind} <span aria-hidden="true">·</span> {item.date}</span>
-              </a>
-            </li>
+        <div class="shelf grid gap-5">
+          {shelf.items.map((item, index) => (
+            <Tile item={item} index={shelfIndex * 3 + index} />
           ))}
-        </ul>
+        </div>
       </section>
     ))
   }
 
-  {
-    planned.length > 0 && (
-      <section class="mt-12 sm:mt-16" aria-labelledby="planned-heading">
-        <div class="border-line mb-1 flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b-3 border-dashed pb-3">
-          <h2 id="planned-heading" class="text-h3 font-extrabold">Planned</h2>
-          <span class="eyebrow">Written down, not written yet.</span>
-        </div>
-        <ul class="m-0 grid list-none gap-0 p-0">
-          {planned.map((item) => (
-            <li class="border-line-soft grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-6 gap-y-1 border-b-2 py-4 last:border-0 sm:grid-cols-[minmax(0,14rem)_minmax(0,1fr)_auto]">
-              <span class="text-h3 text-ink-muted font-extrabold tracking-[-0.02em]">{item.title}</span>
-              <span class="text-ink-muted order-3 text-sm sm:order-none">{item.summary}</span>
-              <span class="eyebrow text-ink-muted whitespace-nowrap">{item.kind} · soon</span>
-            </li>
-          ))}
-        </ul>
-      </section>
-    )
-  }
+  <section class="mt-14 sm:mt-20">
+    <a href="/lab/all/" class="card-dashed text-ink-muted hover:text-ink flex items-center justify-center gap-3 px-6 py-8 font-mono text-sm font-medium no-underline transition-colors">
+      Everything at once, including what is planned
+      <span aria-hidden="true">→</span>
+    </a>
+  </section>
 </BaseLayout>
+
+<style>
+  /*
+   * auto-fit, not auto-fill: a category with one or two experiments gets
+   * wide columns instead of a mostly empty row, and the tile itself goes
+   * horizontal at that width.
+   */
+  .shelf {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  }
+</style>
