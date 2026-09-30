@@ -109,6 +109,24 @@ const { label, class: className } = Astro.props;
     opacity: 0;
   }
 
+  /* A glare that follows the pointer. The stage sets --px and --py while hovered. */
+  .screen::before {
+    content: "";
+    position: absolute;
+    z-index: 3;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at var(--px, 50%) var(--py, 20%), rgb(255 255 255 / 0.09), transparent 55%);
+    opacity: 0;
+    transition: opacity 700ms var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    :global([data-tilt]:hover) .screen::before {
+      opacity: 1;
+    }
+  }
+
   @media (prefers-reduced-motion: no-preference) {
     @supports (animation-timeline: view()) {
       .screen::after {
