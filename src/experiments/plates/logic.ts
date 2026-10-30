@@ -25,14 +25,13 @@ export interface Loading {
 
 export const STEP = 0.25;
 
+/* No 25s or 15s, as in most Danish commercial gyms. Four of each per side reach 330 kg on a 20 kg bar. */
 export const standardStock: PlateStock[] = [
-	{ kg: 25, perSide: 2 },
-	{ kg: 20, perSide: 2 },
-	{ kg: 15, perSide: 1 },
-	{ kg: 10, perSide: 2 },
-	{ kg: 5, perSide: 2 },
-	{ kg: 2.5, perSide: 2 },
-	{ kg: 1.25, perSide: 2 },
+	{ kg: 20, perSide: 4 },
+	{ kg: 10, perSide: 4 },
+	{ kg: 5, perSide: 4 },
+	{ kg: 2.5, perSide: 4 },
+	{ kg: 1.25, perSide: 4 },
 ];
 
 export const bars = [
@@ -195,6 +194,18 @@ export function ramp(
 		reps: "as planned",
 	});
 	return steps;
+}
+
+/**
+ * Read a weight as typed: a comma or a point for decimals, as the Danish
+ * and English keyboards give them. Returns null for anything that is not a
+ * plain non-negative number, including an empty field mid-edit.
+ */
+export function parseKg(text: string): number | null {
+	const normal = text.trim().replace(",", ".");
+	if (!/^(\d+\.?\d*|\.\d+)$/.test(normal)) return null;
+	const kg = Number(normal);
+	return Number.isFinite(kg) && kg <= 1000 ? kg : null;
 }
 
 export function roundTo(value: number, step: number): number {
