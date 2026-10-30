@@ -6,11 +6,14 @@ import {
 	load,
 	nextAbove,
 	type PlateStock,
+	parseKg,
 	ramp,
 	standardStock,
 } from "./logic";
 
 let target = $state(100);
+/* What is in the field, which can be half-typed. target only takes valid numbers. */
+let entry = $state("100");
 let bar = $state(20);
 let customBar = $state(false);
 let countBar = $state(true);
@@ -37,7 +40,8 @@ const stockSummary = $derived(
 		.join("  "),
 );
 
-const barKg = $derived(countBar ? bar : 0);
+const barKg = $derived(countBar && Number.isFinite(bar) ? bar : 0);
+const entryValid = $derived(parseKg(entry) !== null);
 const result = $derived(load(target, barKg, stock));
 const above = $derived(result.exact ? null : nextAbove(target, barKg, stock));
 const steps = $derived(showRamp ? ramp(target, barKg, stock) : []);
@@ -47,8 +51,17 @@ const perSideText = $derived(
 		: "nothing, just the bar",
 );
 
+function setTarget(kg: number) {
+	target = kg;
+	entry = formatKg(kg);
+}
+function onEntry(event: Event) {
+	entry = (event.currentTarget as HTMLInputElement).value;
+	const kg = parseKg(entry);
+	if (kg !== null) target = kg;
+}
 function bump(delta: number) {
-	target = Math.max(barKg, Math.round((target + delta) * 4) / 4);
+	setTarget(Math.max(barKg, Math.round((target + delta) * 4) / 4));
 }
 function setStock(index: number, perSide: number) {
 	stock = stock.map((p, i) =>
@@ -58,11 +71,11 @@ function setStock(index: number, perSide: number) {
 function pickBar(kg: number) {
 	bar = kg;
 	customBar = false;
-	if (target < kg) target = kg;
+	if (target < kg) setTarget(kg);
 }
 function toggleCountBar() {
 	countBar = !countBar;
-	if (countBar && target < bar) target = bar;
+	if (countBar && target < bar) setTarget(bar);
 }
 </script>
 
@@ -76,11 +89,13 @@ function toggleCountBar() {
           <div class="card-flat flex min-w-0 items-baseline justify-center gap-2 px-4 py-2">
             <input
               id="plates-target"
-              type="number"
+              type="text"
               inputmode="decimal"
-              min={barKg}
-              step="0.25"
-              bind:value={target}
+              autocomplete="off"
+              value={entry}
+              oninput={onEntry}
+              onblur={() => (entry = formatKg(target))}
+              aria-invalid={!entryValid}
               class="w-full min-w-0 bg-transparent text-center font-sans text-[40px] leading-none font-extrabold tracking-[-0.03em] outline-none"
             />
             <span class="eyebrow">kg</span>

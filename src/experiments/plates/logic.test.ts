@@ -4,6 +4,7 @@ import {
 	load,
 	nextAbove,
 	type PlateStock,
+	parseKg,
 	ramp,
 	standardStock,
 } from "./logic";
@@ -11,14 +12,14 @@ import {
 describe("load", () => {
 	it("puts the heaviest plate first, closest to the collar", () => {
 		const result = load(100, 20, standardStock);
-		expect(result.perSide).toEqual([25, 15]);
+		expect(result.perSide).toEqual([20, 20]);
 		expect(result.exact).toBe(true);
 		expect(result.total).toBe(100);
 	});
 
 	it("uses the fewest plates, heavier first when tied", () => {
 		expect(load(60, 20, standardStock).perSide).toEqual([20]);
-		expect(load(90, 20, standardStock).perSide).toEqual([25, 10]);
+		expect(load(90, 20, standardStock).perSide).toEqual([20, 10, 5]);
 		expect(load(62.5, 20, standardStock).perSide).toEqual([20, 1.25]);
 	});
 
@@ -90,12 +91,35 @@ describe("ramp", () => {
 		const steps = ramp(100, 0, standardStock);
 		expect(steps[0].label).toBe("50%");
 		expect(steps[0].loading.total).toBe(50);
-		expect(steps.at(-1)?.loading.perSide).toEqual([25, 25]);
+		expect(steps.at(-1)?.loading.perSide).toEqual([20, 20, 10]);
 	});
 
 	it("skips steps that would not rise for a light work weight", () => {
 		const steps = ramp(25, 20, standardStock);
 		expect(steps.map((s) => s.label)).toEqual(["bar", "work"]);
+	});
+});
+
+describe("standardStock", () => {
+	it("has four of each plate per side and no 25 or 15 kg plates", () => {
+		expect(standardStock).toEqual(
+			[20, 10, 5, 2.5, 1.25].map((kg) => ({ kg, perSide: 4 })),
+		);
+	});
+});
+
+describe("parseKg", () => {
+	it("reads a point or a comma as the decimal mark", () => {
+		expect(parseKg("102.5")).toBe(102.5);
+		expect(parseKg("102,5")).toBe(102.5);
+		expect(parseKg(" 80 ")).toBe(80);
+		expect(parseKg("102,")).toBe(102);
+	});
+
+	it("rejects what is not a weight, so a half-typed field keeps the last result", () => {
+		for (const text of ["", " ", ",", "abc", "-5", "1e3", "10,5,5", "5000"]) {
+			expect(parseKg(text)).toBeNull();
+		}
 	});
 });
 

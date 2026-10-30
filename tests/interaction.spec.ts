@@ -59,3 +59,23 @@ test("Life and Boids keep rendering frames", async ({ page }) => {
 		expect(await framesPerSecond(page)).toBeGreaterThan(30);
 	}
 });
+
+test("Plates keeps updating after the weight field is cleared or given a comma", async ({
+	page,
+}) => {
+	const errors: string[] = [];
+	page.on("pageerror", (error) => errors.push(error.message));
+	await page.goto("/lab/plates/");
+	const field = page.locator("#plates-target");
+	const perSide = page.locator("section[aria-live] .text-h2");
+
+	await expect(perSide).toHaveText("20 · 20");
+	await field.fill("");
+	await field.fill("140");
+	await expect(perSide).toHaveText("20 · 20 · 20");
+	await field.fill("102,5");
+	await expect(perSide).toHaveText("20 · 20 · 1.25");
+	await field.fill("90");
+	await expect(perSide).toHaveText("20 · 10 · 5");
+	expect(errors).toEqual([]);
+});
