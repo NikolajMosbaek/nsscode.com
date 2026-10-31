@@ -35,10 +35,10 @@ export const apps: App[] = [
 			"A focused fasting timer that shows the shape of your week, not just today. Start a fast in one tap, glance at it from the Lock Screen, and see when you actually fast over time.",
 		features: [
 			"16:8, 18:6, 20:4, OMAD, 24 and 36 hours, or any length up to 72",
+			"Each fast drawn on a 24-hour day, overnight fasts across two",
 			"Weekly Rhythm: each day's fasting window, side by side",
-			"Live Activity and Dynamic Island",
-			"Widgets, Control Center and Shortcuts",
-			"In English and Danish",
+			"Widgets, Live Activity and Dynamic Island in the same view",
+			"Shortcuts, in English and Danish",
 		],
 		status: "Coming to the App Store",
 		links: [
@@ -46,7 +46,7 @@ export const apps: App[] = [
 			{ label: "Support", href: "https://dbf.nsscode.com/support/" },
 			{ label: "Privacy", href: "https://dbf.nsscode.com/privacy/" },
 		],
-		accent: "#36c6b8",
+		accent: "#8e99e8",
 	},
 	{
 		slug: "meal-planner",
