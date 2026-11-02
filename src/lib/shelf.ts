@@ -47,14 +47,6 @@ const planned: Omit<ShelfItem, "planned" | "isNew" | "date" | "tags">[] = [
 		kind: "tool",
 		collection: "software",
 	},
-	{
-		slug: "realkredit",
-		title: "Realkredit",
-		summary:
-			"Fixed against flex, bidragssats by LTV, and the conversion game when the bond price moves.",
-		kind: "tool",
-		collection: "finance",
-	},
 ];
 
 export function shelfItems(

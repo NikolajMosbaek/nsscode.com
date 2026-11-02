@@ -1,9 +1,6 @@
 /*
- * Every fact about the owner lives here once. Sections read from this file
+ * Every fact about the owner lives here once. Pages read from this file
  * and never hard-code a name, a title or a link.
- *
- * TODO(owner): confirm every value marked "unconfirmed" in the redesign plan
- * (docs/superpowers/plans/2026-09-05-personal-site-redesign.md, Phase 0).
  */
 
 export interface SocialLink {
@@ -21,7 +18,8 @@ export const site = {
 	location: "Copenhagen, Denmark",
 	description:
 		"nsscode.com. A lab of small tools and toys that run in the browser. Nothing tracked, nothing stored, nothing to install.",
-	yearsOfIOS: 11,
+	/* First year of iOS work. A year rather than a count, so the front page does not drift each January. */
+	iosSince: 2015,
 	links: [
 		{
 			label: "GitHub",

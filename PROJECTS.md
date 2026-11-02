@@ -2,9 +2,9 @@
 
 Ideas for nsscode.com. Most are experiments for the lab: each entry names
 the kind (tool or toy), a rough size, and what it has to do to be worth
-shipping. Shipped experiments live in `src/experiments/<slug>/`; the shelf
-on the home page shows the ones listed under "Announced" as `soon` tiles
-until they land.
+shipping. Shipped experiments live in `src/experiments/<slug>/`. The lab
+shelves at `/lab/` and `/lab/all/` show the ones under "Announced" as
+`soon` tiles until they land.
 
 "Beyond the lab" at the bottom holds the two larger projects that do not
 fit that shape at all: they are their own things that happen to live on
@@ -29,7 +29,10 @@ Sizes: **S** an evening, **M** a few evenings, **L** a couple of weeks,
 | `programme` | Programme | tool |
 | `realkredit` | Realkredit | tool |
 
-## Announced (shown as "soon" on the shelf)
+`tokens` also builds, at `/lab/tokens/`, unlisted: the lab's design tokens
+rendered live.
+
+## Announced (shown as "soon" on the lab shelves)
 
 Slugs are fixed by `src/lib/shelf.ts`; a real experiment with the same
 slug replaces its placeholder.
@@ -41,22 +44,7 @@ in every direction. Paste anything, get all forms; "now" button; relative
 time ("in 3 days"). Could merge into the Cron and Date Format Decoder
 below rather than sit beside it.
 
-## Proposed
-
-### Claude Code, from zero · `claude-code` · tool · shipped
-
-A step-by-step course for developers new to Claude Code: nine chapters
-(install, first session, CLAUDE.md, prompts, workflow, project files,
-models and effort, rules/skills/agents/hooks, ready) each with a
-"do it now" checklist run on the reader's own practice repo, progress
-saved in localStorage, a prompt grader, good-versus-bad prompt pairs, a
-model and effort picker, a CLAUDE.md loading demo, a starter-file
-generator, and a final readiness check with cheat sheet and glossary. Facts checked against the docs in September 2026; re-check
-when Claude Code changes its model list or effort levels.
-
-### Bigger projects
-
-#### Swift Concurrency Playground · `concurrency` · toy · XL
+### Swift Concurrency Playground · `concurrency` · toy · XL
 
 The general version of Actors. Write a small pseudo-Swift program with
 tasks, `await`, actors, task groups and cancellation; it is parsed and
@@ -66,15 +54,17 @@ Real parser, real scheduler, program state encoded in the URL so a
 scenario can be shared. Actors' `logic.ts` is the seed. This is the one
 that makes the site something to show people.
 
-### Tools
-
-#### Regex Explainer · `regex` · tool · M
+### Regex Explainer · `regex` · tool · M
 
 Paste a pattern, get a railroad diagram and live match highlighting
 against sample text. Toggle between Swift `Regex` literal syntax,
 `NSRegularExpression` and JavaScript, because the escaping differs and
 that is where the hour goes. Only worth it if the diagram is clearly
 nicer than regex101.
+
+## Proposed
+
+### Tools
 
 #### CPR, CVR and Kontonummer Validator · `modulus` · tool · S
 
@@ -205,5 +195,5 @@ or adding it to the sitemap. Give it a miniature in
 The lab's front page (`/lab/`) shows the newest experiment large, then
 one row per collection. `/lab/all/` is the dense index of everything,
 planned items included. The site's own front page (`/`) presents the
-apps and links to the lab from its corner. Adding an eleventh experiment should not make either page
-worse: if a collection grows past about five, split it.
+apps and links to the lab from its corner. Adding the next experiment should
+not make either page worse: if a collection grows past about five, split it.
